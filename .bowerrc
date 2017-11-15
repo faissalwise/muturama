@@ -1,7 +1,3 @@
 {
-    "directory": "src/main/webapp/bower_components",
-    "proxy":"http://FIHABRITANE:Tabriquet*2017@isp-ceg.emea.cegedim.grp:3128",
-    "https-proxy":"http://FIHABRITANE:Tabriquet*2017@isp-ceg.emea.cegedim.grp:3128",
-	"strict-ssl": false
-
+    "directory": "src/main/webapp/bower_components"
 }
