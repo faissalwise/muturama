@@ -8,6 +8,7 @@
     <meta name="google" value="notranslate">
     <meta name="theme-color" content="#000000">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="content/images/logoicon.png">
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
     <!-- build:css content/css/vendor.css -->
     <!-- bower:css -->
@@ -18,12 +19,17 @@
     <!-- build:css content/css/main.css -->
     <link rel="stylesheet" href="content/css/main.css">
     <!-- endbuild -->
-    <link rel="shortcut icon" href="favicon.ico" />
-    <link rel="manifest" href="manifest.webapp" />
+     <link rel="shortcut icon" href="favicon.ico" /> 
+    <link rel="manifest" href="manifest.webapp" /> 
+    <link href='http://fonts.googleapis.com/css?family=Raleway:400,600,800' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="content/css/font-awesome.min.css">
+    <link rel="stylesheet" href="content/css/responsive.min.css">
+    <link rel="stylesheet" href="bower_components/toastr/toastr.min.css"/>
+    
     <base href="/">
 </head>
-<body ng-app="muturamaApp" ng-strict-di>
-    <!--[if lt IE 9]>
+<body ng-app="muturamaApp" class="hold-transition skin-green sidebar-mini fixed" ng-strict-di id="top">
+   <!--[if lt IE 9]>
         <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
     <page-ribbon></page-ribbon>
@@ -37,9 +43,10 @@
             <p data-translate="footer">This is your footer</p>
         </div>
     </div>
-    <noscript>
+    
+   <!--  <noscript>
         <h1>You must enable javascript to view this page.</h1>
-    </noscript>
+    </noscript> -->
     <!-- uncomment this for adding service worker
         <script>
             if ('serviceWorker' in navigator) {
@@ -82,8 +89,21 @@
     <script src="bower_components/bootstrap-ui-datetime-picker/dist/datetime-picker.js"></script>
     <script src="bower_components/ng-file-upload/ng-file-upload.js"></script>
     <script src="bower_components/ngInfiniteScroll/build/ng-infinite-scroll.js"></script>
+    <script src="bower_components/sockjs-client/dist/sockjs.js"></script>
+    <script src="bower_components/stomp-websocket/lib/stomp.min.js"></script>
+    <script src="bower_components/flow.js/dist/flow.js"></script>
+    <script src="bower_components/ng-flow/dist/ng-flow.js"></script>
+    <script src="bower_components/ng-map-autocomplete/src/ng-map-autocomplete.js"></script>
+    <script src="bower_components/angular-breadcrumb/release/angular-breadcrumb.js"></script>
+    <script src="bower_components/angular-css/angular-css.js"></script>
+    <script src="bower_components/ngmap/build/scripts/ng-map.js"></script>
     <!-- endinject -->
     <!-- endbuild -->
+    
+ 
+    
+    
+    
 
     <!-- build:js app/app.js  -->
     <!-- inject:js -->
@@ -195,6 +215,22 @@
     <script src="app/account/account.state.js"></script>
     <!-- endinject -->
     <!-- endbuild -->
+    
+     <!-- Front end Scripts -->
+    <script src="content/js/jquery.js"></script>
+    <script src="content/js/app.js"></script>
+    <script src="content/js/bootstrap.js"></script>
+    <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyARkLOBOYtYv3C91iLD3zq8891tduFERiI"></script>
+    <script src="content/js/imagesloaded.pkgd.min.js"></script>
+    <script src="content/js/jquery.backstretch.js"></script>
+    <script src="content/js/jquery.easing.js"></script>
+    <script src="content/js/masonry.pkgd.min.js"></script>
+    <script src="content/js/jquery.jcarousel.min.js"></script>
+    <script src="content/js/script.js"></script>
+    <script src="bower_components/toastr/toastr.min.js"></script>
+    <script src="/content/js/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>
+    <script src="content/plugins/iCheck/icheck.min.js"></script>
+    <script src="content/js/jquery.slimscroll.min.js"></script>
 
 </body>
 </html>

@@ -1,8 +1,14 @@
-body {
-    background: #fafafa;
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    color: #333;
+body{
+   
+    font-family: 'Raleway', sans-serif;
+    line-height: 24px;
+    color: #6b6e80;
+    background: #fff;
+    overflow-x: hidden;
+    scrollbar-face-color: #333;
 }
+
+
 
 /* ==========================================================================
 Hide ng-cloak on page load, https://docs.angularjs.org/api/ng/directive/ngCloak
@@ -10,6 +16,7 @@ Hide ng-cloak on page load, https://docs.angularjs.org/api/ng/directive/ngCloak
 [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
     display: none !important;
 }
+
 
 /* ==========================================================================
 Development Ribbon
@@ -59,7 +66,7 @@ Version number in navbar
 navbar text
 ========================================================================== */
 .navbar-default .navbar-brand {
-    color: #444;
+    color: #fff;
 }
 
 /* ==========================================================================
