@@ -13,10 +13,6 @@ import java.util.List;
 @SuppressWarnings("unused")
 @Repository
 public interface ServiceRepository extends JpaRepository<Service, Long> {
-    @Query("select distinct service from Service service left join fetch service.user_services")
-    List<Service> findAllWithEagerRelationships();
-
-    @Query("select service from Service service left join fetch service.user_services where service.id =:id")
-    Service findOneWithEagerRelationships(@Param("id") Long id);
+    
 
 }

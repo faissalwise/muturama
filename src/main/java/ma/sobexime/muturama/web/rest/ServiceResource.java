@@ -104,13 +104,13 @@ public class ServiceResource {
      * @param id the id of the service to retrieve
      * @return the ResponseEntity with status 200 (OK) and with body the service, or with status 404 (Not Found)
      */
-    @GetMapping("/services/{id}")
-    @Timed
-    public ResponseEntity<Service> getService(@PathVariable Long id) {
-        log.debug("REST request to get Service : {}", id);
-        Service service = serviceRepository.findOneWithEagerRelationships(id);
-        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(service));
-    }
+//    @GetMapping("/services/{id}")
+//    @Timed
+//    public ResponseEntity<Service> getService(@PathVariable Long id) {
+//        log.debug("REST request to get Service : {}", id);
+//        Service service = serviceRepository.findOneWithEagerRelationships(id);
+//        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(service));
+//    }
 
     /**
      * DELETE  /services/:id : delete the "id" service.
@@ -118,11 +118,11 @@ public class ServiceResource {
      * @param id the id of the service to delete
      * @return the ResponseEntity with status 200 (OK)
      */
-    @DeleteMapping("/services/{id}")
-    @Timed
-    public ResponseEntity<Void> deleteService(@PathVariable Long id) {
-        log.debug("REST request to delete Service : {}", id);
-        serviceRepository.delete(id);
-        return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
-    }
+//    @DeleteMapping("/services/{id}")
+//    @Timed
+//    public ResponseEntity<Void> deleteService(@PathVariable Long id) {
+//        log.debug("REST request to delete Service : {}", id);
+//        serviceRepository.delete(id);
+//        return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
+//    }
 }

@@ -40,10 +40,12 @@ public class CacheConfiguration {
             cm.createCache("users", jcacheConfiguration);
             cm.createCache(ma.sobexime.muturama.domain.User.class.getName(), jcacheConfiguration);
             cm.createCache(ma.sobexime.muturama.domain.Authority.class.getName(), jcacheConfiguration);
+            cm.createCache(ma.sobexime.muturama.domain.Service.class.getName(), jcacheConfiguration);
             cm.createCache(ma.sobexime.muturama.domain.User.class.getName() + ".authorities", jcacheConfiguration);
             cm.createCache(ma.sobexime.muturama.domain.PersistentToken.class.getName(), jcacheConfiguration);
             cm.createCache(ma.sobexime.muturama.domain.User.class.getName() + ".persistentTokens", jcacheConfiguration);
             cm.createCache(ma.sobexime.muturama.domain.SocialUserConnection.class.getName(), jcacheConfiguration);
+            cm.createCache(ma.sobexime.muturama.domain.User.class.getName() + ".user_services", jcacheConfiguration);
             // jhipster-needle-ehcache-add-entry
         };
     }
