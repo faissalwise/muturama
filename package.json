@@ -9,14 +9,14 @@
     "src/main/webapp/bower_components"
   ],
   "devDependencies": {
-    "bower": "^1.7.9",
+    "bower": "1.7.9",
     "browser-sync": "2.17.0",
     "del": "2.2.2",
     "eslint-config-angular": "0.5.0",
     "eslint-plugin-angular": "2.2.1",
     "event-stream": "3.3.4",
     "generator-jhipster": "4.10.2",
-    "gulp": "^3.9.1",
+    "gulp": "3.9.1",
     "gulp-angular-filesort": "1.1.1",
     "gulp-angular-templatecache": "2.0.0",
     "gulp-autoprefixer": "3.1.1",
@@ -53,7 +53,7 @@
     "main-bower-files": "2.13.1",
     "map-stream": "0.0.6",
     "proxy-middleware": "0.15.0",
-    "puppeteer": "0.10.2",
+    "puppeteer": "0.10.2",    
     "run-sequence": "1.2.2",
     "xml2js": "0.4.17",
     "yargs": "5.0.0"
