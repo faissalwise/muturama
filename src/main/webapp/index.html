@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>muturama</title>
+    <title>Muturama</title>
     <meta name="description" content="">
     <meta name="google" value="notranslate">
     <meta name="theme-color" content="#000000">
@@ -33,15 +33,17 @@
         <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
     <!-- <page-ribbon></page-ribbon> -->
-    <div ui-view="navbar" ng-cloak></div>
+   
+    <div ui-view="navbar" ng-cloak></div>  
+   
     <div class="container">
         <div class="well" ui-view="content">
+         <div ui-view="footer" ng-cloak></div> 
             <!-- Angular views -->
         </div>
-
-        <div class="footer" ng-cloak>
-            <p data-translate="footer">This is your footer</p>
-        </div>
+          
+          <!-- <p data-translate="footer">This is your footer 22222</p>  -->  
+         <div ui-view="footer" ng-cloak></div> 
     </div>
     
    <!--  <noscript>
