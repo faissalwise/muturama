@@ -90,9 +90,11 @@
         </div>
     </footer>
     
-        
+	<div map-lazy-load="https://maps.google.com/maps/api/js"
+  map-lazy-load-params="{{googleMapsUrl}}">
+  <ng-map center="41,-87" zoom="3"></ng-map>
+</div>
     </div>
-    
    <!--  <noscript>
         <h1>You must enable javascript to view this page.</h1>
     </noscript> -->
@@ -188,6 +190,12 @@
     <script src="app/entities/service/service.service.js"></script>
     <script src="app/entities/service/service.controller.js"></script>
     <script src="app/entities/entity.state.js"></script>
+    <script src="app/entities/agent/agent-dialog.controller.js"></script>
+    <script src="app/entities/agent/agent-detail.controller.js"></script>
+    <script src="app/entities/agent/agent-delete-dialog.controller.js"></script>
+    <script src="app/entities/agent/agent.state.js"></script>
+    <script src="app/entities/agent/agent.service.js"></script>
+    <script src="app/entities/agent/agent.controller.js"></script>
     <script src="app/components/util/truncate-words.filter.js"></script>
     <script src="app/components/util/truncate-characters.filter.js"></script>
     <script src="app/components/util/sort-by.directive.js"></script>
@@ -291,6 +299,7 @@
     <script src="/content/js/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>
     <script src="content/plugins/iCheck/icheck.min.js"></script>
     <script src="content/js/jquery.slimscroll.min.js"></script>
+   
 
 </body>
 </html>

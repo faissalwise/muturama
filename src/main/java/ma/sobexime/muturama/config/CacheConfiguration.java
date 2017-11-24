@@ -46,6 +46,7 @@ public class CacheConfiguration {
             cm.createCache(ma.sobexime.muturama.domain.User.class.getName() + ".persistentTokens", jcacheConfiguration);
             cm.createCache(ma.sobexime.muturama.domain.SocialUserConnection.class.getName(), jcacheConfiguration);
             cm.createCache(ma.sobexime.muturama.domain.User.class.getName() + ".user_services", jcacheConfiguration);
+            cm.createCache(ma.sobexime.muturama.domain.Agent.class.getName(), jcacheConfiguration);
             // jhipster-needle-ehcache-add-entry
         };
     }
