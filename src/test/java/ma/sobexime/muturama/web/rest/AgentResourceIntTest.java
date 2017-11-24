@@ -1,11 +1,19 @@
 package ma.sobexime.muturama.web.rest;
 
-import ma.sobexime.muturama.MuturamaApp;
+import static ma.sobexime.muturama.web.rest.TestUtil.createFormattingConversionService;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.hasItem;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import ma.sobexime.muturama.domain.Agent;
-import ma.sobexime.muturama.repository.AgentRepository;
-import ma.sobexime.muturama.service.AgentService;
-import ma.sobexime.muturama.web.rest.errors.ExceptionTranslator;
+import java.util.List;
+
+import javax.persistence.EntityManager;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -21,14 +29,11 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
-import java.util.List;
-
-import static ma.sobexime.muturama.web.rest.TestUtil.createFormattingConversionService;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.Matchers.hasItem;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import ma.sobexime.muturama.MuturamaApp;
+import ma.sobexime.muturama.domain.Agent;
+import ma.sobexime.muturama.repository.AgentRepository;
+import ma.sobexime.muturama.service.AgentService;
+import ma.sobexime.muturama.web.rest.errors.ExceptionTranslator;
 
 /**
  * Test class for the AgentResource REST controller.
