@@ -128,6 +128,8 @@
                                 nom: null,
                                 prenom: null,
                                 adress: null,
+                                longitude: null,
+                                latitude: null,
                                 id: null
                             };
                         }

@@ -86,14 +86,23 @@
             <a href="#" class="google"><i class="fa fa-google-plus"></i></a>
         </div>
         <div class="footer-copyright">
-            <p>© 2016 Copyright Text </p>
+            <p>© 2018 Copyright Text </p>
         </div>
     </footer>
     
-	<ng-map zoom="11" center="[40.74, -74.18]" map-type-id="MapTypeId.SATELLITE">
-    <marker position="current" animation="Animation.BOUNCE" centered="true"></marker>
-  </ng-map>
     </div>
+    
+    
+    <div ng-controller="MapController as vm">
+	<ng-map zoom="10" center="-33.9, 151.2">
+    <marker ng-repeat="beach in vm.beaches"
+      icon="{{vm.image}}"
+      shape="{{vm.shape}}"
+      title="{{beach[0]}}"
+      position="{{beach[1]}}, {{beach[2]}}"
+      z-index="{{beach[3]}}"></marker>
+  </ng-map>
+  </div>
    <!--  <noscript>
         <h1>You must enable javascript to view this page.</h1>
     </noscript> -->
@@ -179,6 +188,7 @@
     <script src="app/layouts/navbar/navbar.controller.js"></script>
     <script src="app/layouts/navbar/active-menu.directive.js"></script>
     <script src="app/layouts/navbar/active-link.directive.js"></script>
+    <script src="app/layouts/map/map.controller.js"></script>
     <script src="app/layouts/header/header.controller.js"></script>
     <script src="app/layouts/footer/footer.controller.js"></script>
     <script src="app/layouts/error/error.state.js"></script>

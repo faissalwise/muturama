@@ -18,6 +18,14 @@
         {
             "fieldName": "adress",
             "fieldType": "String"
+        },
+        {
+            "fieldName": "longitude",
+            "fieldType": "BigDecimal"
+        },
+        {
+            "fieldName": "latitude",
+            "fieldType": "BigDecimal"
         }
     ],
     "changelogDate": "20171124110216",

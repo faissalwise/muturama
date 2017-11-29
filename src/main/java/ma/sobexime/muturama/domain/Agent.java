@@ -5,6 +5,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Objects;
 
 /**
@@ -32,6 +33,12 @@ public class Agent implements Serializable {
 
     @Column(name = "adress")
     private String adress;
+
+    @Column(name = "longitude", precision=10, scale=2)
+    private BigDecimal longitude;
+
+    @Column(name = "latitude", precision=10, scale=2)
+    private BigDecimal latitude;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -93,6 +100,32 @@ public class Agent implements Serializable {
     public void setAdress(String adress) {
         this.adress = adress;
     }
+
+    public BigDecimal getLongitude() {
+        return longitude;
+    }
+
+    public Agent longitude(BigDecimal longitude) {
+        this.longitude = longitude;
+        return this;
+    }
+
+    public void setLongitude(BigDecimal longitude) {
+        this.longitude = longitude;
+    }
+
+    public BigDecimal getLatitude() {
+        return latitude;
+    }
+
+    public Agent latitude(BigDecimal latitude) {
+        this.latitude = latitude;
+        return this;
+    }
+
+    public void setLatitude(BigDecimal latitude) {
+        this.latitude = latitude;
+    }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
     @Override
@@ -123,6 +156,8 @@ public class Agent implements Serializable {
             ", nom='" + getNom() + "'" +
             ", prenom='" + getPrenom() + "'" +
             ", adress='" + getAdress() + "'" +
+            ", longitude='" + getLongitude() + "'" +
+            ", latitude='" + getLatitude() + "'" +
             "}";
     }
 }
