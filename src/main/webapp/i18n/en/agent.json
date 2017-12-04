@@ -18,7 +18,9 @@
             "cin": "Cin",
             "nom": "Nom",
             "prenom": "Prenom",
-            "adress": "Adress"
+            "adress": "Adress",
+            "longitude": "Longitude",
+            "latitude": "Latitude"
         }
     }
 }

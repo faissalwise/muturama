@@ -1,19 +1,11 @@
 package ma.sobexime.muturama.web.rest;
 
-import static ma.sobexime.muturama.web.rest.TestUtil.createFormattingConversionService;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.Matchers.hasItem;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import ma.sobexime.muturama.MuturamaApp;
 
-import java.util.List;
-
-import javax.persistence.EntityManager;
+import ma.sobexime.muturama.domain.Agent;
+import ma.sobexime.muturama.repository.AgentRepository;
+import ma.sobexime.muturama.service.AgentService;
+import ma.sobexime.muturama.web.rest.errors.ExceptionTranslator;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -29,11 +21,15 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
-import ma.sobexime.muturama.MuturamaApp;
-import ma.sobexime.muturama.domain.Agent;
-import ma.sobexime.muturama.repository.AgentRepository;
-import ma.sobexime.muturama.service.AgentService;
-import ma.sobexime.muturama.web.rest.errors.ExceptionTranslator;
+import javax.persistence.EntityManager;
+import java.math.BigDecimal;
+import java.util.List;
+
+import static ma.sobexime.muturama.web.rest.TestUtil.createFormattingConversionService;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.hasItem;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 /**
  * Test class for the AgentResource REST controller.
@@ -55,6 +51,12 @@ public class AgentResourceIntTest {
 
     private static final String DEFAULT_ADRESS = "AAAAAAAAAA";
     private static final String UPDATED_ADRESS = "BBBBBBBBBB";
+
+    private static final BigDecimal DEFAULT_LONGITUDE = new BigDecimal(1);
+    private static final BigDecimal UPDATED_LONGITUDE = new BigDecimal(2);
+
+    private static final BigDecimal DEFAULT_LATITUDE = new BigDecimal(1);
+    private static final BigDecimal UPDATED_LATITUDE = new BigDecimal(2);
 
     @Autowired
     private AgentRepository agentRepository;
@@ -100,7 +102,9 @@ public class AgentResourceIntTest {
             .cin(DEFAULT_CIN)
             .nom(DEFAULT_NOM)
             .prenom(DEFAULT_PRENOM)
-            .adress(DEFAULT_ADRESS);
+            .adress(DEFAULT_ADRESS)
+            .longitude(DEFAULT_LONGITUDE)
+            .latitude(DEFAULT_LATITUDE);
         return agent;
     }
 
@@ -128,6 +132,8 @@ public class AgentResourceIntTest {
         assertThat(testAgent.getNom()).isEqualTo(DEFAULT_NOM);
         assertThat(testAgent.getPrenom()).isEqualTo(DEFAULT_PRENOM);
         assertThat(testAgent.getAdress()).isEqualTo(DEFAULT_ADRESS);
+        assertThat(testAgent.getLongitude()).isEqualTo(DEFAULT_LONGITUDE);
+        assertThat(testAgent.getLatitude()).isEqualTo(DEFAULT_LATITUDE);
     }
 
     @Test
@@ -163,7 +169,9 @@ public class AgentResourceIntTest {
             .andExpect(jsonPath("$.[*].cin").value(hasItem(DEFAULT_CIN.toString())))
             .andExpect(jsonPath("$.[*].nom").value(hasItem(DEFAULT_NOM.toString())))
             .andExpect(jsonPath("$.[*].prenom").value(hasItem(DEFAULT_PRENOM.toString())))
-            .andExpect(jsonPath("$.[*].adress").value(hasItem(DEFAULT_ADRESS.toString())));
+            .andExpect(jsonPath("$.[*].adress").value(hasItem(DEFAULT_ADRESS.toString())))
+            .andExpect(jsonPath("$.[*].longitude").value(hasItem(DEFAULT_LONGITUDE.intValue())))
+            .andExpect(jsonPath("$.[*].latitude").value(hasItem(DEFAULT_LATITUDE.intValue())));
     }
 
     @Test
@@ -180,7 +188,9 @@ public class AgentResourceIntTest {
             .andExpect(jsonPath("$.cin").value(DEFAULT_CIN.toString()))
             .andExpect(jsonPath("$.nom").value(DEFAULT_NOM.toString()))
             .andExpect(jsonPath("$.prenom").value(DEFAULT_PRENOM.toString()))
-            .andExpect(jsonPath("$.adress").value(DEFAULT_ADRESS.toString()));
+            .andExpect(jsonPath("$.adress").value(DEFAULT_ADRESS.toString()))
+            .andExpect(jsonPath("$.longitude").value(DEFAULT_LONGITUDE.intValue()))
+            .andExpect(jsonPath("$.latitude").value(DEFAULT_LATITUDE.intValue()));
     }
 
     @Test
@@ -205,7 +215,9 @@ public class AgentResourceIntTest {
             .cin(UPDATED_CIN)
             .nom(UPDATED_NOM)
             .prenom(UPDATED_PRENOM)
-            .adress(UPDATED_ADRESS);
+            .adress(UPDATED_ADRESS)
+            .longitude(UPDATED_LONGITUDE)
+            .latitude(UPDATED_LATITUDE);
 
         restAgentMockMvc.perform(put("/api/agents")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -220,6 +232,8 @@ public class AgentResourceIntTest {
         assertThat(testAgent.getNom()).isEqualTo(UPDATED_NOM);
         assertThat(testAgent.getPrenom()).isEqualTo(UPDATED_PRENOM);
         assertThat(testAgent.getAdress()).isEqualTo(UPDATED_ADRESS);
+        assertThat(testAgent.getLongitude()).isEqualTo(UPDATED_LONGITUDE);
+        assertThat(testAgent.getLatitude()).isEqualTo(UPDATED_LATITUDE);
     }
 
     @Test
