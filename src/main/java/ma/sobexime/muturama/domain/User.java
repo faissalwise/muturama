@@ -98,6 +98,13 @@ public class User extends AbstractAuditingEntity implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "user")
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<PersistentToken> persistentTokens = new HashSet<>();
+    
+    @ManyToMany
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    @JoinTable(name = "service_user_service",
+               joinColumns = @JoinColumn(name="services_id", referencedColumnName="id"),
+               inverseJoinColumns = @JoinColumn(name="user_services_id", referencedColumnName="id"))
+    private Set<User> user_services = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -211,8 +218,17 @@ public class User extends AbstractAuditingEntity implements Serializable {
     public void setPersistentTokens(Set<PersistentToken> persistentTokens) {
         this.persistentTokens = persistentTokens;
     }
+    
 
-    @Override
+    public Set<User> getUser_services() {
+		return user_services;
+	}
+
+	public void setUser_services(Set<User> user_services) {
+		this.user_services = user_services;
+	}
+
+	@Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;
