@@ -47,6 +47,9 @@ public class CacheConfiguration {
             cm.createCache(ma.sobexime.muturama.domain.SocialUserConnection.class.getName(), jcacheConfiguration);
             cm.createCache(ma.sobexime.muturama.domain.User.class.getName() + ".user_services", jcacheConfiguration);
             cm.createCache(ma.sobexime.muturama.domain.Agent.class.getName(), jcacheConfiguration);
+            cm.createCache(ma.sobexime.muturama.domain.City.class.getName(), jcacheConfiguration);
+            cm.createCache(ma.sobexime.muturama.domain.City.class.getName() + ".onetomanies", jcacheConfiguration);
+            cm.createCache(ma.sobexime.muturama.domain.City.class.getName() + ".agents", jcacheConfiguration);
             // jhipster-needle-ehcache-add-entry
         };
     }
