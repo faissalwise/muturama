@@ -9,17 +9,17 @@
 
     function stateConfig($stateProvider) {
         $stateProvider
-        .state('city', {
+        .state('agent-list', {
             parent: 'entity',
-            url: '/city?page&sort&search',
+            url: '/agent-list?page&sort&search',
             data: {
                 authorities: ['ROLE_USER'],
-                pageTitle: 'muturamaApp.city.home.title'
+                pageTitle: 'muturamaApp.agentList.home.title'
             },
             views: {
                 'content@': {
-                    templateUrl: 'app/entities/city/cities.html',
-                    controller: 'CityController',
+                    templateUrl: 'app/entities/agent-list/agent-lists.html',
+                    controller: 'AgentListController',
                     controllerAs: 'vm'
                 }
             },
@@ -45,37 +45,37 @@
                     };
                 }],
                 translatePartialLoader: ['$translate', '$translatePartialLoader', function ($translate, $translatePartialLoader) {
-                    $translatePartialLoader.addPart('city');
+                    $translatePartialLoader.addPart('agentList');
                     $translatePartialLoader.addPart('global');
                     return $translate.refresh();
                 }]
             }
         })
-        .state('city-detail', {
-            parent: 'city',
-            url: '/city/{id}',
+        .state('agent-list-detail', {
+            parent: 'agent-list',
+            url: '/agent-list/{id}',
             data: {
                 authorities: ['ROLE_USER'],
-                pageTitle: 'muturamaApp.city.detail.title'
+                pageTitle: 'muturamaApp.agentList.detail.title'
             },
             views: {
                 'content@': {
-                    templateUrl: 'app/entities/city/city-detail.html',
-                    controller: 'CityDetailController',
+                    templateUrl: 'app/entities/agent-list/agent-list-detail.html',
+                    controller: 'AgentListDetailController',
                     controllerAs: 'vm'
                 }
             },
             resolve: {
                 translatePartialLoader: ['$translate', '$translatePartialLoader', function ($translate, $translatePartialLoader) {
-                    $translatePartialLoader.addPart('city');
+                    $translatePartialLoader.addPart('agentList');
                     return $translate.refresh();
                 }],
-                entity: ['$stateParams', 'City', function($stateParams, City) {
-                    return City.get({id : $stateParams.id}).$promise;
+                entity: ['$stateParams', 'AgentList', function($stateParams, AgentList) {
+                    return AgentList.get({id : $stateParams.id}).$promise;
                 }],
                 previousState: ["$state", function ($state) {
                     var currentStateData = {
-                        name: $state.current.name || 'city',
+                        name: $state.current.name || 'agent-list',
                         params: $state.params,
                         url: $state.href($state.current.name, $state.params)
                     };
@@ -83,22 +83,22 @@
                 }]
             }
         })
-        .state('city-detail.edit', {
-            parent: 'city-detail',
+        .state('agent-list-detail.edit', {
+            parent: 'agent-list-detail',
             url: '/detail/edit',
             data: {
                 authorities: ['ROLE_USER']
             },
             onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
                 $uibModal.open({
-                    templateUrl: 'app/entities/city/city-dialog.html',
-                    controller: 'CityDialogController',
+                    templateUrl: 'app/entities/agent-list/agent-list-dialog.html',
+                    controller: 'AgentListDialogController',
                     controllerAs: 'vm',
                     backdrop: 'static',
                     size: 'lg',
                     resolve: {
-                        entity: ['City', function(City) {
-                            return City.get({id : $stateParams.id}).$promise;
+                        entity: ['AgentList', function(AgentList) {
+                            return AgentList.get({id : $stateParams.id}).$promise;
                         }]
                     }
                 }).result.then(function() {
@@ -108,79 +108,84 @@
                 });
             }]
         })
-        .state('city.new', {
-            parent: 'city',
+        .state('agent-list.new', {
+            parent: 'agent-list',
             url: '/new',
             data: {
                 authorities: ['ROLE_USER']
             },
             onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
                 $uibModal.open({
-                    templateUrl: 'app/entities/city/city-dialog.html',
-                    controller: 'CityDialogController',
+                    templateUrl: 'app/entities/agent-list/agent-list-dialog.html',
+                    controller: 'AgentListDialogController',
                     controllerAs: 'vm',
                     backdrop: 'static',
                     size: 'lg',
                     resolve: {
                         entity: function () {
                             return {
-                                name: null,
+                                cin: null,
+                                nom: null,
+                                prenom: null,
+                                address: null,
+                                lat: null,
+                                lon: null,
                                 status: null,
                                 id: null
                             };
                         }
                     }
                 }).result.then(function() {
-                    $state.go('city', null, { reload: 'city' });
+                    $state.go('agent-list', null, { reload: 'agent-list' });
                 }, function() {
-                    $state.go('city');
+                    $state.go('agent-list');
                 });
             }]
         })
-        .state('city.edit', {
-            parent: 'city',
+        .state('agent-list.edit', {
+            parent: 'agent-list',
             url: '/{id}/edit',
             data: {
                 authorities: ['ROLE_USER']
             },
             onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
                 $uibModal.open({
-                    templateUrl: 'app/entities/city/city-dialog.html',
-                    controller: 'CityDialogController',
+                    templateUrl: 'app/entities/agent-list/agent-list-dialog.html',
+                    controller: 'AgentListDialogController',
                     controllerAs: 'vm',
                     backdrop: 'static',
                     size: 'lg',
                     resolve: {
-                        entity: ['City', function(City) {
-                            return City.get({id : $stateParams.id}).$promise;
+                        entity: ['AgentList', function(AgentList) {
+                            return AgentList.get({id : $stateParams.id}).$promise;
                         }]
                     }
                 }).result.then(function() {
-                    $state.go('city', null, { reload: 'city' });
+                    $state.go('agent-list', null, { reload: 'agent-list' });
                 }, function() {
                     $state.go('^');
                 });
             }]
         })
-        .state('city.delete', {
-            parent: 'city',
+        .state('agent-list.delete', {
+            parent: 'agent-list',
             url: '/{id}/delete',
             data: {
                 authorities: ['ROLE_USER']
             },
             onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
                 $uibModal.open({
-                    templateUrl: 'app/entities/city/city-delete-dialog.html',
-                    controller: 'CityDeleteController',
+                    templateUrl: 'app/entities/agent-list/agent-list-delete-dialog.html',
+                    controller: 'AgentListDeleteController',
                     controllerAs: 'vm',
                     size: 'md',
                     resolve: {
-                        entity: ['City', function(City) {
-                            return City.get({id : $stateParams.id}).$promise;
+                        entity: ['AgentList', function(AgentList) {
+                            return AgentList.get({id : $stateParams.id}).$promise;
                         }]
                     }
                 }).result.then(function() {
-                    $state.go('city', null, { reload: 'city' });
+                    $state.go('agent-list', null, { reload: 'agent-list' });
                 }, function() {
                     $state.go('^');
                 });

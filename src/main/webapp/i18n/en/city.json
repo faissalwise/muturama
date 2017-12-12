@@ -15,8 +15,8 @@
             "detail": {
                 "title": "City"
             },
-            "nom": "Nom",
-            "agents": "Agents"
+            "name": "Name",
+            "status": "Status"
         }
     }
 }

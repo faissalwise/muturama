@@ -1,13 +1,10 @@
 package ma.sobexime.muturama.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.Objects;
 
 /**
@@ -24,14 +21,11 @@ public class City implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "nom")
-    private String nom;
+    @Column(name = "name")
+    private String name;
 
-
-    @OneToMany(mappedBy = "cities")
-    @JsonIgnore
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private Set<Agent> agents = new HashSet<>();
+    @Column(name = "status")
+    private Boolean status;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -42,43 +36,30 @@ public class City implements Serializable {
         this.id = id;
     }
 
-    public String getNom() {
-        return nom;
+    public String getName() {
+        return name;
     }
 
-    public City nom(String nom) {
-        this.nom = nom;
+    public City name(String name) {
+        this.name = name;
         return this;
     }
 
-    public void setNom(String nom) {
-        this.nom = nom;
+    public void setName(String name) {
+        this.name = name;
     }
 
-   
-    public Set<Agent> getAgents() {
-        return agents;
+    public Boolean isStatus() {
+        return status;
     }
 
-    public City agents(Set<Agent> agents) {
-        this.agents = agents;
+    public City status(Boolean status) {
+        this.status = status;
         return this;
     }
 
-    public City addAgents(Agent agent) {
-        this.agents.add(agent);
-        agent.setCities(this);
-        return this;
-    }
-
-    public City removeAgents(Agent agent) {
-        this.agents.remove(agent);
-        agent.setCities(null);
-        return this;
-    }
-
-    public void setAgents(Set<Agent> agents) {
-        this.agents = agents;
+    public void setStatus(Boolean status) {
+        this.status = status;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
@@ -106,7 +87,8 @@ public class City implements Serializable {
     public String toString() {
         return "City{" +
             "id=" + getId() +
-            ", nom='" + getNom() + "'" +
+            ", name='" + getName() + "'" +
+            ", status='" + isStatus() + "'" +
             "}";
     }
 }

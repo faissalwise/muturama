@@ -5,6 +5,6 @@
         .module('muturamaApp')
         .constant('VERSION', "0.0.1-SNAPSHOT")
         .constant('DEBUG_INFO_ENABLED', false)
-        .constant('BUILD_TIMESTAMP', 1512988196053)
+        .constant('BUILD_TIMESTAMP', 1513106782873)
 ;
 })();

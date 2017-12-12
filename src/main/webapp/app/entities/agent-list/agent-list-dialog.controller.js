@@ -3,16 +3,17 @@
 
     angular
         .module('muturamaApp')
-        .controller('CityDialogController', CityDialogController);
+        .controller('AgentListDialogController', AgentListDialogController);
 
-    CityDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', 'entity', 'City'];
+    AgentListDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', 'entity', 'AgentList', 'City'];
 
-    function CityDialogController ($timeout, $scope, $stateParams, $uibModalInstance, entity, City) {
+    function AgentListDialogController ($timeout, $scope, $stateParams, $uibModalInstance, entity, AgentList, City) {
         var vm = this;
 
-        vm.city = entity;
+        vm.agentList = entity;
         vm.clear = clear;
         vm.save = save;
+        vm.cities = City.query();
 
         $timeout(function (){
             angular.element('.form-group:eq(1)>input').focus();
@@ -24,15 +25,15 @@
 
         function save () {
             vm.isSaving = true;
-            if (vm.city.id !== null) {
-                City.update(vm.city, onSaveSuccess, onSaveError);
+            if (vm.agentList.id !== null) {
+                AgentList.update(vm.agentList, onSaveSuccess, onSaveError);
             } else {
-                City.save(vm.city, onSaveSuccess, onSaveError);
+                AgentList.save(vm.agentList, onSaveSuccess, onSaveError);
             }
         }
 
         function onSaveSuccess (result) {
-            $scope.$emit('muturamaApp:cityUpdate', result);
+            $scope.$emit('muturamaApp:agentListUpdate', result);
             $uibModalInstance.close(result);
             vm.isSaving = false;
         }

@@ -5,9 +5,9 @@
         .module('muturamaApp')
         .controller('CityDetailController', CityDetailController);
 
-    CityDetailController.$inject = ['$scope', '$rootScope', '$stateParams', 'previousState', 'entity', 'City', 'Agent'];
+    CityDetailController.$inject = ['$scope', '$rootScope', '$stateParams', 'previousState', 'entity', 'City'];
 
-    function CityDetailController($scope, $rootScope, $stateParams, previousState, entity, City, Agent) {
+    function CityDetailController($scope, $rootScope, $stateParams, previousState, entity, City) {
         var vm = this;
 
         vm.city = entity;

@@ -1,30 +1,21 @@
 {
     "fluentMethods": true,
-    "relationships": [
-        {
-            "relationshipName": "onetomany",
-            "otherEntityName": "agent",
-            "relationshipType": "one-to-many",
-            "otherEntityRelationshipName": "cityToAgent"
-        },
-        {
-            "relationshipName": "agents",
-            "otherEntityName": "agent",
-            "relationshipType": "one-to-many",
-            "otherEntityRelationshipName": "cities"
-        }
-    ],
+    "relationships": [],
     "fields": [
         {
-            "fieldName": "nom",
+            "fieldName": "name",
             "fieldType": "String",
             "fieldValidateRules": []
+        },
+        {
+            "fieldName": "status",
+            "fieldType": "Boolean"
         }
     ],
-    "changelogDate": "20171211102502",
+    "changelogDate": "20171212192210",
     "dto": "no",
     "service": "no",
     "entityTableName": "city",
     "jpaMetamodelFiltering": false,
-    "pagination": "pager"
+    "pagination": "pagination"
 }

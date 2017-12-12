@@ -38,8 +38,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = MuturamaApp.class)
 public class CityResourceIntTest {
 
-    private static final String DEFAULT_NOM = "AAAAAAAAAA";
-    private static final String UPDATED_NOM = "BBBBBBBBBB";
+    private static final String DEFAULT_NAME = "AAAAAAAAAA";
+    private static final String UPDATED_NAME = "BBBBBBBBBB";
+
+    private static final Boolean DEFAULT_STATUS = false;
+    private static final Boolean UPDATED_STATUS = true;
 
     @Autowired
     private CityRepository cityRepository;
@@ -79,7 +82,8 @@ public class CityResourceIntTest {
      */
     public static City createEntity(EntityManager em) {
         City city = new City()
-            .nom(DEFAULT_NOM);
+            .name(DEFAULT_NAME)
+            .status(DEFAULT_STATUS);
         return city;
     }
 
@@ -103,7 +107,8 @@ public class CityResourceIntTest {
         List<City> cityList = cityRepository.findAll();
         assertThat(cityList).hasSize(databaseSizeBeforeCreate + 1);
         City testCity = cityList.get(cityList.size() - 1);
-        assertThat(testCity.getNom()).isEqualTo(DEFAULT_NOM);
+        assertThat(testCity.getName()).isEqualTo(DEFAULT_NAME);
+        assertThat(testCity.isStatus()).isEqualTo(DEFAULT_STATUS);
     }
 
     @Test
@@ -136,7 +141,8 @@ public class CityResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(city.getId().intValue())))
-            .andExpect(jsonPath("$.[*].nom").value(hasItem(DEFAULT_NOM.toString())));
+            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())))
+            .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.booleanValue())));
     }
 
     @Test
@@ -150,7 +156,8 @@ public class CityResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(city.getId().intValue()))
-            .andExpect(jsonPath("$.nom").value(DEFAULT_NOM.toString()));
+            .andExpect(jsonPath("$.name").value(DEFAULT_NAME.toString()))
+            .andExpect(jsonPath("$.status").value(DEFAULT_STATUS.booleanValue()));
     }
 
     @Test
@@ -171,7 +178,8 @@ public class CityResourceIntTest {
         // Update the city
         City updatedCity = cityRepository.findOne(city.getId());
         updatedCity
-            .nom(UPDATED_NOM);
+            .name(UPDATED_NAME)
+            .status(UPDATED_STATUS);
 
         restCityMockMvc.perform(put("/api/cities")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -182,7 +190,8 @@ public class CityResourceIntTest {
         List<City> cityList = cityRepository.findAll();
         assertThat(cityList).hasSize(databaseSizeBeforeUpdate);
         City testCity = cityList.get(cityList.size() - 1);
-        assertThat(testCity.getNom()).isEqualTo(UPDATED_NOM);
+        assertThat(testCity.getName()).isEqualTo(UPDATED_NAME);
+        assertThat(testCity.isStatus()).isEqualTo(UPDATED_STATUS);
     }
 
     @Test

@@ -2,9 +2,9 @@
 
 describe('Controller Tests', function() {
 
-    describe('City Management Detail Controller', function() {
+    describe('AgentList Management Detail Controller', function() {
         var $scope, $rootScope;
-        var MockEntity, MockPreviousState, MockCity;
+        var MockEntity, MockPreviousState, MockAgentList, MockCity;
         var createController;
 
         beforeEach(inject(function($injector) {
@@ -12,6 +12,7 @@ describe('Controller Tests', function() {
             $scope = $rootScope.$new();
             MockEntity = jasmine.createSpy('MockEntity');
             MockPreviousState = jasmine.createSpy('MockPreviousState');
+            MockAgentList = jasmine.createSpy('MockAgentList');
             MockCity = jasmine.createSpy('MockCity');
             
 
@@ -20,17 +21,18 @@ describe('Controller Tests', function() {
                 '$rootScope': $rootScope,
                 'entity': MockEntity,
                 'previousState': MockPreviousState,
+                'AgentList': MockAgentList,
                 'City': MockCity
             };
             createController = function() {
-                $injector.get('$controller')("CityDetailController", locals);
+                $injector.get('$controller')("AgentListDetailController", locals);
             };
         }));
 
 
         describe('Root Scope Listening', function() {
             it('Unregisters root scope listener upon scope destruction', function() {
-                var eventType = 'muturamaApp:cityUpdate';
+                var eventType = 'muturamaApp:agentListUpdate';
 
                 createController();
                 expect($rootScope.$$listenerCount[eventType]).toEqual(1);
