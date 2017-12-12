@@ -1,0 +1,30 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipName": "onetomany",
+            "otherEntityName": "agent",
+            "relationshipType": "one-to-many",
+            "otherEntityRelationshipName": "cityToAgent"
+        },
+        {
+            "relationshipName": "agents",
+            "otherEntityName": "agent",
+            "relationshipType": "one-to-many",
+            "otherEntityRelationshipName": "cities"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "nom",
+            "fieldType": "String",
+            "fieldValidateRules": []
+        }
+    ],
+    "changelogDate": "20171211102502",
+    "dto": "no",
+    "service": "no",
+    "entityTableName": "city",
+    "jpaMetamodelFiltering": false,
+    "pagination": "pager"
+}

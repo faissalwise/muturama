@@ -40,6 +40,9 @@ public class Agent implements Serializable {
     @Column(name = "latitude", precision=10, scale=2)
     private BigDecimal latitude;
 
+    @ManyToOne
+    private City cities;
+
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
         return id;
@@ -125,6 +128,19 @@ public class Agent implements Serializable {
 
     public void setLatitude(BigDecimal latitude) {
         this.latitude = latitude;
+    }
+
+    public City getCities() {
+        return cities;
+    }
+
+    public Agent cities(City city) {
+        this.cities = city;
+        return this;
+    }
+
+    public void setCities(City city) {
+        this.cities = city;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
