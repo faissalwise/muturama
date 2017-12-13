@@ -67,7 +67,7 @@
 
 
         // current location to set maps first location on load
-        $scope.loc = {lat: 23, lon: 90};
+        $scope.loc = {lat: 31, lon:  -7};
         $scope.gotoCurrentLocation = function () {
             if ("geolocation" in navigator) {
                 navigator.geolocation.getCurrentPosition(function (position) {
