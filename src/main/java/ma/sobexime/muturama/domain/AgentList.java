@@ -34,10 +34,10 @@ public class AgentList implements Serializable {
     @Column(name = "address")
     private String address;
 
-    @Column(name = "lat", precision=10, scale=2)
+    @Column(name = "lat", precision=100, scale=20)
     private BigDecimal lat;
 
-    @Column(name = "lon", precision=10, scale=2)
+    @Column(name = "lon", precision=100, scale=20)
     private BigDecimal lon;
 
     @Column(name = "status")

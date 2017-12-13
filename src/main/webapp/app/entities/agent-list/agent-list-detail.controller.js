@@ -17,5 +17,8 @@
             vm.agentList = result;
         });
         $scope.$on('$destroy', unsubscribe);
+
+
+
     }
 })();

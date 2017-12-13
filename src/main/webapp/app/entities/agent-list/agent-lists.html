@@ -39,7 +39,11 @@
                     <td>{{agentList.address}}</td>
                     <td>{{agentList.lat}}</td>
                     <td>{{agentList.lon}}</td>
-                    <td>{{agentList.status}}</td>
+                    <td>
+
+                        <span ng-if="agentList.status == true" style="color: green">Active</span>
+                        <span ng-if="agentList.status == false" style="color: red">Inactive</span>
+                    </td>
                     <td>
                         <a ui-sref="city-detail({id:agentList.city.id})">{{agentList.city.name}}</a>
                     </td>

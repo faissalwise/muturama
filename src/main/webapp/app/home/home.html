@@ -1,5 +1,5 @@
 <div ng-cloak>
-    <div class="row">
+    <!--<div class="row">
         <div class="col-md-4">
             <span class="hipster img-responsive img-rounded"></span>
         </div>
@@ -8,20 +8,25 @@
             <p class="lead" data-translate="home.subtitle">This is your homepage</p>
 
             <div ng-switch="vm.isAuthenticated()">
-                <div class="alert alert-success" ng-switch-when="true" data-translate="home.logged.message" translate-values="{username: '{{vm.account.login}}'}">
+                <div class="alert alert-success" ng-switch-when="true" data-translate="home.logged.message"
+                     translate-values="{username: '{{vm.account.login}}'}">
                     You are logged in as user "{{vm.account.login}}".
                 </div>
 
-                <div class="alert alert-warning" ng-switch-when="false" data-translate="global.messages.info.authenticated" translate-compile>
-                    If you want to <a class="alert-link" href="" ng-click="vm.login()">sign in</a>, you can try the default accounts:<br/>- Administrator (login="admin" and password="admin") <br/>- User (login="user" and password="user").
+                <div class="alert alert-warning" ng-switch-when="false"
+                     data-translate="global.messages.info.authenticated" translate-compile>
+                    If you want to <a class="alert-link" href="" ng-click="vm.login()">sign in</a>, you can try the
+                    default accounts:<br/>- Administrator (login="admin" and password="admin") <br/>- User (login="user"
+                    and password="user").
                 </div>
 
-                <div class="alert alert-warning" ng-switch-when="false" data-translate="global.messages.info.register" translate-compile>
+                <div class="alert alert-warning" ng-switch-when="false" data-translate="global.messages.info.register"
+                     translate-compile>
                     You don't have an account yet? <a class="alert-link" ui-sref="register">Register a new account</a>
                 </div>
             </div>
 
-            <!-- <p data-translate="home.question">
+            &lt;!&ndash; <p data-translate="home.question">
                 If you have any question on JHipster:
             </p>
 
@@ -33,9 +38,64 @@
                 <li><a href="https://twitter.com/java_hipster" target="_blank" rel="noopener" data-translate="home.link.follow">follow @java_hipster on Twitter</a></li>
             </ul>
 
-            <p> -->
-            <!--  <span data-translate="home.like">If you like JHipster, don't forget to give us a star on </span>&nbsp;<a href="https://github.com/jhipster/generator-jhipster" target="_blank" rel="noopener" data-translate="home.github">GitHub</a>! -->
-            </p>
+            <p> &ndash;&gt;
+            &lt;!&ndash;  <span data-translate="home.like">If you like JHipster, don't forget to give us a star on </span>&nbsp;<a href="https://github.com/jhipster/generator-jhipster" target="_blank" rel="noopener" data-translate="home.github">GitHub</a>! &ndash;&gt;
+            &lt;!&ndash;
+                        </p>
+            &ndash;&gt;
+
+
+        </div>
+    </div>-->
+
+
+    <!-- search/go to current location -->
+    <div class="text-right">
+
+        <div class="input-append text-right">
+            <div class="form-group col-sm-3">
+                <select class="form-control" id="field_city" name="city" ng-model="vm.agentList.city"
+                        ng-click="getAgentsListBycity(vm.agentList.city)"
+                        ng-options="city as city.name for city in vm.cities track by city.id">
+                    <option value="">Select City</option>
+                </select>
+            </div>
+
+            <div class="form-group col-sm-4">
+                <select class="form-control" id="field_city" name="city"
+                        ng-click="gotoLocation(city.lat, city.lon)"
+                        ng-model="city"
+                        ng-disabled="!(vm.agentList.city)"
+                        ng-options="city as city.nom for city in agentLists">
+                    <option value="">Select Agents</option>
+                </select>
+            </div>
+
+            <div class="form-group col-sm-3">
+                <input class="form-control" type="text" ng-model="search"
+                placeholder="Enter custom Latitude Lognitude"
+                />
+
+            </div>
+
+                <button class=" btn" type="button" ng-click="geoCode()" ng-disabled="search.length == 0"
+                        title="search">
+                    &nbsp;<i class="icon-search"></i>Where is this place?
+                </button>
+                <button class=" btn" type="button" ng-click="gotoCurrentLocation()"
+                        title="current location">
+                    &nbsp;<i class="icon-home"></i>Where am I now?
+                </button>
         </div>
     </div>
+
+    <!-- map -->
+    <app-map style="height:600px;margin:12px;box-shadow:0 3px 25px black;"
+             center="loc"
+             markers="agentLists"
+    >
+    </app-map>
+
+
+
 </div>
