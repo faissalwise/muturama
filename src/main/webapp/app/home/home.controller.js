@@ -106,7 +106,6 @@
         var agentList = AgentList.query({size: 500000}, function (result, headers) {
             return result;
         });
-
         $scope.getAgentsListBycity = function (select) {
             $scope.agentLists = [];
             if (select != null) {

@@ -95,39 +95,64 @@
                         });
                     }
 
+
+
+
+
+
                     // update map markers to match scope marker collection
                     function updateMarkers() {
                         if (map && scope.markers) {
-
-                            // clear old markers
-                            /*if (currentMarkers != null) {
-                                for (var i = 0; i < currentMarkers.length; i++) {
-                                    currentMarkers[i] = m.setMap(null);
-                                }
-                            }*/
-
                             // create new markers
+
+
                             currentMarkers = [];
                             var markers = scope.markers;
                             if (angular.isString(markers)) markers = scope.$eval(scope.markers);
+                            var infoWindow = new google.maps.InfoWindow();
+
                             for (var i = 0; i < markers.length; i++) {
                                 var m = markers[i];
                                 var loc = new google.maps.LatLng(m.lat, m.lon);
-                                var mm = new google.maps.Marker({
-                                    position: loc,
-                                    map: map,
-                                    title: m.nom + " || " + m.address
-                                });
+                                var mm = new google.maps.Marker({position: loc, map: map, animation: google.maps.Animation.DROP, title: m.nom + " || " + m.address});
+
                                 currentMarkers.push(mm);
+                                google.maps.event.addListener(mm,'click',function() {
+                                    map.setZoom(13);
+                                    map.setCenter(mm.getPosition());
+                                });
+
+                                /*google.maps.event.addListener(mm,'click',function() {
+                                    var infowindow = new google.maps.InfoWindow({
+                                        content:'cin: ' + m.cin+ '<br>nom: ' + m.nom+ '<br>prenom: ' + m.prenom+ '<br>address: ' + m.address
+                                    });
+                                    infowindow.open(map,mm);
+                                });*/
+
+                                (function (mm, m) {
+                                    google.maps.event.addListener(mm, "click", function (e) {
+                                        //Wrap the content inside an HTML DIV in order to set height and width of InfoWindow.
+                                        infoWindow.setContent("<div style = 'width:200px;min-height:40px'>"+ 'cin: ' + m.cin+ '<br>nom: ' + m.nom+ '<br>prenom: ' + m.prenom+ '<br>address: ' + m.address+"</div>");
+                                        infoWindow.open(map, mm);
+                                    });
+                                })(mm, m);
+
+
+
                             }
                         }
                     }
+
+
+
+
 
                     // convert current location to Google maps location
                     function getLocation(loc) {
                         if (loc == null) return new google.maps.LatLng(23, 90);
                         if (angular.isString(loc)) loc = scope.$eval(loc);
                         return new google.maps.LatLng(loc.lat, loc.lon);
+
                     }
                 }
             };
