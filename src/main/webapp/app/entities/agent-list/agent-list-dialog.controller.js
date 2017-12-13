@@ -12,9 +12,7 @@
 
         vm.agentList = entity;
 
-        if(vm.agentList.id = null) {
-            vm.agentList.status = true;
-        }
+
         vm.clear = clear;
         vm.save = save;
         vm.cities = City.query();

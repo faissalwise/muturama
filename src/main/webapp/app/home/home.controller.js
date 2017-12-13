@@ -135,7 +135,7 @@
             }
         ];*/
 
-        var agentList= AgentList.query({page: $scope.page, size: 500}, function(result, headers) { return result;});
+        var agentList= AgentList.query({ size: 500000}, function(result, headers) { return result;});
 
             $scope.getAgentsListBycity=function(select){
                 $scope.agentLists = [];

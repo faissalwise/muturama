@@ -1,13 +1,13 @@
 <div ng-cloak>
-    <!--<div class="row">
-        <div class="col-md-4">
+    <div class="row">
+        <!--<div class="col-md-4">
             <span class="hipster img-responsive img-rounded"></span>
-        </div>
-        <div class="col-md-8">
-            <h1 data-translate="home.title">Welcome, Java Hipster!</h1>
-            <p class="lead" data-translate="home.subtitle">This is your homepage</p>
+        </div>-->
+        <div class="col-md-12">
+            <!--<h1 data-translate="home.title">Welcome, Java Hipster!</h1>
+            <p class="lead" data-translate="home.subtitle">This is your homepage</p>-->
 
-            <div ng-switch="vm.isAuthenticated()">
+            <!--<div ng-switch="vm.isAuthenticated()">
                 <div class="alert alert-success" ng-switch-when="true" data-translate="home.logged.message"
                      translate-values="{username: '{{vm.account.login}}'}">
                     You are logged in as user "{{vm.account.login}}".
@@ -25,8 +25,8 @@
                     You don't have an account yet? <a class="alert-link" ui-sref="register">Register a new account</a>
                 </div>
             </div>
-
-            &lt;!&ndash; <p data-translate="home.question">
+-->
+            <!-- <p data-translate="home.question">
                 If you have any question on JHipster:
             </p>
 
@@ -38,58 +38,59 @@
                 <li><a href="https://twitter.com/java_hipster" target="_blank" rel="noopener" data-translate="home.link.follow">follow @java_hipster on Twitter</a></li>
             </ul>
 
-            <p> &ndash;&gt;
-            &lt;!&ndash;  <span data-translate="home.like">If you like JHipster, don't forget to give us a star on </span>&nbsp;<a href="https://github.com/jhipster/generator-jhipster" target="_blank" rel="noopener" data-translate="home.github">GitHub</a>! &ndash;&gt;
-            &lt;!&ndash;
+            <p> -->
+            <!--  <span data-translate="home.like">If you like JHipster, don't forget to give us a star on </span>&nbsp;<a href="https://github.com/jhipster/generator-jhipster" target="_blank" rel="noopener" data-translate="home.github">GitHub</a>! -->
+            <!--
                         </p>
-            &ndash;&gt;
+            -->
 
+            <!-- search/go to current location -->
+            <div class="text-right">
 
-        </div>
-    </div>-->
+                <div class="input-append text-right">
+                    <div class="form-group col-sm-3">
+                        <select class="form-control" id="field_city" name="city" ng-model="vm.agentList.city"
+                                ng-change="getAgentsListBycity(vm.agentList.city)"
+                                ng-options="city as city.name for city in vm.cities track by city.id">
+                            <option value="">Select City</option>
+                        </select>
+                    </div>
 
+                    <!--<div class="form-group col-sm-4">
+                        <select class="form-control" id="field_city" name="city"
+                                ng-click="gotoLocation(city.lat, city.lon)"
+                                ng-model="city"
+                                ng-disabled="!(vm.agentList.city)"
+                                ng-options="city as city.nom for city in agentLists">
+                            <option value="">Select Agents</option>
+                        </select>
+                    </div>-->
 
-    <!-- search/go to current location -->
-    <div class="text-right">
+                    <!--<div class="form-group col-sm-3">
+                        <input class="form-control" type="text" ng-model="search"
+                        placeholder="Enter custom Latitude Lognitude"
+                        />
 
-        <div class="input-append text-right">
-            <div class="form-group col-sm-3">
-                <select class="form-control" id="field_city" name="city" ng-model="vm.agentList.city"
-                        ng-click="getAgentsListBycity(vm.agentList.city)"
-                        ng-options="city as city.name for city in vm.cities track by city.id">
-                    <option value="">Select City</option>
-                </select>
+                    </div>
+
+                        <button class=" btn" type="button" ng-click="geoCode()" ng-disabled="search.length == 0"
+                                title="search">
+                            &nbsp;<i class="icon-search"></i>Where is this place?
+                        </button>
+                        <button class=" btn" type="button" ng-click="gotoCurrentLocation()"
+                                title="current location">
+                            &nbsp;<i class="icon-home"></i>Where am I now?
+                        </button>-->
+                </div>
             </div>
-
-            <div class="form-group col-sm-4">
-                <select class="form-control" id="field_city" name="city"
-                        ng-click="gotoLocation(city.lat, city.lon)"
-                        ng-model="city"
-                        ng-disabled="!(vm.agentList.city)"
-                        ng-options="city as city.nom for city in agentLists">
-                    <option value="">Select Agents</option>
-                </select>
-            </div>
-
-            <div class="form-group col-sm-3">
-                <input class="form-control" type="text" ng-model="search"
-                placeholder="Enter custom Latitude Lognitude"
-                />
-
-            </div>
-
-                <button class=" btn" type="button" ng-click="geoCode()" ng-disabled="search.length == 0"
-                        title="search">
-                    &nbsp;<i class="icon-search"></i>Where is this place?
-                </button>
-                <button class=" btn" type="button" ng-click="gotoCurrentLocation()"
-                        title="current location">
-                    &nbsp;<i class="icon-home"></i>Where am I now?
-                </button>
         </div>
     </div>
 
+
+
+
     <!-- map -->
+
     <app-map style="height:600px;margin:12px;box-shadow:0 3px 25px black;"
              center="loc"
              markers="agentLists"
