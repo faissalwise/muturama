@@ -35,19 +35,19 @@
             }
         })
 
-        // - Documentation: https://developers.google.com/maps/documentation/
+    // - Documentation: https://developers.google.com/maps/documentation/
 
 
+    HomeController.$inject = ['$scope', 'Principal', 'LoginService', '$state', 'AgentList', 'City'];
 
-    HomeController.$inject = ['$scope', 'Principal', 'LoginService', '$state', 'AgentList','City'];
-
-    function HomeController($scope, Principal, LoginService, $state, AgentList,City) {
+    function HomeController($scope, Principal, LoginService, $state, AgentList, City) {
         var vm = this;
         vm.cities = City.query();
         vm.account = null;
         vm.isAuthenticated = null;
         vm.login = LoginService.open;
         vm.register = register;
+
         $scope.$on('authenticationSuccess', function () {
             getAccount();
         });
@@ -67,7 +67,7 @@
 
 
         // current location to set maps first location on load
-        $scope.loc = {lat: 31, lon:  -7};
+        $scope.loc = {lat: 31, lon: -7};
         $scope.gotoCurrentLocation = function () {
             if ("geolocation" in navigator) {
                 navigator.geolocation.getCurrentPosition(function (position) {
@@ -102,51 +102,30 @@
             }
         };
 
-      /*  $scope.agentLists = [
-            {
-                place: 'India',
-                desc: 'A country of culture and tradition!',
-                lat: 23.200000,
-                lon: 79.225487
-            },
-            {
-                place: 'New Delhi',
-                desc: 'Capital of India...',
-                lat: 28.500000,
-                lon: 77.250000
-            },
-            {
-                place: 'Kolkata',
-                desc: 'City of Joy...',
-                lat: 22.500000,
-                lon: 88.400000
-            },
-            {
-                place: 'Mumbai',
-                desc: 'Commercial city!',
-                lat: 19.000000,
-                lon: 72.90000
-            },
-            {
-                place: 'Bangalore',
-                desc: 'Silicon Valley of India...',
-                lat: 12.9667,
-                lon: 77.5667
-            }
-        ];*/
 
-        var agentList= AgentList.query({ size: 500000}, function(result, headers) { return result;});
+        var agentList = AgentList.query({size: 500000}, function (result, headers) {
+            return result;
+        });
 
-            $scope.getAgentsListBycity=function(select){
-                $scope.agentLists = [];
-                angular.forEach(agentList, function(results) {
+        $scope.getAgentsListBycity = function (select) {
+            $scope.agentLists = [];
+            if (select != null) {
+                angular.forEach(agentList, function (results) {
                     //console.log(dlContCatSet.dlContTypeSet);
-                    if(select.id==results.city.id && results.status == true){
+                    if (select.id == results.city.id && results.status == true) {
                         $scope.agentLists.push(results);
                     }
                 });
-            };
+            } else {
+                angular.forEach(agentList, function (results) {
+                    //console.log(dlContCatSet.dlContTypeSet);
+                    if (results.status == true) {
+                        $scope.agentLists.push(results);
+                    }
+                });
+            }
 
+        };
 
     }
 })();

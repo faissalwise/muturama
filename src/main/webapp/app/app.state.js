@@ -39,11 +39,12 @@
                     // update zoom and center without re-creating the map
                     scope.$watch("zoom", function () {
                         if (map && scope.zoom)
-                            map.setZoom(scope.zoom * 1);
+                            map.setZoom(scope.zoom * 2);
                     });
                     scope.$watch("center", function () {
                         if (map && scope.center)
-                            map.setCenter(getLocation(scope.center));
+                            map.setCenter(getLocation(scope.center))
+                            ;
                     });
 
                     // update the control
@@ -57,7 +58,7 @@
                         var options =
                             {
                                 center: new google.maps.LatLng(23, 90),
-                                zoom: 6,
+                                zoom: 7,
                                 mapTypeId: "roadmap"
                             };
                         if (scope.center) options.center = getLocation(scope.center);
