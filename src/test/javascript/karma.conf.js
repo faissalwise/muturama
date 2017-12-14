@@ -31,6 +31,8 @@ module.exports = function (config) {
             'src/main/webapp/bower_components/sockjs-client/dist/sockjs.js',
             'src/main/webapp/bower_components/stomp-websocket/lib/stomp.min.js',
             'src/main/webapp/bower_components/flow.js/dist/flow.js',
+            'src/main/webapp/bower_components/arrive/src/arrive.js',
+            'src/main/webapp/bower_components/bootstrap-sass/assets/javascripts/bootstrap.js',
             'src/main/webapp/bower_components/angular/angular.js',
             'src/main/webapp/bower_components/angular-aria/angular-aria.js',
             'src/main/webapp/bower_components/angular-bootstrap/ui-bootstrap-tpls.js',
@@ -54,6 +56,8 @@ module.exports = function (config) {
             'src/main/webapp/bower_components/angular-breadcrumb/release/angular-breadcrumb.js',
             'src/main/webapp/bower_components/angular-css/angular-css.js',
             'src/main/webapp/bower_components/ngmap/build/scripts/ng-map.js',
+            'src/main/webapp/bower_components/bootstrap-material-design/dist/js/material.js',
+            'src/main/webapp/bower_components/bootstrap-material-design/dist/js/ripples.js',
             'src/main/webapp/bower_components/angular-mocks/angular-mocks.js',
             // endbower
             'src/main/webapp/app/app.module.js',
