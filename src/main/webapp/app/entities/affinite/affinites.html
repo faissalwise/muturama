@@ -57,4 +57,69 @@
         <jhi-item-count page="vm.page" total="vm.queryCount" items-per-page="vm.itemsPerPage"></jhi-item-count>
         <uib-pagination class="pagination-sm" total-items="vm.totalItems" items-per-page="vm.itemsPerPage" ng-model="vm.page" ng-change="vm.transition()"></uib-pagination>
     </div>
+
+            <!-- search/go to current location -->
+            <div class="text-right">
+
+                <div class="input-append text-right">
+                    <div class="form-group col-sm-3">
+                        <select class="form-control" id="field_city" name="city" ng-model="vm.agentList.city"
+                                ng-change="getAgentsListBycity(vm.agentList.city)"
+                                ng-options="city as city.name for city in vm.cities track by city.id">
+                            <option value="">Select City</option>
+                        </select>
+                    </div>
+
+                 <!--   <div class="form-group col-sm-4">
+                        <select class="form-control" id="field_city" name="city"
+                                ng-click="gotoLocation(city.lat, city.lon)"
+                                ng-model="city"
+                                ng-disabled="!(vm.agentList.city)"
+                                ng-options="city as city.nom for city in agentLists">
+                            <option value="">Select Agents</option>
+                        </select>
+                    </div>-->
+
+                    <!--<div class="form-group col-sm-3">
+                        <input class="form-control" type="text" ng-model="search"
+                        placeholder="Enter custom Latitude Lognitude"
+                        />
+
+                    </div>
+
+                        <button class=" btn" type="button" ng-click="geoCode()" ng-disabled="search.length == 0"
+                                title="search">
+                            &nbsp;<i class="icon-search"></i>Where is this place?
+                        </button>
+                        <button class=" btn" type="button" ng-click="gotoCurrentLocation()"
+                                title="current location">
+                            &nbsp;<i class="icon-home"></i>Where am I now?
+                        </button>-->
+                </div>
+            </div>
+
+
+
+
+ <!-- map -->
+
+    <app-map style="height:600px;margin:12px;box-shadow:0 3px 25px black;"
+             center="loc"
+             markers="agentLists"
+    >
+    </app-map>
+    <style>
+        /* Always set the map height explicitly to define the size of the div
+         * element that contains the map. */
+        #map {
+            height: 100%;
+        }
+        /* Optional: Makes the sample page fill the window. */
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+  
 </div>
