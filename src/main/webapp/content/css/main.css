@@ -386,6 +386,11 @@ Social Buttons
     border-color: rgba(0, 0, 0, 0.2);
     color: #fff;
 }
+.alert.alert-warning{
+	background-color: #2795e9;
+    border-color: rgba(0, 0, 0, 0.2);
+    color: #fff;
+}
 
 #myFooter {
 	background-color: #444;
