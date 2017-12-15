@@ -20,7 +20,8 @@
             "prenom": "Prenom",
             "adress": "Adress",
             "longitude": "Longitude",
-            "latitude": "Latitude"
+            "latitude": "Latitude",
+            "cities": "Cities"
         }
     }
 }

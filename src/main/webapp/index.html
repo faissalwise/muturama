@@ -14,18 +14,20 @@
     <!-- bower:css -->
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css">
     <link rel="stylesheet" href="bower_components/angular-loading-bar/build/loading-bar.css">
+    <link rel="stylesheet" href="bower_components/bootstrap-material-design/dist/css/bootstrap-material-design.css">
+    <link rel="stylesheet" href="bower_components/bootstrap-material-design/dist/css/ripples.css">
     <!-- endinject -->
     <!-- endbuild -->
     <!-- build:css content/css/main.css -->
     <link rel="stylesheet" href="content/css/main.css">
     <!-- endbuild -->
-     <link rel="shortcut icon" href="favicon.ico" /> 
-    <link rel="manifest" href="manifest.webapp" /> 
+     <link rel="shortcut icon" href="favicon.ico" />
+    <link rel="manifest" href="manifest.webapp" />
     <link href='http://fonts.googleapis.com/css?family=Raleway:400,600,800' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="content/css/font-awesome.min.css">
     <link rel="stylesheet" href="content/css/responsive.min.css">
     <link rel="stylesheet" href="bower_components/toastr/toastr.min.css"/>
-    
+
     <base href="/">
 </head>
 <body ng-app="muturamaApp" class="hold-transition skin-green sidebar-mini fixed" ng-strict-di id="top">
@@ -89,20 +91,11 @@
             <p>© 2018 Copyright Text </p>
         </div>
     </footer>
-    
+
     </div>
+
+
     
-    
-    <div ng-controller="MapController as vm">
-	<ng-map zoom="10" center="-33.9, 151.2">
-    <marker ng-repeat="beach in vm.beaches"
-      icon="{{vm.image}}"
-      shape="{{vm.shape}}"
-      title="{{beach[0]}}"
-      position="{{beach[1]}}, {{beach[2]}}"
-      z-index="{{beach[3]}}"></marker>
-  </ng-map>
-  </div>
    <!--  <noscript>
         <h1>You must enable javascript to view this page.</h1>
     </noscript> -->
@@ -130,6 +123,11 @@
     <script src="bower_components/jquery/dist/jquery.js"></script>
     <script src="bower_components/messageformat/messageformat.js"></script>
     <script src="bower_components/json3/lib/json3.js"></script>
+    <script src="bower_components/sockjs-client/dist/sockjs.js"></script>
+    <script src="bower_components/stomp-websocket/lib/stomp.min.js"></script>
+    <script src="bower_components/flow.js/dist/flow.js"></script>
+    <script src="bower_components/arrive/src/arrive.js"></script>
+    <script src="bower_components/bootstrap-sass/assets/javascripts/bootstrap.js"></script>
     <script src="bower_components/angular/angular.js"></script>
     <script src="bower_components/angular-aria/angular-aria.js"></script>
     <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
@@ -148,23 +146,20 @@
     <script src="bower_components/bootstrap-ui-datetime-picker/dist/datetime-picker.js"></script>
     <script src="bower_components/ng-file-upload/ng-file-upload.js"></script>
     <script src="bower_components/ngInfiniteScroll/build/ng-infinite-scroll.js"></script>
-    <script src="bower_components/sockjs-client/dist/sockjs.js"></script>
-    <script src="bower_components/stomp-websocket/lib/stomp.min.js"></script>
-    <script src="bower_components/flow.js/dist/flow.js"></script>
     <script src="bower_components/ng-flow/dist/ng-flow.js"></script>
     <script src="bower_components/ng-map-autocomplete/src/ng-map-autocomplete.js"></script>
     <script src="bower_components/angular-breadcrumb/release/angular-breadcrumb.js"></script>
     <script src="bower_components/angular-css/angular-css.js"></script>
     <script src="bower_components/ngmap/build/scripts/ng-map.js"></script>
-    <script src="bower_components/ngmap/testapp/script-tags-for-development.js"></script>
-    
+    <script src="bower_components/bootstrap-material-design/dist/js/material.js"></script>
+    <script src="bower_components/bootstrap-material-design/dist/js/ripples.js"></script>
     <!-- endinject -->
     <!-- endbuild -->
-    
- 
-    
-    
-    
+
+
+
+
+
 
     <!-- build:js app/app.js  -->
     <!-- inject:js -->
@@ -201,12 +196,30 @@
     <script src="app/entities/service/service.service.js"></script>
     <script src="app/entities/service/service.controller.js"></script>
     <script src="app/entities/entity.state.js"></script>
+    <script src="app/entities/city/city-dialog.controller.js"></script>
+    <script src="app/entities/city/city-detail.controller.js"></script>
+    <script src="app/entities/city/city-delete-dialog.controller.js"></script>
+    <script src="app/entities/city/city.state.js"></script>
+    <script src="app/entities/city/city.service.js"></script>
+    <script src="app/entities/city/city.controller.js"></script>
+    <script src="app/entities/agent-list/agent-list-dialog.controller.js"></script>
+    <script src="app/entities/agent-list/agent-list-detail.controller.js"></script>
+    <script src="app/entities/agent-list/agent-list-delete-dialog.controller.js"></script>
+    <script src="app/entities/agent-list/agent-list.state.js"></script>
+    <script src="app/entities/agent-list/agent-list.service.js"></script>
+    <script src="app/entities/agent-list/agent-list.controller.js"></script>
     <script src="app/entities/agent/agent-dialog.controller.js"></script>
     <script src="app/entities/agent/agent-detail.controller.js"></script>
     <script src="app/entities/agent/agent-delete-dialog.controller.js"></script>
     <script src="app/entities/agent/agent.state.js"></script>
     <script src="app/entities/agent/agent.service.js"></script>
     <script src="app/entities/agent/agent.controller.js"></script>
+    <script src="app/entities/affinite/affinite-dialog.controller.js"></script>
+    <script src="app/entities/affinite/affinite-detail.controller.js"></script>
+    <script src="app/entities/affinite/affinite-delete-dialog.controller.js"></script>
+    <script src="app/entities/affinite/affinite.state.js"></script>
+    <script src="app/entities/affinite/affinite.service.js"></script>
+    <script src="app/entities/affinite/affinite.controller.js"></script>
     <script src="app/components/util/truncate-words.filter.js"></script>
     <script src="app/components/util/truncate-characters.filter.js"></script>
     <script src="app/components/util/sort-by.directive.js"></script>
@@ -245,6 +258,7 @@
     <script src="app/blocks/config/http.config.js"></script>
     <script src="app/blocks/config/html5.mode.config.js"></script>
     <script src="app/blocks/config/compile.config.js"></script>
+    <script src="app/blocks/config/bootstrap-material.config.js"></script>
     <script src="app/blocks/config/alert.config.js"></script>
     <script src="app/app.state.js"></script>
     <script src="app/app.constants.js"></script>
@@ -294,12 +308,11 @@
     <script src="app/account/account.state.js"></script>
     <!-- endinject -->
     <!-- endbuild -->
-    
+
      <!-- Front end Scripts -->
     <script src="content/js/jquery.js"></script>
     <script src="content/js/app.js"></script>
     <script src="content/js/bootstrap.js"></script>
-    <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyARkLOBOYtYv3C91iLD3zq8891tduFERiI"></script>
     <script src="content/js/imagesloaded.pkgd.min.js"></script>
     <script src="content/js/jquery.backstretch.js"></script>
     <script src="content/js/jquery.easing.js"></script>
@@ -310,7 +323,8 @@
     <script src="/content/js/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>
     <script src="content/plugins/iCheck/icheck.min.js"></script>
     <script src="content/js/jquery.slimscroll.min.js"></script>
-   
+   <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyAJE2RBuXW7U5Msor1ql_Y6iGad15PF45k&language=en"></script>
+
 
 </body>
 </html>

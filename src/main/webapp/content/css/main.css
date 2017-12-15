@@ -18,6 +18,7 @@ Hide ng-cloak on page load, https://docs.angularjs.org/api/ng/directive/ngCloak
 }
 
 
+
 /* ==========================================================================
 Development Ribbon
 ========================================================================== */
@@ -40,6 +41,7 @@ Development Ribbon
     z-index: 9999;
     pointer-events: none;
 }
+
 
 .ribbon a {
     border: 1px solid #faa;
@@ -386,6 +388,11 @@ Social Buttons
     border-color: rgba(0, 0, 0, 0.2);
     color: #fff;
 }
+.alert.alert-warning{
+	background-color: #2795e9;
+    border-color: rgba(0, 0, 0, 0.2);
+    color: #fff;
+}
 
 #myFooter {
 	background-color: #444;
@@ -504,5 +511,12 @@ body{
     height: 450px;
 }
 
+
+/* ==========================================================================
+Fix error field display
+========================================================================== */
+.form-group .help-block {
+    position: static;
+}
 
 /* jhipster-needle-css-add-main JHipster will add new css style */
