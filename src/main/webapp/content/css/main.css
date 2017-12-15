@@ -19,7 +19,6 @@ Hide ng-cloak on page load, https://docs.angularjs.org/api/ng/directive/ngCloak
 
 
 
-
 /* ==========================================================================
 Development Ribbon
 ========================================================================== */
@@ -93,6 +92,7 @@ Logo styles
     height: 45px;
     display: inline-block;
 }
+ 
 
 /* ==========================================================================
 Main page styles
