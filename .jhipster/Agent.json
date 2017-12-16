@@ -1,0 +1,44 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipName": "cities",
+            "otherEntityName": "city",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "id"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "cin",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "nom",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "prenom",
+            "fieldType": "String",
+            "fieldValidateRules": []
+        },
+        {
+            "fieldName": "adress",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "longitude",
+            "fieldType": "BigDecimal"
+        },
+        {
+            "fieldName": "latitude",
+            "fieldType": "BigDecimal"
+        }
+    ],
+    "changelogDate": "20171124110216",
+    "dto": "no",
+    "service": "serviceClass",
+    "entityTableName": "agent",
+    "jpaMetamodelFiltering": false,
+    "pagination": "pager"
+}

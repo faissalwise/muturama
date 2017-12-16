@@ -1,0 +1,51 @@
+
+<div>
+    <h2><span data-translate="muturamaApp.agentList.detail.title">Agent List</span> {{vm.agentList.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="dl-horizontal jh-entity-details">
+        <dt><span data-translate="muturamaApp.agentList.cin">Cin</span></dt>
+        <dd>
+            <span>{{vm.agentList.cin}}</span>
+        </dd>
+        <dt><span data-translate="muturamaApp.agentList.nom">Nom</span></dt>
+        <dd>
+            <span>{{vm.agentList.nom}}</span>
+        </dd>
+        <dt><span data-translate="muturamaApp.agentList.prenom">Prenom</span></dt>
+        <dd>
+            <span>{{vm.agentList.prenom}}</span>
+        </dd>
+        <dt><span data-translate="muturamaApp.agentList.address">Address</span></dt>
+        <dd>
+            <span>{{vm.agentList.address}}</span>
+        </dd>
+        <dt><span data-translate="muturamaApp.agentList.lat">Lat</span></dt>
+        <dd>
+            <span>{{vm.agentList.lat}}</span>
+        </dd>
+        <dt><span data-translate="muturamaApp.agentList.lon">Lon</span></dt>
+        <dd>
+            <span>{{vm.agentList.lon}}</span>
+        </dd>
+        <dt><span data-translate="muturamaApp.agentList.status">Status</span></dt>
+        <dd>
+            <span>{{vm.agentList.status}}</span>
+        </dd>
+        <dt><span data-translate="muturamaApp.agentList.city">City</span></dt>
+        <dd>
+            <a ui-sref="city-detail({id:vm.agentList.city.id})">{{vm.agentList.city.name}}</a>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            ui-sref="{{ vm.previousState }}"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span data-translate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button" ui-sref="agent-list-detail.edit({id:vm.agentList.id})" class="btn btn-primary">
+        <span class="glyphicon glyphicon-pencil"></span>
+        <span class="hidden-sm-down" data-translate="entity.action.edit"> Edit</span>
+    </button>
+</div>

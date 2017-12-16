@@ -1,0 +1,125 @@
+<div>
+    <h2 data-translate="muturamaApp.affinite.home.title">Affinites</h2>
+    <jhi-alert></jhi-alert>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-4 no-padding-left">
+                <button class="btn btn-primary" ui-sref="affinite.new" >
+                    <span class="glyphicon glyphicon-plus"></span>
+                    <span  data-translate="muturamaApp.affinite.home.createLabel">
+                        Create new Affinite
+                    </span>
+                </button>
+            </div>
+        </div>
+    </div>
+    <br/>
+    <div class="table-responsive">
+        <table class="jh-table table table-striped">
+            <thead>
+                <tr jh-sort="vm.predicate" ascending="vm.reverse" callback="vm.transition()">
+                    <th jh-sort-by="id"><span data-translate="global.field.id">ID</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="nom"><span data-translate="muturamaApp.affinite.nom">Nom</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="affinite in vm.affinites track by affinite.id">
+                    <td><a ui-sref="affinite-detail({id:affinite.id})">{{affinite.id}}</a></td>
+                    <td>{{affinite.nom}}</td>
+                    <td class="text-right">
+                        <div class="btn-group flex-btn-group-container">
+                            <button type="submit"
+                                    ui-sref="affinite-detail({id:affinite.id})"
+                                    class="btn btn-info btn-sm">
+                                <span class="glyphicon glyphicon-eye-open"></span>
+                                <span class="hidden-sm-down" data-translate="entity.action.view"></span>
+                            </button>
+                            <button type="submit"
+                                    ui-sref="affinite.edit({id:affinite.id})"
+                                    class="btn btn-primary btn-sm">
+                                <span class="glyphicon glyphicon-pencil"></span>
+                                <span class="hidden-sm-down" data-translate="entity.action.edit"></span>
+                            </button>
+                            <button type="submit"
+                                    ui-sref="affinite.delete({id:affinite.id})"
+                                    class="btn btn-danger btn-sm">
+                                <span class="glyphicon glyphicon-remove-circle"></span>
+                                <span class="hidden-sm-down" data-translate="entity.action.delete"></span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="text-center">
+        <jhi-item-count page="vm.page" total="vm.queryCount" items-per-page="vm.itemsPerPage"></jhi-item-count>
+        <uib-pagination class="pagination-sm" total-items="vm.totalItems" items-per-page="vm.itemsPerPage" ng-model="vm.page" ng-change="vm.transition()"></uib-pagination>
+    </div>
+
+            <!-- search/go to current location -->
+            <div class="text-right">
+
+                <div class="input-append text-right">
+                    <div class="form-group col-sm-3">
+                        <select class="form-control" id="field_city" name="city" ng-model="vm.agentList.city"
+                                ng-change="getAgentsListBycity(vm.agentList.city)"
+                                ng-options="city as city.name for city in vm.cities track by city.id">
+                            <option value="">Select City</option>
+                        </select>
+                    </div>
+
+                 <!--   <div class="form-group col-sm-4">
+                        <select class="form-control" id="field_city" name="city"
+                                ng-click="gotoLocation(city.lat, city.lon)"
+                                ng-model="city"
+                                ng-disabled="!(vm.agentList.city)"
+                                ng-options="city as city.nom for city in agentLists">
+                            <option value="">Select Agents</option>
+                        </select>
+                    </div>-->
+
+                    <!--<div class="form-group col-sm-3">
+                        <input class="form-control" type="text" ng-model="search"
+                        placeholder="Enter custom Latitude Lognitude"
+                        />
+
+                    </div>
+
+                        <button class=" btn" type="button" ng-click="geoCode()" ng-disabled="search.length == 0"
+                                title="search">
+                            &nbsp;<i class="icon-search"></i>Where is this place?
+                        </button>
+                        <button class=" btn" type="button" ng-click="gotoCurrentLocation()"
+                                title="current location">
+                            &nbsp;<i class="icon-home"></i>Where am I now?
+                        </button>-->
+                </div>
+            </div>
+
+
+
+
+ <!-- map -->
+
+    <app-map style="height:600px;margin:12px;box-shadow:0 3px 25px black;"
+             center="loc"
+             markers="agentLists"
+    >
+    </app-map>
+    <style>
+        /* Always set the map height explicitly to define the size of the div
+         * element that contains the map. */
+        #map {
+            height: 100%;
+        }
+        /* Optional: Makes the sample page fill the window. */
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+  
+</div>

@@ -1,8 +1,14 @@
-body {
-    background: #fafafa;
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    color: #333;
+body{
+   
+    font-family: 'Raleway', sans-serif;
+    line-height: 24px;
+    color: #6b6e80;
+    background: #fff;
+    overflow-x: hidden;
+    scrollbar-face-color: #333;
 }
+
+
 
 /* ==========================================================================
 Hide ng-cloak on page load, https://docs.angularjs.org/api/ng/directive/ngCloak
@@ -10,6 +16,8 @@ Hide ng-cloak on page load, https://docs.angularjs.org/api/ng/directive/ngCloak
 [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
     display: none !important;
 }
+
+
 
 /* ==========================================================================
 Development Ribbon
@@ -33,6 +41,7 @@ Development Ribbon
     z-index: 9999;
     pointer-events: none;
 }
+
 
 .ribbon a {
     border: 1px solid #faa;
@@ -59,7 +68,7 @@ Version number in navbar
 navbar text
 ========================================================================== */
 .navbar-default .navbar-brand {
-    color: #444;
+    color: #fff;
 }
 
 /* ==========================================================================
@@ -379,6 +388,135 @@ Social Buttons
     border-color: rgba(0, 0, 0, 0.2);
     color: #fff;
 }
+.alert.alert-warning{
+	background-color: #2795e9;
+    border-color: rgba(0, 0, 0, 0.2);
+    color: #fff;
+}
 
+#myFooter {
+	background-color: #444;
+	color:white;
+}
+
+#myFooter .footer-copyright{
+	background-color: #383737;
+	padding-top:3px;
+	padding-bottom:3px;
+	text-align: center;
+}
+
+#myFooter .footer-copyright p{
+	margin:10px;
+	color: #ccc;
+}
+
+#myFooter ul{
+	list-style-type: none;
+    padding-left: 0;
+    line-height: 1.7;
+
+}
+
+#myFooter h5{
+	font-size: 18px;
+    color: white;
+    font-weight: bold;
+    margin-top: 30px;
+}
+
+#myFooter a{
+	color:#d2d1d1;
+	text-decoration: none;
+}
+
+#myFooter a:hover, #myFooter a:focus{
+	text-decoration: none;
+	color:white;
+}
+
+#myFooter .myCols{
+	text-align: center;
+}
+
+#myFooter .social-networks{
+	text-align: center;
+	padding-top: 30px;
+	padding-bottom: 38px;
+}
+
+#myFooter .social-networks a{
+    font-size: 32px;
+    margin-right: 5px;
+    margin-left: 5px;
+    color: #fff;
+    padding: 10px;
+    transition: 0.2s;
+}
+
+#myFooter .social-networks a:hover{
+	text-decoration: none;
+
+}
+
+#myFooter .facebook:hover{
+	color:#0077e2;
+}
+
+#myFooter .google:hover{
+	color:#ef1a1a;
+}
+
+#myFooter .twitter:hover{
+	color: #00aced;
+}
+
+@media screen and (max-width: 767px){
+	#myFooter {
+		text-align: center;
+	}
+}
+
+
+
+/* CSS used for positioning the footers at the bottom of the page. */
+/* You can remove this. */
+
+
+html{
+	height: 100% !important;
+}
+
+body{
+    display: flex;
+    display: -webkit-flex;
+    flex-direction: column;
+    -webkit-flex-direction: column;
+    height: 100%;
+}
+
+.content{
+	flex: 1 0 auto;
+	-webkit-flex: 1 0 auto;
+	min-height: 200px;
+}
+
+#myFooter{
+	flex: 0 0 auto;
+    -webkit-flex: 0 0 auto;
+}
+
+#gmaps {
+    width: 450px;
+    height: 450px;
+}
+
+
+/* ==========================================================================
+Fix error field display
+========================================================================== */
+.form-group .help-block {
+    position: static;
+}
 
 /* jhipster-needle-css-add-main JHipster will add new css style */
