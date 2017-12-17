@@ -5,14 +5,15 @@
         .module('muturamaApp')
         .controller('AffiniteDialogController', AffiniteDialogController);
 
-    AffiniteDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', 'entity', 'Affinite'];
+    AffiniteDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', 'entity', 'Affinite', 'City'];
 
-    function AffiniteDialogController ($timeout, $scope, $stateParams, $uibModalInstance, entity, Affinite) {
+    function AffiniteDialogController ($timeout, $scope, $stateParams, $uibModalInstance, entity, Affinite, City) {
         var vm = this;
 
         vm.affinite = entity;
         vm.clear = clear;
         vm.save = save;
+        vm.cities = City.query();
 
         $timeout(function (){
             angular.element('.form-group:eq(1)>input').focus();

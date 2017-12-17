@@ -118,7 +118,7 @@
 
                                 currentMarkers.push(mm);
                                 google.maps.event.addListener(mm,'click',function() {
-                                    map.setZoom(13);
+                                    map.setZoom(10);
                                     map.setCenter(mm.getPosition());
                                 });
 

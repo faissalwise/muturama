@@ -15,7 +15,7 @@ var taxiData = [
   new google.maps.LatLng(37.783508, -122.439525),
   new google.maps.LatLng(37.783842, -122.439591),
   new google.maps.LatLng(37.784147, -122.439668),
-  new google.maps.LatLng(37.784206, Tabriquet*2017-122.439686),
+  new google.maps.LatLng(37.784206, -122.439686),
   new google.maps.LatLng(37.784386, -122.439790),
   new google.maps.LatLng(37.784701, -122.439902),
   new google.maps.LatLng(37.784965, -122.439938),
