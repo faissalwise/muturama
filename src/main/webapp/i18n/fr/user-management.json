@@ -14,12 +14,12 @@
         "detail": {
             "title": "Utilisateur"
         },
-        "login": "Login",
+        "login": "Nom d'utilisateur",
         "firstName": "Prénom",
         "lastName": "Nom",
         "email": "Émail",
-        "activated": "Activaté",
-        "deactivated": "Deactivaté",
+        "activated": "Activé",
+        "deactivated": "Désactivé",
         "profiles": "Profiles",
         "langKey": "Language",
         "createdBy": "Crée par",
