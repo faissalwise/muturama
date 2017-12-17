@@ -6,70 +6,70 @@
             "home": "Home",
             "jhipster-needle-menu-add-element": "JHipster will add additional menu entries here (do not translate!)",
             "entities": {
-                "main": "Entities",
+                "main": "Entités",
                 "agent": "Agent",
-                "city": "City",
-                "agentList": "Agent List",
-                "affinite": "Affinite",
+                "city": "Villes",
+                "agentList": "Utilisateurs",
+                "affinite": "Affinités",
                 "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {
-                "main": "Account",
-                "settings": "Settings",
-                "password": "Password",
+                "main": "Compte",
+                "settings": "Paramétres",
+                "password": "Mot de passe",
                 "sessions": "Sessions",
-                "login": "Sign in",
-                "logout": "Sign out",
-                "register": "Register"
+                "login": "Se connecter",
+                "logout": "Se deconnecter",
+                "register": "S'inscrire"
             },
             "admin": {
                 "main": "Administration",
-                "userManagement": "User management",
-                "tracker": "User tracker",
-                "metrics": "Metrics",
-                "health": "Health",
+                "userManagement": "Gestion des utilisateurs",
+                "tracker": "Suivi des utilisateurs",
+                "metrics": "Métriques",
+                "health": "État du serveur",
                 "configuration": "Configuration",
                 "logs": "Logs",
                 "audits": "Audits",
                 "apidocs": "API",
-                "database": "Database",
+                "database": "Base de données",
                 "jhipster-needle-menu-add-admin-element": "JHipster will add additional menu entries here (do not translate!)"
             },
-            "language": "Language"
+            "language": "Languages"
         },
         "form": {
-            "username": "Username",
-            "username.placeholder": "Your username",
-            "newpassword": "New password",
-            "newpassword.placeholder": "New password",
-            "confirmpassword": "New password confirmation",
-            "confirmpassword.placeholder": "Confirm the new password",
-            "email": "Email",
-            "email.placeholder": "Your email"
+            "username": "Nom d'utilisateur",
+            "username.placeholder": "votre nom d'utilisateur",
+            "newpassword": "Nouveau mot de passe",
+            "newpassword.placeholder": "Nouveau mot de passe",
+            "confirmpassword": "Confirmation du mot de passer",
+            "confirmpassword.placeholder": "Confirmation du mot de passe",
+            "email": "Émail",
+            "email.placeholder": "votre adresse émail"
         },
         "messages": {
             "info": {
-                "authenticated": "If you want to <a class=\"alert-link\" href=\"\" ng-click=\"vm.login()\">sign in</a>, you can try the default accounts:<br/>- Administrator (login=\"admin\" and password=\"admin\") <br/>- User (login=\"user\" and password=\"user\").",
+                "authenticated": "Si vous voulez <a class=\"alert-link\" href=\"\" ng-click=\"vm.login()\">se connecter</a>, you can try the default accounts:<br/>- Administrator (login=\"admin\" and password=\"admin\") <br/>- User (login=\"user\" and password=\"user\").",
                 "register": "You don't have an account yet? <a class=\"alert-link\" href=\"\" ng-click=\"vm.register()\">Register a new account</a>"
             },
             "error": {
-                "dontmatch": "The password and its confirmation do not match!"
+                "dontmatch": "Les mots de passes ne sont pas identiques"
             },
             "validate": {
                 "newpassword": {
-                    "required": "Your password is required.",
-                    "minlength": "Your password is required to be at least 4 characters.",
-                    "maxlength": "Your password cannot be longer than 50 characters.",
-                    "strength": "Password strength:"
+                    "required": "Le mot de passe est requis.",
+                    "minlength": "Votre mot de passe doit avoir au moins 4 caractères.",
+                    "maxlength": "Votre mot de passe ne doit pas dépassé les 50 caractères.",
+                    "strength": "Difficulté du mot de passe:"
                 },
                 "confirmpassword": {
-                    "required": "Your confirmation password is required.",
-                    "minlength": "Your confirmation password is required to be at least 4 characters.",
-                    "maxlength": "Your confirmation password cannot be longer than 50 characters."
+                    "required": "La confirmation du mot de passe est requise.",
+                    "minlength": "La confirmation du mot de passe est requise d'avoir au moins 4 caractères.",
+                    "maxlength": "La confirmation du mot de passe ne doit pas dépassé les 50 caractères."
                 },
                 "email": {
-                    "required": "Your email is required.",
-                    "invalid": "Your email is invalid.",
+                    "required": "L'émail est requis.",
+                    "invalid": "L'émail est invalide.",
                     "minlength": "Your email is required to be at least 5 characters.",
                     "maxlength": "Your email cannot be longer than 50 characters."
                 }
@@ -81,49 +81,49 @@
         "ribbon": {
             "dev":"Development"
         },
-        "item-count": "Showing {{first}} - {{second}} of {{total}} items."
+        "item-count": "Affche {{first}} - {{second}} de {{total}} entrées."
     },
     "entity": {
         "action": {
-            "addblob": "Add blob",
-            "addimage": "Add image",
-            "back": "Back",
-            "cancel": "Cancel",
-            "delete": "Delete",
-            "edit": "Edit",
-            "open": "Open",
-            "save": "Save",
-            "view": "View"
+            "addblob": "Aajouter blob",
+            "addimage": "Ajouter image",
+            "back": "Avant",
+            "cancel": "Annuler",
+            "delete": "Supprimer",
+            "edit": "Modifier",
+            "open": "Ouvrir",
+            "save": "Sauvegarder",
+            "view": "Voir"
         },
         "detail": {
-            "field": "Field",
-            "value": "Value"
+            "field": "Champ",
+            "value": "Valeur"
         },
         "delete": {
-            "title": "Confirm delete operation"
+            "title": "Confirmer la suppression"
         },
         "validation": {
-            "required": "This field is required.",
-            "minlength": "This field is required to be at least {{ min }} characters.",
-            "maxlength": "This field cannot be longer than {{ max }} characters.",
-            "min": "This field should be at least {{ min }}.",
-            "max": "This field cannot be more than {{ max }}.",
-            "minbytes": "This field should be at least {{ min }} bytes.",
-            "maxbytes": "This field cannot be more than {{ max }} bytes.",
+            "required": "Ce champ est requis.",
+            "minlength": "Ce champ est requis d'avoir {{ min }} caractéres.",
+            "maxlength": "Ce champ ne doit pas dépasser {{ max }} caractéres.",
+            "min": "Ce champ doit avoir au minimum {{ min }}.",
+            "max": "Ce champ doit avoir au maximum {{ max }}.",
+            "minbytes": "Ce champ doit avoir au minimum {{ min }} bytes.",
+            "maxbytes": "Ce champ doit avoir au maximum {{ max }} bytes.",
             "pattern": "This field should follow pattern for {{ pattern }}.",
-            "number": "This field should be a number.",
-            "datetimelocal": "This field should be a date and time."
+            "number": "Ce champ doit être un numéro",
+            "datetimelocal": "Ce champ doit être une date/heure"
         }
     },
     "error": {
-        "internalServerError": "Internal server error",
-        "server.not.reachable": "Server not reachable",
+        "internalServerError": "Ereur Interne",
+        "server.not.reachable": "Serveur injoinable",
         "url.not.found": "Not found",
-        "NotNull": "Field {{ fieldName }} cannot be empty!",
-        "Size": "Field {{ fieldName }} does not meet min/max size requirements!",
-        "userexists": "Login name already used!",
-        "emailexists": "Email is already in use!",
-        "idexists": "A new {{ entityName }} cannot already have an ID"
+        "NotNull": "Le champ {{ fieldName }} ne peut être vide!",
+        "Size": "Le champ {{ fieldName }} ne respecte pas les valeurs min/max requises!",
+        "userexists": "Ce nom d'utilsateur est déja utilisé!",
+        "emailexists": "Cet adresse mail est déja utilisé!",
+        "idexists": "Un nouveau {{ entityName }} ne peut pas avoir cet ID"
     },
     "footer": "This is your footer 2222"
 }

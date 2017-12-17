@@ -2,20 +2,20 @@
     "muturamaApp": {
         "city" : {
             "home": {
-                "title": "Cities",
-                "createLabel": "Create a new City",
-                "createOrEditLabel": "Create or edit a City"
+                "title": "Villes",
+                "createLabel": "Créer une nouvelle Ville",
+                "createOrEditLabel": "Créer ou modifier une Ville"
             },
-            "created": "A new City is created with identifier {{ param }}",
-            "updated": "A City is updated with identifier {{ param }}",
-            "deleted": "A City is deleted with identifier {{ param }}",
+            "created": "Une nouvelle Ville a été crée avec l'identifiant {{ param }}",
+            "updated": "Ville mise à jour is avec l'identifiant {{ param }}",
+            "deleted": "Ville supprimée avec l'identifiant {{ param }}",
             "delete": {
-                "question": "Are you sure you want to delete City {{ id }}?"
+                "question": "Voulez vous vraiment supprimer la Ville {{ id }}?"
             },
             "detail": {
-                "title": "City"
+                "title": "Ville"
             },
-            "name": "Name",
+            "name": "Nom",
             "status": "Status"
         }
     }

@@ -1,13 +1,13 @@
 {
     "social": {
-        "btnLabel": "Sign in with {{ label }}",
+        "btnLabel": "Se connecter avec {{ label }}",
         "register": {
-            "title": "Register with {{ label }}",
+            "title": "S'inscrire avec {{ label }}",
             "errorTitle": "Register with an external account",
             "messages": {
-                "success": "<strong>Registration saved!</strong> Please check your email for confirmation.",
+                "success": "<strong>Inscription sauvegardée!</strong> Veuillez vérifier votre adresse émail.",
                 "error": {
-                    "fail": "<strong>Registration failed!</strong> A problem occurred during the validation of your external account, we advise you to try with another connection."
+                    "fail": "<strong>Inscription échouée!</strong> Veuillez réassyer plus tard!"
                 }
             }
         }

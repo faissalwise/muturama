@@ -1,23 +1,23 @@
 {
     "register": {
-        "title": "Registration",
+        "title": "Inscription",
         "form": {
-            "button": "Register"
+            "button": "S'inscrire"
         },
         "messages": {
             "validate": {
                 "login": {
-                    "required": "Your username is required.",
-                    "minlength": "Your username is required to be at least 1 character.",
-                    "maxlength": "Your username cannot be longer than 50 characters.",
-                    "pattern": "Your username can only contain lower-case letters and digits."
+                    "required": "Votre nom d'utilisateur est requis.",
+                    "minlength": "Votre nom d'utilisateur est requis d'avoir au moins 1 caractères",
+                    "maxlength": "Votre nom d'utilisateur ne peut pas dépasser les 50 caractères.",
+                    "pattern": "Votre nom d'utilisateur doit contenir seulement des lettres minuscules et des numéros."
                 }
             },
-            "success": "<strong>Registration saved!</strong> Please check your email for confirmation.",
+            "success": "<strong>Inscription sauvegardée!</strong> Veuillez vérifier votre adresse émail",
             "error": {
-                "fail": "<strong>Registration failed!</strong> Please try again later.",
-                "userexists": "<strong>Login name already registered!</strong> Please choose another one.",
-                "emailexists": "<strong>Email is already in use!</strong> Please choose another one."
+                "fail": "<strong>Inscription échouée!</strong> Veuillez réassayer dans un moment.",
+                "userexists": "<strong>Ce nom d'utilisateur est déja inscrit!</strong> Veuillez choisir un autre",
+                "emailexists": "<strong>Cet adresse émail est déja inscrite!</strong> Veuillez choisir une autre"
             }
         }
     }

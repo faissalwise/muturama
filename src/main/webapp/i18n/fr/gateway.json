@@ -2,14 +2,14 @@
     "gateway": {
         "title": "Gateway",
         "routes": {
-            "title": "Current routes",
+            "title": "chemins actuels",
             "url": "URL",
             "service": "service",
-            "servers": "Available servers",
-            "error": "Warning: no server available!"
+            "servers": "Serveurs disponibles",
+            "error": "Attention: aucun serveur disponible!"
         },
         "refresh": {
-            "button": "Refresh"
+            "button": "Raffraichir"
         }
     }
 }

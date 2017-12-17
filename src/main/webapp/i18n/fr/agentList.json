@@ -2,27 +2,27 @@
     "muturamaApp": {
         "agentList" : {
             "home": {
-                "title": "Agent Lists",
-                "createLabel": "Create a new Agent List",
-                "createOrEditLabel": "Create or edit a Agent List"
-            },
-            "created": "A new Agent List is created with identifier {{ param }}",
-            "updated": "A Agent List is updated with identifier {{ param }}",
-            "deleted": "A Agent List is deleted with identifier {{ param }}",
+                "title": "Utilisateurs",
+                "createLabel": "Créer un nouveau utilisateur",
+                "createOrEditLabel": "Créer ou modifier un utlisateur"
+           },
+            "created": "Une nouveau utilisateur a été crée avec l'identifiant {{ param }}",
+            "updated": "Utilisateur mis à jour is avec l'identifiant {{ param }}",
+            "deleted": "Utilisateur supprimée avec l'identifiant {{ param }}",
             "delete": {
-                "question": "Are you sure you want to delete Agent List {{ id }}?"
+                "question": "Voulez vous vraiment supprimer l'Utilisateur {{ id }}?"
             },
             "detail": {
-                "title": "Agent List"
+                "title": "Utilisateur"
             },
             "cin": "Cin",
             "nom": "Nom",
-            "prenom": "Prenom",
-            "address": "Address",
+            "prenom": "Prénom",
+            "address": "Adresse",
             "lat": "Lat",
             "lon": "Lon",
             "status": "Status",
-            "city": "City"
+            "city": "Ville"
         }
     }
 }

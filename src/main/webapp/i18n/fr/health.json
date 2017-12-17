@@ -1,23 +1,23 @@
 {
     "health": {
-        "title": "Health Checks",
-        "refresh.button": "Refresh",
+        "title": "État du serveur",
+        "refresh.button": "Raffraichir",
         "stacktrace": "Stacktrace",
         "details": {
-            "details": "Details",
-            "properties": "Properties",
-            "name": "Name",
-            "value": "Value",
-            "error": "Error"
+            "details": "Détails",
+            "properties": "Properiétés",
+            "name": "Nom",
+            "value": "Valeur",
+            "error": "Erreur"
         },
         "indicator": {
-            "diskSpace": "Disk space",
-            "mail": "Email",
-            "db": "Database"
+            "diskSpace": "Espace disque",
+            "mail": "Émail",
+            "db": "Base de données"
         },
         "table": {
-            "service": "Service name",
-            "status": "Status"
+            "service": "Nom du service",
+            "status": "État"
         },
         "status": {
             "UP": "UP",

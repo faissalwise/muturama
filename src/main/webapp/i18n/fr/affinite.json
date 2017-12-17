@@ -2,18 +2,18 @@
     "muturamaApp": {
         "affinite" : {
             "home": {
-                "title": "Affinites",
-                "createLabel": "Create a new Affinite",
-                "createOrEditLabel": "Create or edit a Affinite"
+                "title": "Affinités",
+                "createLabel": "Créer une nouvelle Affinité",
+                "createOrEditLabel": "Créer ou modifier une Affinité"
             },
-            "created": "A new Affinite is created with identifier {{ param }}",
-            "updated": "A Affinite is updated with identifier {{ param }}",
-            "deleted": "A Affinite is deleted with identifier {{ param }}",
+            "created": "Une nouvelle affinité a été crée avec l'identifiant {{ param }}",
+            "updated": "Affinité mise à jour is avec l'identifiant {{ param }}",
+            "deleted": "Affinité supprimée avec l'identifiant {{ param }}",
             "delete": {
-                "question": "Are you sure you want to delete Affinite {{ id }}?"
+                "question": "Voulez vous vraiment supprimer l'Affinité {{ id }}?"
             },
             "detail": {
-                "title": "Affinite"
+                "title": "Affinité"
             },
             "nom": "Nom"
         }
