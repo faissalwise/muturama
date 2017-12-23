@@ -2,7 +2,7 @@
     "muturamaApp": {
         "affinite" : {
             "home": {
-                "title": "Affinités",
+                "title": "Recherche",
                 "createLabel": "Créer une nouvelle Affinité",
                 "createOrEditLabel": "Créer ou modifier une Affinité"
             },
