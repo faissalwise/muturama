@@ -32,5 +32,11 @@
     "packageFolder": "ma/sobexime/muturama",
     "rememberMeKey": "260e9386a02e64d201a0eab25ec4a689b25f8aec",
     "jhiPrefix": "jhi"
+  },
+  "generator-jhipster-pages": {
+    "promptValues": {
+      "pageSet": "contact",
+      "pageType": "clientOnly"
+    }
   }
 }

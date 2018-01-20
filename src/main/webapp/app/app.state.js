@@ -173,7 +173,14 @@
                     templateUrl: 'app/layouts/footer/footer.html',
                     controller: 'FooterController',
                     controllerAs: 'vm'
-                }
+                },
+                'services@': {
+                    templateUrl: 'app/entities/mutura-services/mutura-services.html',
+                    controller: 'mutura-servicesController',
+                    controllerAs: 'vm'
+                },
+                
+                
                 
             },
             

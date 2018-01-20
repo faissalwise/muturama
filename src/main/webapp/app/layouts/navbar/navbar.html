@@ -22,6 +22,32 @@
                         <span class="hidden-sm" data-translate="global.menu.home">Home</span>
                     </a>
                 </li>
+                <li ng-class="{active: vm.$state.includes('contact')}" ng-switch-when="true" uib-dropdown class="dropdown pointer">
+                    <a class="dropdown-toggle" uib-dropdown-toggle href="" id="contact-menu">
+                        <span>
+                            <span class="glyphicon glyphicon-send"></span>
+                            <span class="hidden-sm" data-translate="global.menu.contact.main">
+                                contact
+                            </span>
+                            <b class="caret"></b>
+                        </span>
+                    </a>
+                    <ul class="dropdown-menu" uib-dropdown-menu>
+                        <li ui-sref-active="active">
+                            <a ui-sref="contact-contact" ng-click="vm.collapseNavbar()">
+                                <span class="glyphicon glyphicon-send"></span>&nbsp;
+                                <span data-translate="global.menu.contact-contact">Contact Contact</span>
+                            </a>
+                        </li>
+                        <li ui-sref-active="active">
+            <a ui-sref="contact-aboutUs" ng-click="vm.collapseNavbar()">
+                <span class="glyphicon glyphicon-certificate"></span>&nbsp;
+                <span data-translate="global.menu.contact-aboutUs">Contact About Us</span>
+            </a>
+        </li>
+                        <!-- jhipster-needle-add-element-to-contact - JHipster will add elements to the contact here -->
+                    </ul>
+                </li>
                 <!-- jhipster-needle-add-element-to-menu - JHipster will add new menu items here -->
                 <li ng-class="{active: vm.$state.includes('entity')}" ng-switch-when="true" uib-dropdown dropdown>
                     <a class="dropdown-toggle" uib-dropdown-toggle href="" id="entity-menu">
@@ -56,6 +82,12 @@
                                 <a ui-sref="affinite" ng-click="vm.collapseNavbar()">
                                     <span class="glyphicon glyphicon-asterisk"></span>&nbsp;
                                     <span data-translate="global.menu.entities.affinite">Affinite</span>
+                                </a>
+                            </li>
+                        <li ui-sref-active="active">
+                                <a ui-sref="mutura-services" ng-click="vm.collapseNavbar()">
+                                    <span class="glyphicon glyphicon-asterisk"></span>&nbsp;
+                                    <span data-translate="global.menu.entities.muturaServices">Mutura Services</span>
                                 </a>
                             </li>
                         <!-- jhipster-needle-add-entity-to-menu - JHipster will add entities to the menu here -->

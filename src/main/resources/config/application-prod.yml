@@ -22,7 +22,7 @@ spring:
     datasource:
         type: com.zaxxer.hikari.HikariDataSource
         url: jdbc:mysql://localhost:3306/mutura5_muturama?useUnicode=true&characterEncoding=utf8&useSSL=false
-        username: mutura5_root
+        username: root
         password: 36491357a
         hikari:
             data-source-properties:
