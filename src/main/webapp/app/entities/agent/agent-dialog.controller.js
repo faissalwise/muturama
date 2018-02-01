@@ -5,14 +5,15 @@
         .module('muturamaApp')
         .controller('AgentDialogController', AgentDialogController);
 
-    AgentDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', 'entity', 'Agent'];
+    AgentDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', 'entity', 'Agent', 'City'];
 
-    function AgentDialogController ($timeout, $scope, $stateParams, $uibModalInstance, entity, Agent) {
+    function AgentDialogController ($timeout, $scope, $stateParams, $uibModalInstance, entity, Agent, City) {
         var vm = this;
 
         vm.agent = entity;
         vm.clear = clear;
         vm.save = save;
+        vm.cities = City.query();
 
         $timeout(function (){
             angular.element('.form-group:eq(1)>input').focus();

@@ -28,6 +28,10 @@
         <dd>
             <span>{{vm.agent.latitude}}</span>
         </dd>
+        <dt><span data-translate="muturamaApp.agent.cities">Cities</span></dt>
+        <dd>
+            <a ui-sref="city-detail({id:vm.agent.cities.id})">{{vm.agent.cities.id}}</a>
+        </dd>
     </dl>
 
     <button type="submit"

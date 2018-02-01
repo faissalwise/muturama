@@ -6,7 +6,6 @@ import ma.sobexime.muturama.service.AgentService;
 import ma.sobexime.muturama.web.rest.errors.BadRequestAlertException;
 import ma.sobexime.muturama.web.rest.util.HeaderUtil;
 import ma.sobexime.muturama.web.rest.util.PaginationUtil;
-import io.swagger.annotations.ApiParam;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,6 +21,9 @@ import java.net.URISyntaxException;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.StreamSupport;
+
+import static org.elasticsearch.index.query.QueryBuilders.*;
 
 /**
  * REST controller for managing Agent.
@@ -90,7 +92,7 @@ public class AgentResource {
      */
     @GetMapping("/agents")
     @Timed
-    public ResponseEntity<List<Agent>> getAllAgents(@ApiParam Pageable pageable) {
+    public ResponseEntity<List<Agent>> getAllAgents(Pageable pageable) {
         log.debug("REST request to get a page of Agents");
         Page<Agent> page = agentService.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/agents");
@@ -124,4 +126,22 @@ public class AgentResource {
         agentService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
+
+    /**
+     * SEARCH  /_search/agents?query=:query : search for the agent corresponding
+     * to the query.
+     *
+     * @param query the query of the agent search
+     * @param pageable the pagination information
+     * @return the result of the search
+     */
+    @GetMapping("/_search/agents")
+    @Timed
+    public ResponseEntity<List<Agent>> searchAgents(@RequestParam String query, Pageable pageable) {
+        log.debug("REST request to search for a page of Agents for query {}", query);
+        Page<Agent> page = agentService.search(query, pageable);
+        HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(query, page, "/api/_search/agents");
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    }
+
 }

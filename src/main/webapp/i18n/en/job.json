@@ -1,10 +1,12 @@
+
 {
     "muturamaApp": {
         "job" : {
             "home": {
                 "title": "Jobs",
                 "createLabel": "Create a new Job",
-                "createOrEditLabel": "Create or edit a Job"
+                "createOrEditLabel": "Create or edit a Job",
+                "search": "Search for Job"
             },
             "created": "A new Job is created with identifier {{ param }}",
             "updated": "A Job is updated with identifier {{ param }}",

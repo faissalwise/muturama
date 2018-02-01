@@ -1,10 +1,12 @@
+
 {
     "muturamaApp": {
         "city" : {
             "home": {
                 "title": "Cities",
                 "createLabel": "Create a new City",
-                "createOrEditLabel": "Create or edit a City"
+                "createOrEditLabel": "Create or edit a City",
+                "search": "Search for City"
             },
             "created": "A new City is created with identifier {{ param }}",
             "updated": "A City is updated with identifier {{ param }}",

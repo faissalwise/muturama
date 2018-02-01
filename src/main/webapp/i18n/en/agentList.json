@@ -1,10 +1,12 @@
+
 {
     "muturamaApp": {
         "agentList" : {
             "home": {
                 "title": "Agent Lists",
                 "createLabel": "Create a new Agent List",
-                "createOrEditLabel": "Create or edit a Agent List"
+                "createOrEditLabel": "Create or edit a Agent List",
+                "search": "Search for Agent List"
             },
             "created": "A new Agent List is created with identifier {{ param }}",
             "updated": "A Agent List is updated with identifier {{ param }}",

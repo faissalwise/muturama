@@ -1,10 +1,12 @@
+
 {
     "muturamaApp": {
         "infohain" : {
             "home": {
                 "title": "Infohains",
                 "createLabel": "Create a new Infohain",
-                "createOrEditLabel": "Create or edit a Infohain"
+                "createOrEditLabel": "Create or edit a Infohain",
+                "search": "Search for Infohain"
             },
             "created": "A new Infohain is created with identifier {{ param }}",
             "updated": "A Infohain is updated with identifier {{ param }}",

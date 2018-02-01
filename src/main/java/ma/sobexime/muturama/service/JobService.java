@@ -18,25 +18,35 @@ public interface JobService {
     Job save(Job job);
 
     /**
-     *  Get all the jobs.
+     * Get all the jobs.
      *
-     *  @param pageable the pagination information
-     *  @return the list of entities
+     * @param pageable the pagination information
+     * @return the list of entities
      */
     Page<Job> findAll(Pageable pageable);
 
     /**
-     *  Get the "id" job.
+     * Get the "id" job.
      *
-     *  @param id the id of the entity
-     *  @return the entity
+     * @param id the id of the entity
+     * @return the entity
      */
     Job findOne(Long id);
 
     /**
-     *  Delete the "id" job.
+     * Delete the "id" job.
      *
-     *  @param id the id of the entity
+     * @param id the id of the entity
      */
     void delete(Long id);
+
+    /**
+     * Search for the job corresponding to the query.
+     *
+     * @param query the query of the search
+     * 
+     * @param pageable the pagination information
+     * @return the list of entities
+     */
+    Page<Job> search(String query, Pageable pageable);
 }

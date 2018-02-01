@@ -8,7 +8,6 @@ import ma.sobexime.muturama.web.rest.util.HeaderUtil;
 import ma.sobexime.muturama.web.rest.util.PaginationUtil;
 import ma.sobexime.muturama.service.dto.JobCriteria;
 import ma.sobexime.muturama.service.JobQueryService;
-import io.swagger.annotations.ApiParam;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,6 +23,9 @@ import java.net.URISyntaxException;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.StreamSupport;
+
+import static org.elasticsearch.index.query.QueryBuilders.*;
 
 /**
  * REST controller for managing Job.
@@ -96,7 +98,7 @@ public class JobResource {
      */
     @GetMapping("/jobs")
     @Timed
-    public ResponseEntity<List<Job>> getAllJobs(JobCriteria criteria,@ApiParam Pageable pageable) {
+    public ResponseEntity<List<Job>> getAllJobs(JobCriteria criteria, Pageable pageable) {
         log.debug("REST request to get Jobs by criteria: {}", criteria);
         Page<Job> page = jobQueryService.findByCriteria(criteria, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/jobs");
@@ -130,4 +132,22 @@ public class JobResource {
         jobService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
+
+    /**
+     * SEARCH  /_search/jobs?query=:query : search for the job corresponding
+     * to the query.
+     *
+     * @param query the query of the job search
+     * @param pageable the pagination information
+     * @return the result of the search
+     */
+    @GetMapping("/_search/jobs")
+    @Timed
+    public ResponseEntity<List<Job>> searchJobs(@RequestParam String query, Pageable pageable) {
+        log.debug("REST request to search for a page of Jobs for query {}", query);
+        Page<Job> page = jobService.search(query, pageable);
+        HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(query, page, "/api/_search/jobs");
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    }
+
 }

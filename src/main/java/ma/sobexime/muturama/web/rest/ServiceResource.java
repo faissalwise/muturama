@@ -1,9 +1,14 @@
 package ma.sobexime.muturama.web.rest;
 
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.List;
+import com.codahale.metrics.annotation.Timed;
+import ma.sobexime.muturama.domain.Service;
 
+import ma.sobexime.muturama.repository.ServiceRepository;
+import ma.sobexime.muturama.repository.search.ServiceSearchRepository;
+import ma.sobexime.muturama.web.rest.errors.BadRequestAlertException;
+import ma.sobexime.muturama.web.rest.util.HeaderUtil;
+import ma.sobexime.muturama.web.rest.util.PaginationUtil;
+import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -11,21 +16,17 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import com.codahale.metrics.annotation.Timed;
+import java.net.URI;
+import java.net.URISyntaxException;
 
-import io.swagger.annotations.ApiParam;
-import ma.sobexime.muturama.domain.Service;
-import ma.sobexime.muturama.repository.ServiceRepository;
-import ma.sobexime.muturama.web.rest.errors.BadRequestAlertException;
-import ma.sobexime.muturama.web.rest.util.HeaderUtil;
-import ma.sobexime.muturama.web.rest.util.PaginationUtil;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
+
+import static org.elasticsearch.index.query.QueryBuilders.*;
 
 /**
  * REST controller for managing Service.
@@ -40,8 +41,11 @@ public class ServiceResource {
 
     private final ServiceRepository serviceRepository;
 
-    public ServiceResource(ServiceRepository serviceRepository) {
+    private final ServiceSearchRepository serviceSearchRepository;
+
+    public ServiceResource(ServiceRepository serviceRepository, ServiceSearchRepository serviceSearchRepository) {
         this.serviceRepository = serviceRepository;
+        this.serviceSearchRepository = serviceSearchRepository;
     }
 
     /**
@@ -59,6 +63,7 @@ public class ServiceResource {
             throw new BadRequestAlertException("A new service cannot already have an ID", ENTITY_NAME, "idexists");
         }
         Service result = serviceRepository.save(service);
+        serviceSearchRepository.save(result);
         return ResponseEntity.created(new URI("/api/services/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -81,6 +86,7 @@ public class ServiceResource {
             return createService(service);
         }
         Service result = serviceRepository.save(service);
+        serviceSearchRepository.save(result);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, service.getId().toString()))
             .body(result);
@@ -94,7 +100,7 @@ public class ServiceResource {
      */
     @GetMapping("/services")
     @Timed
-    public ResponseEntity<List<Service>> getAllServices(@ApiParam Pageable pageable) {
+    public ResponseEntity<List<Service>> getAllServices(Pageable pageable) {
         log.debug("REST request to get a page of Services");
         Page<Service> page = serviceRepository.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/services");
@@ -107,13 +113,13 @@ public class ServiceResource {
      * @param id the id of the service to retrieve
      * @return the ResponseEntity with status 200 (OK) and with body the service, or with status 404 (Not Found)
      */
-//    @GetMapping("/services/{id}")
-//    @Timed
-//    public ResponseEntity<Service> getService(@PathVariable Long id) {
-//        log.debug("REST request to get Service : {}", id);
-//        Service service = serviceRepository.findOneWithEagerRelationships(id);
-//        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(service));
-//    }
+    @GetMapping("/services/{id}")
+    @Timed
+    public ResponseEntity<Service> getService(@PathVariable Long id) {
+        log.debug("REST request to get Service : {}", id);
+        Service service = serviceRepository.findOneWithEagerRelationships(id);
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(service));
+    }
 
     /**
      * DELETE  /services/:id : delete the "id" service.
@@ -121,11 +127,30 @@ public class ServiceResource {
      * @param id the id of the service to delete
      * @return the ResponseEntity with status 200 (OK)
      */
-//    @DeleteMapping("/services/{id}")
-//    @Timed
-//    public ResponseEntity<Void> deleteService(@PathVariable Long id) {
-//        log.debug("REST request to delete Service : {}", id);
-//        serviceRepository.delete(id);
-//        return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
-//    }
+    @DeleteMapping("/services/{id}")
+    @Timed
+    public ResponseEntity<Void> deleteService(@PathVariable Long id) {
+        log.debug("REST request to delete Service : {}", id);
+        serviceRepository.delete(id);
+        serviceSearchRepository.delete(id);
+        return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
+    }
+
+    /**
+     * SEARCH  /_search/services?query=:query : search for the service corresponding
+     * to the query.
+     *
+     * @param query the query of the service search
+     * @param pageable the pagination information
+     * @return the result of the search
+     */
+    @GetMapping("/_search/services")
+    @Timed
+    public ResponseEntity<List<Service>> searchServices(@RequestParam String query, Pageable pageable) {
+        log.debug("REST request to search for a page of Services for query {}", query);
+        Page<Service> page = serviceSearchRepository.search(queryStringQuery(query), pageable);
+        HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(query, page, "/api/_search/services");
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    }
+
 }

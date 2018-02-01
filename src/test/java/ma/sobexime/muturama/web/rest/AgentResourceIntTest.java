@@ -5,6 +5,7 @@ import ma.sobexime.muturama.MuturamaApp;
 import ma.sobexime.muturama.domain.Agent;
 import ma.sobexime.muturama.repository.AgentRepository;
 import ma.sobexime.muturama.service.AgentService;
+import ma.sobexime.muturama.repository.search.AgentSearchRepository;
 import ma.sobexime.muturama.web.rest.errors.ExceptionTranslator;
 
 import org.junit.Before;
@@ -65,6 +66,9 @@ public class AgentResourceIntTest {
     private AgentService agentService;
 
     @Autowired
+    private AgentSearchRepository agentSearchRepository;
+
+    @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
     @Autowired
@@ -110,6 +114,7 @@ public class AgentResourceIntTest {
 
     @Before
     public void initTest() {
+        agentSearchRepository.deleteAll();
         agent = createEntity(em);
     }
 
@@ -134,6 +139,10 @@ public class AgentResourceIntTest {
         assertThat(testAgent.getAdress()).isEqualTo(DEFAULT_ADRESS);
         assertThat(testAgent.getLongitude()).isEqualTo(DEFAULT_LONGITUDE);
         assertThat(testAgent.getLatitude()).isEqualTo(DEFAULT_LATITUDE);
+
+        // Validate the Agent in Elasticsearch
+        Agent agentEs = agentSearchRepository.findOne(testAgent.getId());
+        assertThat(agentEs).isEqualToIgnoringGivenFields(testAgent);
     }
 
     @Test
@@ -211,6 +220,8 @@ public class AgentResourceIntTest {
 
         // Update the agent
         Agent updatedAgent = agentRepository.findOne(agent.getId());
+        // Disconnect from session so that the updates on updatedAgent are not directly saved in db
+        em.detach(updatedAgent);
         updatedAgent
             .cin(UPDATED_CIN)
             .nom(UPDATED_NOM)
@@ -234,6 +245,10 @@ public class AgentResourceIntTest {
         assertThat(testAgent.getAdress()).isEqualTo(UPDATED_ADRESS);
         assertThat(testAgent.getLongitude()).isEqualTo(UPDATED_LONGITUDE);
         assertThat(testAgent.getLatitude()).isEqualTo(UPDATED_LATITUDE);
+
+        // Validate the Agent in Elasticsearch
+        Agent agentEs = agentSearchRepository.findOne(testAgent.getId());
+        assertThat(agentEs).isEqualToIgnoringGivenFields(testAgent);
     }
 
     @Test
@@ -267,9 +282,32 @@ public class AgentResourceIntTest {
             .accept(TestUtil.APPLICATION_JSON_UTF8))
             .andExpect(status().isOk());
 
+        // Validate Elasticsearch is empty
+        boolean agentExistsInEs = agentSearchRepository.exists(agent.getId());
+        assertThat(agentExistsInEs).isFalse();
+
         // Validate the database is empty
         List<Agent> agentList = agentRepository.findAll();
         assertThat(agentList).hasSize(databaseSizeBeforeDelete - 1);
+    }
+
+    @Test
+    @Transactional
+    public void searchAgent() throws Exception {
+        // Initialize the database
+        agentService.save(agent);
+
+        // Search the agent
+        restAgentMockMvc.perform(get("/api/_search/agents?query=id:" + agent.getId()))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(agent.getId().intValue())))
+            .andExpect(jsonPath("$.[*].cin").value(hasItem(DEFAULT_CIN.toString())))
+            .andExpect(jsonPath("$.[*].nom").value(hasItem(DEFAULT_NOM.toString())))
+            .andExpect(jsonPath("$.[*].prenom").value(hasItem(DEFAULT_PRENOM.toString())))
+            .andExpect(jsonPath("$.[*].adress").value(hasItem(DEFAULT_ADRESS.toString())))
+            .andExpect(jsonPath("$.[*].longitude").value(hasItem(DEFAULT_LONGITUDE.intValue())))
+            .andExpect(jsonPath("$.[*].latitude").value(hasItem(DEFAULT_LATITUDE.intValue())));
     }
 
     @Test

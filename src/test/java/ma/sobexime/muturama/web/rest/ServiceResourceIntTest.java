@@ -4,6 +4,7 @@ import ma.sobexime.muturama.MuturamaApp;
 
 import ma.sobexime.muturama.domain.Service;
 import ma.sobexime.muturama.repository.ServiceRepository;
+import ma.sobexime.muturama.repository.search.ServiceSearchRepository;
 import ma.sobexime.muturama.web.rest.errors.ExceptionTranslator;
 
 import org.junit.Before;
@@ -45,6 +46,9 @@ public class ServiceResourceIntTest {
     private ServiceRepository serviceRepository;
 
     @Autowired
+    private ServiceSearchRepository serviceSearchRepository;
+
+    @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
     @Autowired
@@ -63,7 +67,7 @@ public class ServiceResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final ServiceResource serviceResource = new ServiceResource(serviceRepository);
+        final ServiceResource serviceResource = new ServiceResource(serviceRepository, serviceSearchRepository);
         this.restServiceMockMvc = MockMvcBuilders.standaloneSetup(serviceResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -85,6 +89,7 @@ public class ServiceResourceIntTest {
 
     @Before
     public void initTest() {
+        serviceSearchRepository.deleteAll();
         service = createEntity(em);
     }
 
@@ -104,6 +109,10 @@ public class ServiceResourceIntTest {
         assertThat(serviceList).hasSize(databaseSizeBeforeCreate + 1);
         Service testService = serviceList.get(serviceList.size() - 1);
         assertThat(testService.getName()).isEqualTo(DEFAULT_NAME);
+
+        // Validate the Service in Elasticsearch
+        Service serviceEs = serviceSearchRepository.findOne(testService.getId());
+        assertThat(serviceEs).isEqualToIgnoringGivenFields(testService);
     }
 
     @Test
@@ -166,10 +175,13 @@ public class ServiceResourceIntTest {
     public void updateService() throws Exception {
         // Initialize the database
         serviceRepository.saveAndFlush(service);
+        serviceSearchRepository.save(service);
         int databaseSizeBeforeUpdate = serviceRepository.findAll().size();
 
         // Update the service
         Service updatedService = serviceRepository.findOne(service.getId());
+        // Disconnect from session so that the updates on updatedService are not directly saved in db
+        em.detach(updatedService);
         updatedService
             .name(UPDATED_NAME);
 
@@ -183,6 +195,10 @@ public class ServiceResourceIntTest {
         assertThat(serviceList).hasSize(databaseSizeBeforeUpdate);
         Service testService = serviceList.get(serviceList.size() - 1);
         assertThat(testService.getName()).isEqualTo(UPDATED_NAME);
+
+        // Validate the Service in Elasticsearch
+        Service serviceEs = serviceSearchRepository.findOne(testService.getId());
+        assertThat(serviceEs).isEqualToIgnoringGivenFields(testService);
     }
 
     @Test
@@ -208,6 +224,7 @@ public class ServiceResourceIntTest {
     public void deleteService() throws Exception {
         // Initialize the database
         serviceRepository.saveAndFlush(service);
+        serviceSearchRepository.save(service);
         int databaseSizeBeforeDelete = serviceRepository.findAll().size();
 
         // Get the service
@@ -215,9 +232,28 @@ public class ServiceResourceIntTest {
             .accept(TestUtil.APPLICATION_JSON_UTF8))
             .andExpect(status().isOk());
 
+        // Validate Elasticsearch is empty
+        boolean serviceExistsInEs = serviceSearchRepository.exists(service.getId());
+        assertThat(serviceExistsInEs).isFalse();
+
         // Validate the database is empty
         List<Service> serviceList = serviceRepository.findAll();
         assertThat(serviceList).hasSize(databaseSizeBeforeDelete - 1);
+    }
+
+    @Test
+    @Transactional
+    public void searchService() throws Exception {
+        // Initialize the database
+        serviceRepository.saveAndFlush(service);
+        serviceSearchRepository.save(service);
+
+        // Search the service
+        restServiceMockMvc.perform(get("/api/_search/services?query=id:" + service.getId()))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(service.getId().intValue())))
+            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())));
     }
 
     @Test

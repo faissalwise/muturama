@@ -4,6 +4,7 @@ import com.codahale.metrics.annotation.Timed;
 import ma.sobexime.muturama.domain.MuturaServices;
 
 import ma.sobexime.muturama.repository.MuturaServicesRepository;
+import ma.sobexime.muturama.repository.search.MuturaServicesSearchRepository;
 import ma.sobexime.muturama.web.rest.errors.BadRequestAlertException;
 import ma.sobexime.muturama.web.rest.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
@@ -17,6 +18,10 @@ import java.net.URISyntaxException;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
+
+import static org.elasticsearch.index.query.QueryBuilders.*;
 
 /**
  * REST controller for managing MuturaServices.
@@ -31,8 +36,11 @@ public class MuturaServicesResource {
 
     private final MuturaServicesRepository muturaServicesRepository;
 
-    public MuturaServicesResource(MuturaServicesRepository muturaServicesRepository) {
+    private final MuturaServicesSearchRepository muturaServicesSearchRepository;
+
+    public MuturaServicesResource(MuturaServicesRepository muturaServicesRepository, MuturaServicesSearchRepository muturaServicesSearchRepository) {
         this.muturaServicesRepository = muturaServicesRepository;
+        this.muturaServicesSearchRepository = muturaServicesSearchRepository;
     }
 
     /**
@@ -50,6 +58,7 @@ public class MuturaServicesResource {
             throw new BadRequestAlertException("A new muturaServices cannot already have an ID", ENTITY_NAME, "idexists");
         }
         MuturaServices result = muturaServicesRepository.save(muturaServices);
+        muturaServicesSearchRepository.save(result);
         return ResponseEntity.created(new URI("/api/mutura-services/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -72,6 +81,7 @@ public class MuturaServicesResource {
             return createMuturaServices(muturaServices);
         }
         MuturaServices result = muturaServicesRepository.save(muturaServices);
+        muturaServicesSearchRepository.save(result);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, muturaServices.getId().toString()))
             .body(result);
@@ -114,6 +124,24 @@ public class MuturaServicesResource {
     public ResponseEntity<Void> deleteMuturaServices(@PathVariable Long id) {
         log.debug("REST request to delete MuturaServices : {}", id);
         muturaServicesRepository.delete(id);
+        muturaServicesSearchRepository.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
+
+    /**
+     * SEARCH  /_search/mutura-services?query=:query : search for the muturaServices corresponding
+     * to the query.
+     *
+     * @param query the query of the muturaServices search
+     * @return the result of the search
+     */
+    @GetMapping("/_search/mutura-services")
+    @Timed
+    public List<MuturaServices> searchMuturaServices(@RequestParam String query) {
+        log.debug("REST request to search MuturaServices for query {}", query);
+        return StreamSupport
+            .stream(muturaServicesSearchRepository.search(queryStringQuery(query)).spliterator(), false)
+            .collect(Collectors.toList());
+    }
+
 }

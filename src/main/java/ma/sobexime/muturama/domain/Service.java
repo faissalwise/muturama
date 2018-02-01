@@ -1,17 +1,15 @@
 package ma.sobexime.muturama.domain;
 
-import java.io.Serializable;
-import java.util.Objects;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+
+import javax.persistence.*;
+
+import org.springframework.data.elasticsearch.annotations.Document;
+import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.Objects;
 
 /**
  * A Service.
@@ -19,6 +17,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 @Entity
 @Table(name = "service")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+@Document(indexName = "service")
 public class Service implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -29,6 +28,13 @@ public class Service implements Serializable {
 
     @Column(name = "name")
     private String name;
+
+    @ManyToMany
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    @JoinTable(name = "service_user_service",
+               joinColumns = @JoinColumn(name="services_id", referencedColumnName="id"),
+               inverseJoinColumns = @JoinColumn(name="user_services_id", referencedColumnName="id"))
+    private Set<User> user_services = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -52,6 +58,31 @@ public class Service implements Serializable {
         this.name = name;
     }
 
+    public Set<User> getUser_services() {
+        return user_services;
+    }
+
+    public Service user_services(Set<User> users) {
+        this.user_services = users;
+        return this;
+    }
+
+    public Service addUser_service(User user) {
+        this.user_services.add(user);
+        user.getServices().add(this);
+        return this;
+    }
+
+    public Service removeUser_service(User user) {
+        this.user_services.remove(user);
+        user.getServices().remove(this);
+        return this;
+    }
+
+    public void setUser_services(Set<User> users) {
+        this.user_services = users;
+    }
+    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
     @Override
     public boolean equals(Object o) {

@@ -1,10 +1,12 @@
+
 {
     "muturamaApp": {
         "service" : {
             "home": {
                 "title": "Services",
                 "createLabel": "Create a new Service",
-                "createOrEditLabel": "Create or edit a Service"
+                "createOrEditLabel": "Create or edit a Service",
+                "search": "Search for Service"
             },
             "created": "A new Service is created with identifier {{ param }}",
             "updated": "A Service is updated with identifier {{ param }}",

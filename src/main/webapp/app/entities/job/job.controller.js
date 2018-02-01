@@ -5,9 +5,9 @@
         .module('muturamaApp')
         .controller('JobController', JobController);
 
-    JobController.$inject = ['Job', 'ParseLinks', 'AlertService', 'paginationConstants'];
+    JobController.$inject = ['Job', 'JobSearch', 'ParseLinks', 'AlertService', 'paginationConstants'];
 
-    function JobController(Job, ParseLinks, AlertService, paginationConstants) {
+    function JobController(Job, JobSearch, ParseLinks, AlertService, paginationConstants) {
 
         var vm = this;
 
@@ -21,18 +21,27 @@
         vm.predicate = 'id';
         vm.reset = reset;
         vm.reverse = true;
+        vm.clear = clear;
+        vm.loadAll = loadAll;
+        vm.search = search;
 
         loadAll();
-        
-     
-        
 
         function loadAll () {
-            Job.query({
-                page: vm.page,
-                size: vm.itemsPerPage,
-                sort: sort()
-            }, onSuccess, onError);
+            if (vm.currentSearch) {
+                JobSearch.query({
+                    query: vm.currentSearch,
+                    page: vm.page,
+                    size: vm.itemsPerPage,
+                    sort: sort()
+                }, onSuccess, onError);
+            } else {
+                Job.query({
+                    page: vm.page,
+                    size: vm.itemsPerPage,
+                    sort: sort()
+                }, onSuccess, onError);
+            }
             function sort() {
                 var result = [vm.predicate + ',' + (vm.reverse ? 'asc' : 'desc')];
                 if (vm.predicate !== 'id') {
@@ -63,6 +72,34 @@
         function loadPage(page) {
             vm.page = page;
             loadAll();
+        }
+
+        function clear () {
+            vm.jobs = [];
+            vm.links = {
+                last: 0
+            };
+            vm.page = 0;
+            vm.predicate = 'id';
+            vm.reverse = true;
+            vm.searchQuery = null;
+            vm.currentSearch = null;
+            vm.loadAll();
+        }
+
+        function search (searchQuery) {
+            if (!searchQuery){
+                return vm.clear();
+            }
+            vm.jobs = [];
+            vm.links = {
+                last: 0
+            };
+            vm.page = 0;
+            vm.predicate = '_score';
+            vm.reverse = false;
+            vm.currentSearch = searchQuery;
+            vm.loadAll();
         }
     }
 })();

@@ -5,6 +5,7 @@ import ma.sobexime.muturama.MuturamaApp;
 import ma.sobexime.muturama.domain.City;
 import ma.sobexime.muturama.repository.CityRepository;
 import ma.sobexime.muturama.service.CityService;
+import ma.sobexime.muturama.repository.search.CitySearchRepository;
 import ma.sobexime.muturama.web.rest.errors.ExceptionTranslator;
 import ma.sobexime.muturama.service.dto.CityCriteria;
 import ma.sobexime.muturama.service.CityQueryService;
@@ -54,6 +55,9 @@ public class CityResourceIntTest {
     private CityService cityService;
 
     @Autowired
+    private CitySearchRepository citySearchRepository;
+
+    @Autowired
     private CityQueryService cityQueryService;
 
     @Autowired
@@ -98,6 +102,7 @@ public class CityResourceIntTest {
 
     @Before
     public void initTest() {
+        citySearchRepository.deleteAll();
         city = createEntity(em);
     }
 
@@ -118,6 +123,10 @@ public class CityResourceIntTest {
         City testCity = cityList.get(cityList.size() - 1);
         assertThat(testCity.getName()).isEqualTo(DEFAULT_NAME);
         assertThat(testCity.isStatus()).isEqualTo(DEFAULT_STATUS);
+
+        // Validate the City in Elasticsearch
+        City cityEs = citySearchRepository.findOne(testCity.getId());
+        assertThat(cityEs).isEqualToIgnoringGivenFields(testCity);
     }
 
     @Test
@@ -288,6 +297,8 @@ public class CityResourceIntTest {
 
         // Update the city
         City updatedCity = cityRepository.findOne(city.getId());
+        // Disconnect from session so that the updates on updatedCity are not directly saved in db
+        em.detach(updatedCity);
         updatedCity
             .name(UPDATED_NAME)
             .status(UPDATED_STATUS);
@@ -303,6 +314,10 @@ public class CityResourceIntTest {
         City testCity = cityList.get(cityList.size() - 1);
         assertThat(testCity.getName()).isEqualTo(UPDATED_NAME);
         assertThat(testCity.isStatus()).isEqualTo(UPDATED_STATUS);
+
+        // Validate the City in Elasticsearch
+        City cityEs = citySearchRepository.findOne(testCity.getId());
+        assertThat(cityEs).isEqualToIgnoringGivenFields(testCity);
     }
 
     @Test
@@ -336,9 +351,28 @@ public class CityResourceIntTest {
             .accept(TestUtil.APPLICATION_JSON_UTF8))
             .andExpect(status().isOk());
 
+        // Validate Elasticsearch is empty
+        boolean cityExistsInEs = citySearchRepository.exists(city.getId());
+        assertThat(cityExistsInEs).isFalse();
+
         // Validate the database is empty
         List<City> cityList = cityRepository.findAll();
         assertThat(cityList).hasSize(databaseSizeBeforeDelete - 1);
+    }
+
+    @Test
+    @Transactional
+    public void searchCity() throws Exception {
+        // Initialize the database
+        cityService.save(city);
+
+        // Search the city
+        restCityMockMvc.perform(get("/api/_search/cities?query=id:" + city.getId()))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(city.getId().intValue())))
+            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())))
+            .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.booleanValue())));
     }
 
     @Test

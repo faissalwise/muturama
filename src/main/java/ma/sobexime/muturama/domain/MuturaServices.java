@@ -4,6 +4,8 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
+
+import org.springframework.data.elasticsearch.annotations.Document;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -13,6 +15,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "mutura_services")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+@Document(indexName = "muturaservices")
 public class MuturaServices implements Serializable {
 
     private static final long serialVersionUID = 1L;

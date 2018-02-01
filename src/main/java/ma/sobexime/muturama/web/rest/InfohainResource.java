@@ -4,10 +4,10 @@ import com.codahale.metrics.annotation.Timed;
 import ma.sobexime.muturama.domain.Infohain;
 
 import ma.sobexime.muturama.repository.InfohainRepository;
+import ma.sobexime.muturama.repository.search.InfohainSearchRepository;
 import ma.sobexime.muturama.web.rest.errors.BadRequestAlertException;
 import ma.sobexime.muturama.web.rest.util.HeaderUtil;
 import ma.sobexime.muturama.web.rest.util.PaginationUtil;
-import io.swagger.annotations.ApiParam;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,6 +24,10 @@ import java.net.URISyntaxException;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
+
+import static org.elasticsearch.index.query.QueryBuilders.*;
 
 /**
  * REST controller for managing Infohain.
@@ -38,8 +42,11 @@ public class InfohainResource {
 
     private final InfohainRepository infohainRepository;
 
-    public InfohainResource(InfohainRepository infohainRepository) {
+    private final InfohainSearchRepository infohainSearchRepository;
+
+    public InfohainResource(InfohainRepository infohainRepository, InfohainSearchRepository infohainSearchRepository) {
         this.infohainRepository = infohainRepository;
+        this.infohainSearchRepository = infohainSearchRepository;
     }
 
     /**
@@ -57,6 +64,7 @@ public class InfohainResource {
             throw new BadRequestAlertException("A new infohain cannot already have an ID", ENTITY_NAME, "idexists");
         }
         Infohain result = infohainRepository.save(infohain);
+        infohainSearchRepository.save(result);
         return ResponseEntity.created(new URI("/api/infohains/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -79,6 +87,7 @@ public class InfohainResource {
             return createInfohain(infohain);
         }
         Infohain result = infohainRepository.save(infohain);
+        infohainSearchRepository.save(result);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, infohain.getId().toString()))
             .body(result);
@@ -92,7 +101,7 @@ public class InfohainResource {
      */
     @GetMapping("/infohains")
     @Timed
-    public ResponseEntity<List<Infohain>> getAllInfohains(@ApiParam Pageable pageable) {
+    public ResponseEntity<List<Infohain>> getAllInfohains(Pageable pageable) {
         log.debug("REST request to get a page of Infohains");
         Page<Infohain> page = infohainRepository.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/infohains");
@@ -124,6 +133,25 @@ public class InfohainResource {
     public ResponseEntity<Void> deleteInfohain(@PathVariable Long id) {
         log.debug("REST request to delete Infohain : {}", id);
         infohainRepository.delete(id);
+        infohainSearchRepository.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
+
+    /**
+     * SEARCH  /_search/infohains?query=:query : search for the infohain corresponding
+     * to the query.
+     *
+     * @param query the query of the infohain search
+     * @param pageable the pagination information
+     * @return the result of the search
+     */
+    @GetMapping("/_search/infohains")
+    @Timed
+    public ResponseEntity<List<Infohain>> searchInfohains(@RequestParam String query, Pageable pageable) {
+        log.debug("REST request to search for a page of Infohains for query {}", query);
+        Page<Infohain> page = infohainSearchRepository.search(queryStringQuery(query), pageable);
+        HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(query, page, "/api/_search/infohains");
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    }
+
 }

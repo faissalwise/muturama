@@ -1,134 +1,32 @@
 <div>
     <h2 data-translate="muturamaApp.affinite.home.title">Affinites</h2>
-      <div class="container">
-
-            <div class="row">
-                <div class="col-md-4">
-                       <h3>Groupe d'affinités 1</h3>            
-                    <div class="panel panel-default">
-                        <div class="panel-body">
-                            
-                            <div class="form-group">
-                                <div class="checkbox checbox-switch switch-info">
-                                    <label>
-                                        <input type="checkbox" name="" checked="" />
-                                        <span></span>
-                                        Lieu du travail
-                                    </label>
-                                </div>
-                            </div>
-
-                            
-                            <div class="form-group">
-                                <div class="checkbox checbox-switch switch-info">
-                                    <label>
-                                        <input type="checkbox" name="" />
-                                        <span></span>
-                                        Ayant des enfants
-                                    </label>
-                                </div>
-                            </div>
-
-                            
-                            <div class="form-group">
-                                <label class="checkbox-inline checbox-switch switch-info">
-                                    <input type="checkbox" name="" disabled="" checked="" />
-                                    <span></span>
-                                    Motorisé
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    
-                </div>
-                <div class="col-md-4">
-                    <h3>Groupe d'affinités 2</h3>            
-                    <div class="panel panel-default">
-                        <div class="panel-body">
-                            
-                            <div class="form-group">
-                                <div class="checkbox checbox-switch switch-primary">
-                                    <label>
-                                        <input type="checkbox" name="" checked="" />
-                                        <span></span>
-                                        Checkbox Label
-                                    </label>
-                                </div>
-                            </div>
-
-                           
-                            <div class="form-group">
-                                <div class="checkbox checbox-switch switch-primary">
-                                    <label>
-                                        <input type="checkbox" name="" />
-                                        <span></span>
-                                        Checkbox Label
-                                    </label>
-                                </div>
-                            </div>
-
-                           
-                            <div class="form-group">
-                                <label class="checkbox-inline checbox-switch switch-primary">
-                                    <input type="checkbox" name="" disabled="" checked="" />
-                                    <span></span>
-                                    Checkbox Label
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-                <div class="col-md-4">
-                    <h3>Groupe d'affinités 3</h3>            
-                    <div class="panel panel-default">
-                        <div class="panel-body">
-                           
-                            <div class="form-group">
-                                <div class="checkbox checbox-switch switch-danger">
-                                    <label>
-                                        <input type="checkbox" name="" checked="" />
-                                        <span></span>
-                                        Checkbox Label
-                                    </label>
-                                </div>
-                            </div>
-
-                           
-                            <div class="form-group">
-                                <div class="checkbox checbox-switch switch-danger">
-                                    <label>
-                                        <input type="checkbox" name="" />
-                                        <span></span>
-                                        Checkbox Label
-                                    </label>
-                                </div>
-                            </div>
-
-                           
-                            <div class="form-group">
-                                <label class="checkbox-inline checbox-switch switch-danger">
-                                    <input type="checkbox" name="" disabled="" checked="" />
-                                    <span></span>
-                                    Checkbox Label
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-    <!--  
     <jhi-alert></jhi-alert>
     <div class="container-fluid">
         <div class="row">
             <div class="col-xs-4 no-padding-left">
                 <button class="btn btn-primary" ui-sref="affinite.new" >
                     <span class="glyphicon glyphicon-plus"></span>
-                    <span  data-translate="muturamaApp.affinite.home.createLabel">
+                    <span class="hidden-xs-down"  data-translate="muturamaApp.affinite.home.createLabel">
                         Create new Affinite
                     </span>
                 </button>
+            </div>
+            <div class="col-xs-8 no-padding-right">
+                <form name="searchForm" class="form-inline">
+                    <div class="input-group pull-right" >
+                        <input type="text" class="form-control" ng-model="vm.searchQuery" id="searchQuery" placeholder="{{ 'muturamaApp.affinite.home.search' | translate }}">
+                        <span  class="input-group-btn width-min" >
+                            <button class="btn btn-info" ng-click="vm.search(vm.searchQuery)">
+                                <span class="glyphicon glyphicon-search"></span>
+                            </button>
+                        </span>
+                        <span class="input-group-btn width-min" ng-if="vm.currentSearch">
+                            <button class="btn btn-info" ng-click="vm.clear()">
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </button>
+                        </span>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -175,71 +73,5 @@
     <div class="text-center">
         <jhi-item-count page="vm.page" total="vm.queryCount" items-per-page="vm.itemsPerPage"></jhi-item-count>
         <uib-pagination class="pagination-sm" total-items="vm.totalItems" items-per-page="vm.itemsPerPage" ng-model="vm.page" ng-change="vm.transition()"></uib-pagination>
-    </div>  -->
-<!-- --------------------------------------------------------------------------------------------------- -->
-            <!-- search/go to current location -->
-            <div class="text-right">
-
-                <div class="input-append text-right">
-                    <div class="form-group col-sm-3">
-                        <select class="form-control" id="field_city" name="city" ng-model="vm.agentList.city"
-                                ng-change="getAgentsListBycity(vm.agentList.city)"
-                                ng-options="city as city.name for city in vm.cities track by city.id">
-                            <option value="">Select City</option>
-                        </select>
-                        
-                    </div>
-
-                 <!--   <div class="form-group col-sm-4">
-                        <select class="form-control" id="field_city" name="city"
-                                ng-click="gotoLocation(city.lat, city.lon)"
-                                ng-model="city"
-                                ng-disabled="!(vm.agentList.city)"
-                                ng-options="city as city.nom for city in agentLists">
-                            <option value="">Select Agents</option>
-                        </select>
-                    </div>-->
-
-                    <!--<div class="form-group col-sm-3">
-                        <input class="form-control" type="text" ng-model="search"
-                        placeholder="Enter custom Latitude Lognitude"
-                        />
-
-                    </div>
-
-                        <button class=" btn" type="button" ng-click="geoCode()" ng-disabled="search.length == 0"
-                                title="search">
-                            &nbsp;<i class="icon-search"></i>Where is this place?
-                        </button>
-                        <button class=" btn" type="button" ng-click="gotoCurrentLocation()"
-                                title="current location">
-                            &nbsp;<i class="icon-home"></i>Where am I now?
-                        </button>-->
-                </div>
-            </div>
-
-
-
-
- <!-- map -->
-
-    <app-map style="height:600px;margin:12px;box-shadow:0 3px 25px black;"
-             center="loc"
-             markers="agentLists"
-    >
-    </app-map>
-    <style>
-        /* Always set the map height explicitly to define the size of the div
-         * element that contains the map. */
-        #map {
-            height: 100%;
-        }
-        /* Optional: Makes the sample page fill the window. */
-        html, body {
-            height: 100%;
-            margin: 0;
-            padding: 0;
-        }
-    </style>
-  
+    </div>
 </div>

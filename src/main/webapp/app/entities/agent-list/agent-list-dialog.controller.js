@@ -11,8 +11,6 @@
         var vm = this;
 
         vm.agentList = entity;
-
-
         vm.clear = clear;
         vm.save = save;
         vm.cities = City.query();

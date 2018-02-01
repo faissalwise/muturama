@@ -4,6 +4,7 @@ import ma.sobexime.muturama.MuturamaApp;
 
 import ma.sobexime.muturama.domain.Affinite;
 import ma.sobexime.muturama.repository.AffiniteRepository;
+import ma.sobexime.muturama.repository.search.AffiniteSearchRepository;
 import ma.sobexime.muturama.web.rest.errors.ExceptionTranslator;
 
 import org.junit.Before;
@@ -45,6 +46,9 @@ public class AffiniteResourceIntTest {
     private AffiniteRepository affiniteRepository;
 
     @Autowired
+    private AffiniteSearchRepository affiniteSearchRepository;
+
+    @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
     @Autowired
@@ -63,7 +67,7 @@ public class AffiniteResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final AffiniteResource affiniteResource = new AffiniteResource(affiniteRepository);
+        final AffiniteResource affiniteResource = new AffiniteResource(affiniteRepository, affiniteSearchRepository);
         this.restAffiniteMockMvc = MockMvcBuilders.standaloneSetup(affiniteResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -85,6 +89,7 @@ public class AffiniteResourceIntTest {
 
     @Before
     public void initTest() {
+        affiniteSearchRepository.deleteAll();
         affinite = createEntity(em);
     }
 
@@ -104,6 +109,10 @@ public class AffiniteResourceIntTest {
         assertThat(affiniteList).hasSize(databaseSizeBeforeCreate + 1);
         Affinite testAffinite = affiniteList.get(affiniteList.size() - 1);
         assertThat(testAffinite.getNom()).isEqualTo(DEFAULT_NOM);
+
+        // Validate the Affinite in Elasticsearch
+        Affinite affiniteEs = affiniteSearchRepository.findOne(testAffinite.getId());
+        assertThat(affiniteEs).isEqualToIgnoringGivenFields(testAffinite);
     }
 
     @Test
@@ -166,10 +175,13 @@ public class AffiniteResourceIntTest {
     public void updateAffinite() throws Exception {
         // Initialize the database
         affiniteRepository.saveAndFlush(affinite);
+        affiniteSearchRepository.save(affinite);
         int databaseSizeBeforeUpdate = affiniteRepository.findAll().size();
 
         // Update the affinite
         Affinite updatedAffinite = affiniteRepository.findOne(affinite.getId());
+        // Disconnect from session so that the updates on updatedAffinite are not directly saved in db
+        em.detach(updatedAffinite);
         updatedAffinite
             .nom(UPDATED_NOM);
 
@@ -183,6 +195,10 @@ public class AffiniteResourceIntTest {
         assertThat(affiniteList).hasSize(databaseSizeBeforeUpdate);
         Affinite testAffinite = affiniteList.get(affiniteList.size() - 1);
         assertThat(testAffinite.getNom()).isEqualTo(UPDATED_NOM);
+
+        // Validate the Affinite in Elasticsearch
+        Affinite affiniteEs = affiniteSearchRepository.findOne(testAffinite.getId());
+        assertThat(affiniteEs).isEqualToIgnoringGivenFields(testAffinite);
     }
 
     @Test
@@ -208,6 +224,7 @@ public class AffiniteResourceIntTest {
     public void deleteAffinite() throws Exception {
         // Initialize the database
         affiniteRepository.saveAndFlush(affinite);
+        affiniteSearchRepository.save(affinite);
         int databaseSizeBeforeDelete = affiniteRepository.findAll().size();
 
         // Get the affinite
@@ -215,9 +232,28 @@ public class AffiniteResourceIntTest {
             .accept(TestUtil.APPLICATION_JSON_UTF8))
             .andExpect(status().isOk());
 
+        // Validate Elasticsearch is empty
+        boolean affiniteExistsInEs = affiniteSearchRepository.exists(affinite.getId());
+        assertThat(affiniteExistsInEs).isFalse();
+
         // Validate the database is empty
         List<Affinite> affiniteList = affiniteRepository.findAll();
         assertThat(affiniteList).hasSize(databaseSizeBeforeDelete - 1);
+    }
+
+    @Test
+    @Transactional
+    public void searchAffinite() throws Exception {
+        // Initialize the database
+        affiniteRepository.saveAndFlush(affinite);
+        affiniteSearchRepository.save(affinite);
+
+        // Search the affinite
+        restAffiniteMockMvc.perform(get("/api/_search/affinites?query=id:" + affinite.getId()))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(affinite.getId().intValue())))
+            .andExpect(jsonPath("$.[*].nom").value(hasItem(DEFAULT_NOM.toString())));
     }
 
     @Test

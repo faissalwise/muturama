@@ -1,10 +1,12 @@
+
 {
     "muturamaApp": {
         "affinite" : {
             "home": {
                 "title": "Affinites",
                 "createLabel": "Create a new Affinite",
-                "createOrEditLabel": "Create or edit a Affinite"
+                "createOrEditLabel": "Create or edit a Affinite",
+                "search": "Search for Affinite"
             },
             "created": "A new Affinite is created with identifier {{ param }}",
             "updated": "A Affinite is updated with identifier {{ param }}",

@@ -5,6 +5,7 @@ import ma.sobexime.muturama.MuturamaApp;
 import ma.sobexime.muturama.domain.Job;
 import ma.sobexime.muturama.repository.JobRepository;
 import ma.sobexime.muturama.service.JobService;
+import ma.sobexime.muturama.repository.search.JobSearchRepository;
 import ma.sobexime.muturama.web.rest.errors.ExceptionTranslator;
 import ma.sobexime.muturama.service.dto.JobCriteria;
 import ma.sobexime.muturama.service.JobQueryService;
@@ -54,6 +55,9 @@ public class JobResourceIntTest {
     private JobService jobService;
 
     @Autowired
+    private JobSearchRepository jobSearchRepository;
+
+    @Autowired
     private JobQueryService jobQueryService;
 
     @Autowired
@@ -98,6 +102,7 @@ public class JobResourceIntTest {
 
     @Before
     public void initTest() {
+        jobSearchRepository.deleteAll();
         job = createEntity(em);
     }
 
@@ -118,6 +123,10 @@ public class JobResourceIntTest {
         Job testJob = jobList.get(jobList.size() - 1);
         assertThat(testJob.getTitre()).isEqualTo(DEFAULT_TITRE);
         assertThat(testJob.getDescription()).isEqualTo(DEFAULT_DESCRIPTION);
+
+        // Validate the Job in Elasticsearch
+        Job jobEs = jobSearchRepository.findOne(testJob.getId());
+        assertThat(jobEs).isEqualToIgnoringGivenFields(testJob);
     }
 
     @Test
@@ -288,6 +297,8 @@ public class JobResourceIntTest {
 
         // Update the job
         Job updatedJob = jobRepository.findOne(job.getId());
+        // Disconnect from session so that the updates on updatedJob are not directly saved in db
+        em.detach(updatedJob);
         updatedJob
             .titre(UPDATED_TITRE)
             .description(UPDATED_DESCRIPTION);
@@ -303,6 +314,10 @@ public class JobResourceIntTest {
         Job testJob = jobList.get(jobList.size() - 1);
         assertThat(testJob.getTitre()).isEqualTo(UPDATED_TITRE);
         assertThat(testJob.getDescription()).isEqualTo(UPDATED_DESCRIPTION);
+
+        // Validate the Job in Elasticsearch
+        Job jobEs = jobSearchRepository.findOne(testJob.getId());
+        assertThat(jobEs).isEqualToIgnoringGivenFields(testJob);
     }
 
     @Test
@@ -336,9 +351,28 @@ public class JobResourceIntTest {
             .accept(TestUtil.APPLICATION_JSON_UTF8))
             .andExpect(status().isOk());
 
+        // Validate Elasticsearch is empty
+        boolean jobExistsInEs = jobSearchRepository.exists(job.getId());
+        assertThat(jobExistsInEs).isFalse();
+
         // Validate the database is empty
         List<Job> jobList = jobRepository.findAll();
         assertThat(jobList).hasSize(databaseSizeBeforeDelete - 1);
+    }
+
+    @Test
+    @Transactional
+    public void searchJob() throws Exception {
+        // Initialize the database
+        jobService.save(job);
+
+        // Search the job
+        restJobMockMvc.perform(get("/api/_search/jobs?query=id:" + job.getId()))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(job.getId().intValue())))
+            .andExpect(jsonPath("$.[*].titre").value(hasItem(DEFAULT_TITRE.toString())))
+            .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION.toString())));
     }
 
     @Test

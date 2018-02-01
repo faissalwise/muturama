@@ -7,86 +7,60 @@
         <h4 class="modal-title" id="myAgentListLabel" data-translate="muturamaApp.agentList.home.createOrEditLabel">Create or edit a Agent List</h4>
     </div>
     <div class="modal-body">
-        <!--<jhi-alert-error></jhi-alert-error>
+        <jhi-alert-error></jhi-alert-error>
         <div class="form-group" ng-show="vm.agentList.id">
             <label for="id" data-translate="global.field.id">ID</label>
             <input type="text" class="form-control" id="id" name="id"
                     ng-model="vm.agentList.id" readonly />
-        </div>-->
-        <div class="form-group col-sm-6">
-            <label data-translate="muturamaApp.agentList.city" for="field_city">City</label>
-            <select class="form-control" id="field_city" name="city" ng-model="vm.agentList.city" ng-options="city as city.name for city in vm.cities track by city.id">
-                <option value="">Select Here</option>
-            </select>
         </div>
-        <div class="form-group col-sm-6">
+        <div class="form-group">
             <label class="control-label" data-translate="muturamaApp.agentList.cin" for="field_cin">Cin</label>
             <input type="text" class="form-control" name="cin" id="field_cin"
                     ng-model="vm.agentList.cin"
-                   placeholder="Enter cin"
                     />
         </div>
-        <div class="form-group col-sm-6">
+        <div class="form-group">
             <label class="control-label" data-translate="muturamaApp.agentList.nom" for="field_nom">Nom</label>
             <input type="text" class="form-control" name="nom" id="field_nom"
                     ng-model="vm.agentList.nom"
-                   placeholder="Enter nom"
-
-            />
+                    />
         </div>
-        <div class="form-group col-sm-6">
+        <div class="form-group">
             <label class="control-label" data-translate="muturamaApp.agentList.prenom" for="field_prenom">Prenom</label>
             <input type="text" class="form-control" name="prenom" id="field_prenom"
                     ng-model="vm.agentList.prenom"
-                   placeholder="Enter prenom"
-
-            />
+                    />
         </div>
-        <div class="form-group col-sm-6">
+        <div class="form-group">
             <label class="control-label" data-translate="muturamaApp.agentList.address" for="field_address">Address</label>
             <input type="text" class="form-control" name="address" id="field_address"
                     ng-model="vm.agentList.address"
-                   placeholder="Enter address"
-
-            />
+                    />
         </div>
-        <div class="form-group col-sm-6">
+        <div class="form-group">
             <label class="control-label" data-translate="muturamaApp.agentList.lat" for="field_lat">Lat</label>
             <input type="number" class="form-control" name="lat" id="field_lat"
                     ng-model="vm.agentList.lat"
-                   placeholder="Enter latitude"
-
-            />
+                    />
         </div>
-        <div class="form-group col-sm-6">
+        <div class="form-group">
             <label class="control-label" data-translate="muturamaApp.agentList.lon" for="field_lon">Lon</label>
             <input type="number" class="form-control" name="lon" id="field_lon"
                     ng-model="vm.agentList.lon"
-                   placeholder="Enter lognitude"
-
-            />
+                    />
         </div>
-        <div class="form-group col-sm-6">
+        <div class="form-group">
             <label class="control-label" data-translate="muturamaApp.agentList.status" for="field_status">Status</label>
-                <!--<input type="checkbox" name="status" id="field_status"
-                          ng-model="vm.agentList.status"/>-->
-            <div id="field_pStatus">
-                <label class="btn btn-success"><input type="radio" name="status"
-                                                                   value="true"
-                                                                   ng-model="vm.agentList.status"
-                                                                   ng-checked="(vm.agentList.status == true)"
-                ><span>Active</span></label>
-                <label class="btn btn-warning"><input type="radio" name="status"
-                                                                   value="false"
-                                                                   ng-model="vm.agentList.status"
-                                                                   ng-checked="(vm.agentList.status == false)"
-
-                ><span>Inactive</span></label>
-            </div>
+                <input type="checkbox" name="status" id="field_status"
+                          ng-model="vm.agentList.status"/>
         </div>
 
-
-
+        <div class="form-group">
+            <label data-translate="muturamaApp.agentList.city" for="field_city">City</label>
+            <select class="form-control" id="field_city" name="city" ng-model="vm.agentList.city" ng-options="city as city.name for city in vm.cities track by city.id">
+                <option value=""></option>
+            </select>
+        </div>
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="vm.clear()">

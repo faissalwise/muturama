@@ -4,6 +4,7 @@ import ma.sobexime.muturama.MuturamaApp;
 
 import ma.sobexime.muturama.domain.MuturaServices;
 import ma.sobexime.muturama.repository.MuturaServicesRepository;
+import ma.sobexime.muturama.repository.search.MuturaServicesSearchRepository;
 import ma.sobexime.muturama.web.rest.errors.ExceptionTranslator;
 
 import org.junit.Before;
@@ -48,6 +49,9 @@ public class MuturaServicesResourceIntTest {
     private MuturaServicesRepository muturaServicesRepository;
 
     @Autowired
+    private MuturaServicesSearchRepository muturaServicesSearchRepository;
+
+    @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
     @Autowired
@@ -66,7 +70,7 @@ public class MuturaServicesResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final MuturaServicesResource muturaServicesResource = new MuturaServicesResource(muturaServicesRepository);
+        final MuturaServicesResource muturaServicesResource = new MuturaServicesResource(muturaServicesRepository, muturaServicesSearchRepository);
         this.restMuturaServicesMockMvc = MockMvcBuilders.standaloneSetup(muturaServicesResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -89,6 +93,7 @@ public class MuturaServicesResourceIntTest {
 
     @Before
     public void initTest() {
+        muturaServicesSearchRepository.deleteAll();
         muturaServices = createEntity(em);
     }
 
@@ -109,6 +114,10 @@ public class MuturaServicesResourceIntTest {
         MuturaServices testMuturaServices = muturaServicesList.get(muturaServicesList.size() - 1);
         assertThat(testMuturaServices.getTitle()).isEqualTo(DEFAULT_TITLE);
         assertThat(testMuturaServices.getDescription()).isEqualTo(DEFAULT_DESCRIPTION);
+
+        // Validate the MuturaServices in Elasticsearch
+        MuturaServices muturaServicesEs = muturaServicesSearchRepository.findOne(testMuturaServices.getId());
+        assertThat(muturaServicesEs).isEqualToIgnoringGivenFields(testMuturaServices);
     }
 
     @Test
@@ -173,10 +182,13 @@ public class MuturaServicesResourceIntTest {
     public void updateMuturaServices() throws Exception {
         // Initialize the database
         muturaServicesRepository.saveAndFlush(muturaServices);
+        muturaServicesSearchRepository.save(muturaServices);
         int databaseSizeBeforeUpdate = muturaServicesRepository.findAll().size();
 
         // Update the muturaServices
         MuturaServices updatedMuturaServices = muturaServicesRepository.findOne(muturaServices.getId());
+        // Disconnect from session so that the updates on updatedMuturaServices are not directly saved in db
+        em.detach(updatedMuturaServices);
         updatedMuturaServices
             .title(UPDATED_TITLE)
             .description(UPDATED_DESCRIPTION);
@@ -192,6 +204,10 @@ public class MuturaServicesResourceIntTest {
         MuturaServices testMuturaServices = muturaServicesList.get(muturaServicesList.size() - 1);
         assertThat(testMuturaServices.getTitle()).isEqualTo(UPDATED_TITLE);
         assertThat(testMuturaServices.getDescription()).isEqualTo(UPDATED_DESCRIPTION);
+
+        // Validate the MuturaServices in Elasticsearch
+        MuturaServices muturaServicesEs = muturaServicesSearchRepository.findOne(testMuturaServices.getId());
+        assertThat(muturaServicesEs).isEqualToIgnoringGivenFields(testMuturaServices);
     }
 
     @Test
@@ -217,6 +233,7 @@ public class MuturaServicesResourceIntTest {
     public void deleteMuturaServices() throws Exception {
         // Initialize the database
         muturaServicesRepository.saveAndFlush(muturaServices);
+        muturaServicesSearchRepository.save(muturaServices);
         int databaseSizeBeforeDelete = muturaServicesRepository.findAll().size();
 
         // Get the muturaServices
@@ -224,9 +241,29 @@ public class MuturaServicesResourceIntTest {
             .accept(TestUtil.APPLICATION_JSON_UTF8))
             .andExpect(status().isOk());
 
+        // Validate Elasticsearch is empty
+        boolean muturaServicesExistsInEs = muturaServicesSearchRepository.exists(muturaServices.getId());
+        assertThat(muturaServicesExistsInEs).isFalse();
+
         // Validate the database is empty
         List<MuturaServices> muturaServicesList = muturaServicesRepository.findAll();
         assertThat(muturaServicesList).hasSize(databaseSizeBeforeDelete - 1);
+    }
+
+    @Test
+    @Transactional
+    public void searchMuturaServices() throws Exception {
+        // Initialize the database
+        muturaServicesRepository.saveAndFlush(muturaServices);
+        muturaServicesSearchRepository.save(muturaServices);
+
+        // Search the muturaServices
+        restMuturaServicesMockMvc.perform(get("/api/_search/mutura-services?query=id:" + muturaServices.getId()))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(muturaServices.getId().intValue())))
+            .andExpect(jsonPath("$.[*].title").value(hasItem(DEFAULT_TITLE.toString())))
+            .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION.toString())));
     }
 
     @Test

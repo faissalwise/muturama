@@ -18,25 +18,35 @@ public interface CityService {
     City save(City city);
 
     /**
-     *  Get all the cities.
+     * Get all the cities.
      *
-     *  @param pageable the pagination information
-     *  @return the list of entities
+     * @param pageable the pagination information
+     * @return the list of entities
      */
     Page<City> findAll(Pageable pageable);
 
     /**
-     *  Get the "id" city.
+     * Get the "id" city.
      *
-     *  @param id the id of the entity
-     *  @return the entity
+     * @param id the id of the entity
+     * @return the entity
      */
     City findOne(Long id);
 
     /**
-     *  Delete the "id" city.
+     * Delete the "id" city.
      *
-     *  @param id the id of the entity
+     * @param id the id of the entity
      */
     void delete(Long id);
+
+    /**
+     * Search for the city corresponding to the query.
+     *
+     * @param query the query of the search
+     * 
+     * @param pageable the pagination information
+     * @return the list of entities
+     */
+    Page<City> search(String query, Pageable pageable);
 }

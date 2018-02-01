@@ -13,6 +13,12 @@
 # http://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
 # ===================================================================
 
+logging:
+    level:
+        ROOT: DEBUG
+        ma.sobexime.muturama: DEBUG
+        io.github.jhipster: DEBUG
+
 spring:
     profiles:
         active: dev
@@ -77,8 +83,8 @@ liquibase:
 #    ssl:
 #        key-store: keystore.p12
 #        key-store-password: <your-password>
-#        keyStoreType: PKCS12
-#        keyAlias: muturama
+#        key-store-type: PKCS12
+#        key-alias: muturama
 # ===================================================================
 server:
     port: 8080
@@ -101,6 +107,7 @@ jhipster:
         allowed-origins: "*"
         allowed-methods: "*"
         allowed-headers: "*"
+        exposed-headers: "Link,X-Total-Count"
         allow-credentials: true
         max-age: 1800
     security:

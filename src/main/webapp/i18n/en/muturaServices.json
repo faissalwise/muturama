@@ -1,10 +1,12 @@
+
 {
     "muturamaApp": {
         "muturaServices" : {
             "home": {
                 "title": "Mutura Services",
                 "createLabel": "Create a new Mutura Services",
-                "createOrEditLabel": "Create or edit a Mutura Services"
+                "createOrEditLabel": "Create or edit a Mutura Services",
+                "search": "Search for Mutura Services"
             },
             "created": "A new Mutura Services is created with identifier {{ param }}",
             "updated": "A Mutura Services is updated with identifier {{ param }}",

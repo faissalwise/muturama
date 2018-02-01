@@ -4,6 +4,7 @@ import ma.sobexime.muturama.MuturamaApp;
 
 import ma.sobexime.muturama.domain.Infohain;
 import ma.sobexime.muturama.repository.InfohainRepository;
+import ma.sobexime.muturama.repository.search.InfohainSearchRepository;
 import ma.sobexime.muturama.web.rest.errors.ExceptionTranslator;
 
 import org.junit.Before;
@@ -45,6 +46,9 @@ public class InfohainResourceIntTest {
     private InfohainRepository infohainRepository;
 
     @Autowired
+    private InfohainSearchRepository infohainSearchRepository;
+
+    @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
     @Autowired
@@ -63,7 +67,7 @@ public class InfohainResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final InfohainResource infohainResource = new InfohainResource(infohainRepository);
+        final InfohainResource infohainResource = new InfohainResource(infohainRepository, infohainSearchRepository);
         this.restInfohainMockMvc = MockMvcBuilders.standaloneSetup(infohainResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -85,6 +89,7 @@ public class InfohainResourceIntTest {
 
     @Before
     public void initTest() {
+        infohainSearchRepository.deleteAll();
         infohain = createEntity(em);
     }
 
@@ -104,6 +109,10 @@ public class InfohainResourceIntTest {
         assertThat(infohainList).hasSize(databaseSizeBeforeCreate + 1);
         Infohain testInfohain = infohainList.get(infohainList.size() - 1);
         assertThat(testInfohain.getNom()).isEqualTo(DEFAULT_NOM);
+
+        // Validate the Infohain in Elasticsearch
+        Infohain infohainEs = infohainSearchRepository.findOne(testInfohain.getId());
+        assertThat(infohainEs).isEqualToIgnoringGivenFields(testInfohain);
     }
 
     @Test
@@ -184,10 +193,13 @@ public class InfohainResourceIntTest {
     public void updateInfohain() throws Exception {
         // Initialize the database
         infohainRepository.saveAndFlush(infohain);
+        infohainSearchRepository.save(infohain);
         int databaseSizeBeforeUpdate = infohainRepository.findAll().size();
 
         // Update the infohain
         Infohain updatedInfohain = infohainRepository.findOne(infohain.getId());
+        // Disconnect from session so that the updates on updatedInfohain are not directly saved in db
+        em.detach(updatedInfohain);
         updatedInfohain
             .nom(UPDATED_NOM);
 
@@ -201,6 +213,10 @@ public class InfohainResourceIntTest {
         assertThat(infohainList).hasSize(databaseSizeBeforeUpdate);
         Infohain testInfohain = infohainList.get(infohainList.size() - 1);
         assertThat(testInfohain.getNom()).isEqualTo(UPDATED_NOM);
+
+        // Validate the Infohain in Elasticsearch
+        Infohain infohainEs = infohainSearchRepository.findOne(testInfohain.getId());
+        assertThat(infohainEs).isEqualToIgnoringGivenFields(testInfohain);
     }
 
     @Test
@@ -226,6 +242,7 @@ public class InfohainResourceIntTest {
     public void deleteInfohain() throws Exception {
         // Initialize the database
         infohainRepository.saveAndFlush(infohain);
+        infohainSearchRepository.save(infohain);
         int databaseSizeBeforeDelete = infohainRepository.findAll().size();
 
         // Get the infohain
@@ -233,9 +250,28 @@ public class InfohainResourceIntTest {
             .accept(TestUtil.APPLICATION_JSON_UTF8))
             .andExpect(status().isOk());
 
+        // Validate Elasticsearch is empty
+        boolean infohainExistsInEs = infohainSearchRepository.exists(infohain.getId());
+        assertThat(infohainExistsInEs).isFalse();
+
         // Validate the database is empty
         List<Infohain> infohainList = infohainRepository.findAll();
         assertThat(infohainList).hasSize(databaseSizeBeforeDelete - 1);
+    }
+
+    @Test
+    @Transactional
+    public void searchInfohain() throws Exception {
+        // Initialize the database
+        infohainRepository.saveAndFlush(infohain);
+        infohainSearchRepository.save(infohain);
+
+        // Search the infohain
+        restInfohainMockMvc.perform(get("/api/_search/infohains?query=id:" + infohain.getId()))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(infohain.getId().intValue())))
+            .andExpect(jsonPath("$.[*].nom").value(hasItem(DEFAULT_NOM.toString())));
     }
 
     @Test

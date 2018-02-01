@@ -5,9 +5,9 @@
         .module('muturamaApp')
         .controller('AgentDetailController', AgentDetailController);
 
-    AgentDetailController.$inject = ['$scope', '$rootScope', '$stateParams', 'previousState', 'entity', 'Agent'];
+    AgentDetailController.$inject = ['$scope', '$rootScope', '$stateParams', 'previousState', 'entity', 'Agent', 'City'];
 
-    function AgentDetailController($scope, $rootScope, $stateParams, previousState, entity, Agent) {
+    function AgentDetailController($scope, $rootScope, $stateParams, previousState, entity, Agent, City) {
         var vm = this;
 
         vm.agent = entity;

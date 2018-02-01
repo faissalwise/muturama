@@ -4,6 +4,8 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
+
+import org.springframework.data.elasticsearch.annotations.Document;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Objects;
@@ -14,6 +16,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "agent_list")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+@Document(indexName = "agentlist")
 public class AgentList implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -34,10 +37,10 @@ public class AgentList implements Serializable {
     @Column(name = "address")
     private String address;
 
-    @Column(name = "lat", precision=100, scale=20)
+    @Column(name = "lat", precision=10, scale=2)
     private BigDecimal lat;
 
-    @Column(name = "lon", precision=100, scale=20)
+    @Column(name = "lon", precision=10, scale=2)
     private BigDecimal lon;
 
     @Column(name = "status")
@@ -188,8 +191,8 @@ public class AgentList implements Serializable {
             ", nom='" + getNom() + "'" +
             ", prenom='" + getPrenom() + "'" +
             ", address='" + getAddress() + "'" +
-            ", lat='" + getLat() + "'" +
-            ", lon='" + getLon() + "'" +
+            ", lat=" + getLat() +
+            ", lon=" + getLon() +
             ", status='" + isStatus() + "'" +
             "}";
     }

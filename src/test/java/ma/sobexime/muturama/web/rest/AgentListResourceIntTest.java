@@ -4,6 +4,7 @@ import ma.sobexime.muturama.MuturamaApp;
 
 import ma.sobexime.muturama.domain.AgentList;
 import ma.sobexime.muturama.repository.AgentListRepository;
+import ma.sobexime.muturama.repository.search.AgentListSearchRepository;
 import ma.sobexime.muturama.web.rest.errors.ExceptionTranslator;
 
 import org.junit.Before;
@@ -64,6 +65,9 @@ public class AgentListResourceIntTest {
     private AgentListRepository agentListRepository;
 
     @Autowired
+    private AgentListSearchRepository agentListSearchRepository;
+
+    @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
     @Autowired
@@ -82,7 +86,7 @@ public class AgentListResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final AgentListResource agentListResource = new AgentListResource(agentListRepository);
+        final AgentListResource agentListResource = new AgentListResource(agentListRepository, agentListSearchRepository);
         this.restAgentListMockMvc = MockMvcBuilders.standaloneSetup(agentListResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -110,6 +114,7 @@ public class AgentListResourceIntTest {
 
     @Before
     public void initTest() {
+        agentListSearchRepository.deleteAll();
         agentList = createEntity(em);
     }
 
@@ -135,6 +140,10 @@ public class AgentListResourceIntTest {
         assertThat(testAgentList.getLat()).isEqualTo(DEFAULT_LAT);
         assertThat(testAgentList.getLon()).isEqualTo(DEFAULT_LON);
         assertThat(testAgentList.isStatus()).isEqualTo(DEFAULT_STATUS);
+
+        // Validate the AgentList in Elasticsearch
+        AgentList agentListEs = agentListSearchRepository.findOne(testAgentList.getId());
+        assertThat(agentListEs).isEqualToIgnoringGivenFields(testAgentList);
     }
 
     @Test
@@ -209,10 +218,13 @@ public class AgentListResourceIntTest {
     public void updateAgentList() throws Exception {
         // Initialize the database
         agentListRepository.saveAndFlush(agentList);
+        agentListSearchRepository.save(agentList);
         int databaseSizeBeforeUpdate = agentListRepository.findAll().size();
 
         // Update the agentList
         AgentList updatedAgentList = agentListRepository.findOne(agentList.getId());
+        // Disconnect from session so that the updates on updatedAgentList are not directly saved in db
+        em.detach(updatedAgentList);
         updatedAgentList
             .cin(UPDATED_CIN)
             .nom(UPDATED_NOM)
@@ -238,6 +250,10 @@ public class AgentListResourceIntTest {
         assertThat(testAgentList.getLat()).isEqualTo(UPDATED_LAT);
         assertThat(testAgentList.getLon()).isEqualTo(UPDATED_LON);
         assertThat(testAgentList.isStatus()).isEqualTo(UPDATED_STATUS);
+
+        // Validate the AgentList in Elasticsearch
+        AgentList agentListEs = agentListSearchRepository.findOne(testAgentList.getId());
+        assertThat(agentListEs).isEqualToIgnoringGivenFields(testAgentList);
     }
 
     @Test
@@ -263,6 +279,7 @@ public class AgentListResourceIntTest {
     public void deleteAgentList() throws Exception {
         // Initialize the database
         agentListRepository.saveAndFlush(agentList);
+        agentListSearchRepository.save(agentList);
         int databaseSizeBeforeDelete = agentListRepository.findAll().size();
 
         // Get the agentList
@@ -270,9 +287,34 @@ public class AgentListResourceIntTest {
             .accept(TestUtil.APPLICATION_JSON_UTF8))
             .andExpect(status().isOk());
 
+        // Validate Elasticsearch is empty
+        boolean agentListExistsInEs = agentListSearchRepository.exists(agentList.getId());
+        assertThat(agentListExistsInEs).isFalse();
+
         // Validate the database is empty
         List<AgentList> agentListList = agentListRepository.findAll();
         assertThat(agentListList).hasSize(databaseSizeBeforeDelete - 1);
+    }
+
+    @Test
+    @Transactional
+    public void searchAgentList() throws Exception {
+        // Initialize the database
+        agentListRepository.saveAndFlush(agentList);
+        agentListSearchRepository.save(agentList);
+
+        // Search the agentList
+        restAgentListMockMvc.perform(get("/api/_search/agent-lists?query=id:" + agentList.getId()))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(agentList.getId().intValue())))
+            .andExpect(jsonPath("$.[*].cin").value(hasItem(DEFAULT_CIN.toString())))
+            .andExpect(jsonPath("$.[*].nom").value(hasItem(DEFAULT_NOM.toString())))
+            .andExpect(jsonPath("$.[*].prenom").value(hasItem(DEFAULT_PRENOM.toString())))
+            .andExpect(jsonPath("$.[*].address").value(hasItem(DEFAULT_ADDRESS.toString())))
+            .andExpect(jsonPath("$.[*].lat").value(hasItem(DEFAULT_LAT.intValue())))
+            .andExpect(jsonPath("$.[*].lon").value(hasItem(DEFAULT_LON.intValue())))
+            .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.booleanValue())));
     }
 
     @Test
