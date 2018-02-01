@@ -8,7 +8,6 @@ import ma.sobexime.muturama.repository.search.AgentListSearchRepository;
 import ma.sobexime.muturama.web.rest.errors.BadRequestAlertException;
 import ma.sobexime.muturama.web.rest.util.HeaderUtil;
 import ma.sobexime.muturama.web.rest.util.PaginationUtil;
-import io.swagger.annotations.ApiParam;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -101,7 +100,7 @@ public class AgentListResource {
      */
     @GetMapping("/agent-lists")
     @Timed
-    public ResponseEntity<List<AgentList>> getAllAgentLists(@ApiParam Pageable pageable) {
+    public ResponseEntity<List<AgentList>> getAllAgentLists(Pageable pageable) {
         log.debug("REST request to get a page of AgentLists");
         Page<AgentList> page = agentListRepository.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/agent-lists");
@@ -147,7 +146,7 @@ public class AgentListResource {
      */
     @GetMapping("/_search/agent-lists")
     @Timed
-    public ResponseEntity<List<AgentList>> searchAgentLists(@RequestParam String query, @ApiParam Pageable pageable) {
+    public ResponseEntity<List<AgentList>> searchAgentLists(@RequestParam String query, Pageable pageable) {
         log.debug("REST request to search for a page of AgentLists for query {}", query);
         Page<AgentList> page = agentListSearchRepository.search(queryStringQuery(query), pageable);
         HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(query, page, "/api/_search/agent-lists");

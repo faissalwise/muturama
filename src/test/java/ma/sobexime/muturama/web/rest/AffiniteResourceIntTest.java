@@ -112,7 +112,7 @@ public class AffiniteResourceIntTest {
 
         // Validate the Affinite in Elasticsearch
         Affinite affiniteEs = affiniteSearchRepository.findOne(testAffinite.getId());
-        assertThat(affiniteEs).isEqualToComparingFieldByField(testAffinite);
+        assertThat(affiniteEs).isEqualToIgnoringGivenFields(testAffinite);
     }
 
     @Test
@@ -180,6 +180,8 @@ public class AffiniteResourceIntTest {
 
         // Update the affinite
         Affinite updatedAffinite = affiniteRepository.findOne(affinite.getId());
+        // Disconnect from session so that the updates on updatedAffinite are not directly saved in db
+        em.detach(updatedAffinite);
         updatedAffinite
             .nom(UPDATED_NOM);
 
@@ -196,7 +198,7 @@ public class AffiniteResourceIntTest {
 
         // Validate the Affinite in Elasticsearch
         Affinite affiniteEs = affiniteSearchRepository.findOne(testAffinite.getId());
-        assertThat(affiniteEs).isEqualToComparingFieldByField(testAffinite);
+        assertThat(affiniteEs).isEqualToIgnoringGivenFields(testAffinite);
     }
 
     @Test

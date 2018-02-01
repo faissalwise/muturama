@@ -24,7 +24,7 @@ import ma.sobexime.muturama.service.dto.CityCriteria;
  * Service for executing complex queries for City entities in the database.
  * The main input is a {@link CityCriteria} which get's converted to {@link Specifications},
  * in a way that all the filters must apply.
- * It returns a {@link List} of {%link City} or a {@link Page} of {%link City} which fulfills the criterias
+ * It returns a {@link List} of {@link City} or a {@link Page} of {@link City} which fulfills the criteria.
  */
 @Service
 @Transactional(readOnly = true)
@@ -43,7 +43,7 @@ public class CityQueryService extends QueryService<City> {
     }
 
     /**
-     * Return a {@link List} of {%link City} which matches the criteria from the database
+     * Return a {@link List} of {@link City} which matches the criteria from the database
      * @param criteria The object which holds all the filters, which the entities should match.
      * @return the matching entities.
      */
@@ -55,7 +55,7 @@ public class CityQueryService extends QueryService<City> {
     }
 
     /**
-     * Return a {@link Page} of {%link City} which matches the criteria from the database
+     * Return a {@link Page} of {@link City} which matches the criteria from the database
      * @param criteria The object which holds all the filters, which the entities should match.
      * @param page The page, which should be returned.
      * @return the matching entities.

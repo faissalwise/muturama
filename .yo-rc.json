@@ -28,10 +28,12 @@
       "en"
     ],
     "clientFramework": "angular1",
-    "jhipsterVersion": "4.10.2",
+    "jhipsterVersion": "4.14.0",
     "packageFolder": "ma/sobexime/muturama",
     "rememberMeKey": "260e9386a02e64d201a0eab25ec4a689b25f8aec",
-    "jhiPrefix": "jhi"
+    "jhiPrefix": "jhi",
+    "cacheProvider": "ehcache",
+    "enableHibernateCache": true
   },
   "generator-jhipster-pages": {
     "promptValues": {

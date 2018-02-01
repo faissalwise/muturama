@@ -8,7 +8,6 @@ import ma.sobexime.muturama.repository.search.AffiniteSearchRepository;
 import ma.sobexime.muturama.web.rest.errors.BadRequestAlertException;
 import ma.sobexime.muturama.web.rest.util.HeaderUtil;
 import ma.sobexime.muturama.web.rest.util.PaginationUtil;
-import io.swagger.annotations.ApiParam;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -101,7 +100,7 @@ public class AffiniteResource {
      */
     @GetMapping("/affinites")
     @Timed
-    public ResponseEntity<List<Affinite>> getAllAffinites(@ApiParam Pageable pageable) {
+    public ResponseEntity<List<Affinite>> getAllAffinites(Pageable pageable) {
         log.debug("REST request to get a page of Affinites");
         Page<Affinite> page = affiniteRepository.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/affinites");
@@ -147,7 +146,7 @@ public class AffiniteResource {
      */
     @GetMapping("/_search/affinites")
     @Timed
-    public ResponseEntity<List<Affinite>> searchAffinites(@RequestParam String query, @ApiParam Pageable pageable) {
+    public ResponseEntity<List<Affinite>> searchAffinites(@RequestParam String query, Pageable pageable) {
         log.debug("REST request to search for a page of Affinites for query {}", query);
         Page<Affinite> page = affiniteSearchRepository.search(queryStringQuery(query), pageable);
         HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(query, page, "/api/_search/affinites");

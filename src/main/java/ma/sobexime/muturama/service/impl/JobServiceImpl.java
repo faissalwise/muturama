@@ -19,7 +19,7 @@ import static org.elasticsearch.index.query.QueryBuilders.*;
  */
 @Service
 @Transactional
-public class JobServiceImpl implements JobService{
+public class JobServiceImpl implements JobService {
 
     private final Logger log = LoggerFactory.getLogger(JobServiceImpl.class);
 
@@ -47,10 +47,10 @@ public class JobServiceImpl implements JobService{
     }
 
     /**
-     *  Get all the jobs.
+     * Get all the jobs.
      *
-     *  @param pageable the pagination information
-     *  @return the list of entities
+     * @param pageable the pagination information
+     * @return the list of entities
      */
     @Override
     @Transactional(readOnly = true)
@@ -60,10 +60,10 @@ public class JobServiceImpl implements JobService{
     }
 
     /**
-     *  Get one job by id.
+     * Get one job by id.
      *
-     *  @param id the id of the entity
-     *  @return the entity
+     * @param id the id of the entity
+     * @return the entity
      */
     @Override
     @Transactional(readOnly = true)
@@ -73,9 +73,9 @@ public class JobServiceImpl implements JobService{
     }
 
     /**
-     *  Delete the  job by id.
+     * Delete the job by id.
      *
-     *  @param id the id of the entity
+     * @param id the id of the entity
      */
     @Override
     public void delete(Long id) {
@@ -87,9 +87,9 @@ public class JobServiceImpl implements JobService{
     /**
      * Search for the job corresponding to the query.
      *
-     *  @param query the query of the search
-     *  @param pageable the pagination information
-     *  @return the list of entities
+     * @param query the query of the search
+     * @param pageable the pagination information
+     * @return the list of entities
      */
     @Override
     @Transactional(readOnly = true)

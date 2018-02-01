@@ -112,7 +112,7 @@ public class InfohainResourceIntTest {
 
         // Validate the Infohain in Elasticsearch
         Infohain infohainEs = infohainSearchRepository.findOne(testInfohain.getId());
-        assertThat(infohainEs).isEqualToComparingFieldByField(testInfohain);
+        assertThat(infohainEs).isEqualToIgnoringGivenFields(testInfohain);
     }
 
     @Test
@@ -198,6 +198,8 @@ public class InfohainResourceIntTest {
 
         // Update the infohain
         Infohain updatedInfohain = infohainRepository.findOne(infohain.getId());
+        // Disconnect from session so that the updates on updatedInfohain are not directly saved in db
+        em.detach(updatedInfohain);
         updatedInfohain
             .nom(UPDATED_NOM);
 
@@ -214,7 +216,7 @@ public class InfohainResourceIntTest {
 
         // Validate the Infohain in Elasticsearch
         Infohain infohainEs = infohainSearchRepository.findOne(testInfohain.getId());
-        assertThat(infohainEs).isEqualToComparingFieldByField(testInfohain);
+        assertThat(infohainEs).isEqualToIgnoringGivenFields(testInfohain);
     }
 
     @Test

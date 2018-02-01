@@ -117,7 +117,7 @@ public class MuturaServicesResourceIntTest {
 
         // Validate the MuturaServices in Elasticsearch
         MuturaServices muturaServicesEs = muturaServicesSearchRepository.findOne(testMuturaServices.getId());
-        assertThat(muturaServicesEs).isEqualToComparingFieldByField(testMuturaServices);
+        assertThat(muturaServicesEs).isEqualToIgnoringGivenFields(testMuturaServices);
     }
 
     @Test
@@ -187,6 +187,8 @@ public class MuturaServicesResourceIntTest {
 
         // Update the muturaServices
         MuturaServices updatedMuturaServices = muturaServicesRepository.findOne(muturaServices.getId());
+        // Disconnect from session so that the updates on updatedMuturaServices are not directly saved in db
+        em.detach(updatedMuturaServices);
         updatedMuturaServices
             .title(UPDATED_TITLE)
             .description(UPDATED_DESCRIPTION);
@@ -205,7 +207,7 @@ public class MuturaServicesResourceIntTest {
 
         // Validate the MuturaServices in Elasticsearch
         MuturaServices muturaServicesEs = muturaServicesSearchRepository.findOne(testMuturaServices.getId());
-        assertThat(muturaServicesEs).isEqualToComparingFieldByField(testMuturaServices);
+        assertThat(muturaServicesEs).isEqualToIgnoringGivenFields(testMuturaServices);
     }
 
     @Test

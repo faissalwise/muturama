@@ -126,7 +126,7 @@ public class CityResourceIntTest {
 
         // Validate the City in Elasticsearch
         City cityEs = citySearchRepository.findOne(testCity.getId());
-        assertThat(cityEs).isEqualToComparingFieldByField(testCity);
+        assertThat(cityEs).isEqualToIgnoringGivenFields(testCity);
     }
 
     @Test
@@ -297,6 +297,8 @@ public class CityResourceIntTest {
 
         // Update the city
         City updatedCity = cityRepository.findOne(city.getId());
+        // Disconnect from session so that the updates on updatedCity are not directly saved in db
+        em.detach(updatedCity);
         updatedCity
             .name(UPDATED_NAME)
             .status(UPDATED_STATUS);
@@ -315,7 +317,7 @@ public class CityResourceIntTest {
 
         // Validate the City in Elasticsearch
         City cityEs = citySearchRepository.findOne(testCity.getId());
-        assertThat(cityEs).isEqualToComparingFieldByField(testCity);
+        assertThat(cityEs).isEqualToIgnoringGivenFields(testCity);
     }
 
     @Test

@@ -126,7 +126,7 @@ public class JobResourceIntTest {
 
         // Validate the Job in Elasticsearch
         Job jobEs = jobSearchRepository.findOne(testJob.getId());
-        assertThat(jobEs).isEqualToComparingFieldByField(testJob);
+        assertThat(jobEs).isEqualToIgnoringGivenFields(testJob);
     }
 
     @Test
@@ -297,6 +297,8 @@ public class JobResourceIntTest {
 
         // Update the job
         Job updatedJob = jobRepository.findOne(job.getId());
+        // Disconnect from session so that the updates on updatedJob are not directly saved in db
+        em.detach(updatedJob);
         updatedJob
             .titre(UPDATED_TITRE)
             .description(UPDATED_DESCRIPTION);
@@ -315,7 +317,7 @@ public class JobResourceIntTest {
 
         // Validate the Job in Elasticsearch
         Job jobEs = jobSearchRepository.findOne(testJob.getId());
-        assertThat(jobEs).isEqualToComparingFieldByField(testJob);
+        assertThat(jobEs).isEqualToIgnoringGivenFields(testJob);
     }
 
     @Test

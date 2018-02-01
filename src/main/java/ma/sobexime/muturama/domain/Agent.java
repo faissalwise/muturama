@@ -2,9 +2,10 @@ package ma.sobexime.muturama.domain;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.springframework.data.elasticsearch.annotations.Document;
 
 import javax.persistence.*;
+
+import org.springframework.data.elasticsearch.annotations.Document;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Objects;
@@ -174,8 +175,8 @@ public class Agent implements Serializable {
             ", nom='" + getNom() + "'" +
             ", prenom='" + getPrenom() + "'" +
             ", adress='" + getAdress() + "'" +
-            ", longitude='" + getLongitude() + "'" +
-            ", latitude='" + getLatitude() + "'" +
+            ", longitude=" + getLongitude() +
+            ", latitude=" + getLatitude() +
             "}";
     }
 }

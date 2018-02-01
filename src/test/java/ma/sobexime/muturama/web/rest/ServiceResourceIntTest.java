@@ -112,7 +112,7 @@ public class ServiceResourceIntTest {
 
         // Validate the Service in Elasticsearch
         Service serviceEs = serviceSearchRepository.findOne(testService.getId());
-        assertThat(serviceEs).isEqualToComparingFieldByField(testService);
+        assertThat(serviceEs).isEqualToIgnoringGivenFields(testService);
     }
 
     @Test
@@ -180,6 +180,8 @@ public class ServiceResourceIntTest {
 
         // Update the service
         Service updatedService = serviceRepository.findOne(service.getId());
+        // Disconnect from session so that the updates on updatedService are not directly saved in db
+        em.detach(updatedService);
         updatedService
             .name(UPDATED_NAME);
 
@@ -196,7 +198,7 @@ public class ServiceResourceIntTest {
 
         // Validate the Service in Elasticsearch
         Service serviceEs = serviceSearchRepository.findOne(testService.getId());
-        assertThat(serviceEs).isEqualToComparingFieldByField(testService);
+        assertThat(serviceEs).isEqualToIgnoringGivenFields(testService);
     }
 
     @Test

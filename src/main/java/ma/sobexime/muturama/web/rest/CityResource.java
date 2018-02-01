@@ -8,7 +8,6 @@ import ma.sobexime.muturama.web.rest.util.HeaderUtil;
 import ma.sobexime.muturama.web.rest.util.PaginationUtil;
 import ma.sobexime.muturama.service.dto.CityCriteria;
 import ma.sobexime.muturama.service.CityQueryService;
-import io.swagger.annotations.ApiParam;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -99,7 +98,7 @@ public class CityResource {
      */
     @GetMapping("/cities")
     @Timed
-    public ResponseEntity<List<City>> getAllCities(CityCriteria criteria,@ApiParam Pageable pageable) {
+    public ResponseEntity<List<City>> getAllCities(CityCriteria criteria, Pageable pageable) {
         log.debug("REST request to get Cities by criteria: {}", criteria);
         Page<City> page = cityQueryService.findByCriteria(criteria, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/cities");
@@ -144,7 +143,7 @@ public class CityResource {
      */
     @GetMapping("/_search/cities")
     @Timed
-    public ResponseEntity<List<City>> searchCities(@RequestParam String query, @ApiParam Pageable pageable) {
+    public ResponseEntity<List<City>> searchCities(@RequestParam String query, Pageable pageable) {
         log.debug("REST request to search for a page of Cities for query {}", query);
         Page<City> page = cityService.search(query, pageable);
         HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(query, page, "/api/_search/cities");

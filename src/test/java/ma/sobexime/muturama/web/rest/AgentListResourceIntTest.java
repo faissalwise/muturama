@@ -143,7 +143,7 @@ public class AgentListResourceIntTest {
 
         // Validate the AgentList in Elasticsearch
         AgentList agentListEs = agentListSearchRepository.findOne(testAgentList.getId());
-        assertThat(agentListEs).isEqualToComparingFieldByField(testAgentList);
+        assertThat(agentListEs).isEqualToIgnoringGivenFields(testAgentList);
     }
 
     @Test
@@ -223,6 +223,8 @@ public class AgentListResourceIntTest {
 
         // Update the agentList
         AgentList updatedAgentList = agentListRepository.findOne(agentList.getId());
+        // Disconnect from session so that the updates on updatedAgentList are not directly saved in db
+        em.detach(updatedAgentList);
         updatedAgentList
             .cin(UPDATED_CIN)
             .nom(UPDATED_NOM)
@@ -251,7 +253,7 @@ public class AgentListResourceIntTest {
 
         // Validate the AgentList in Elasticsearch
         AgentList agentListEs = agentListSearchRepository.findOne(testAgentList.getId());
-        assertThat(agentListEs).isEqualToComparingFieldByField(testAgentList);
+        assertThat(agentListEs).isEqualToIgnoringGivenFields(testAgentList);
     }
 
     @Test

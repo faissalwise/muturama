@@ -142,7 +142,7 @@ public class AgentResourceIntTest {
 
         // Validate the Agent in Elasticsearch
         Agent agentEs = agentSearchRepository.findOne(testAgent.getId());
-        assertThat(agentEs).isEqualToComparingFieldByField(testAgent);
+        assertThat(agentEs).isEqualToIgnoringGivenFields(testAgent);
     }
 
     @Test
@@ -220,6 +220,8 @@ public class AgentResourceIntTest {
 
         // Update the agent
         Agent updatedAgent = agentRepository.findOne(agent.getId());
+        // Disconnect from session so that the updates on updatedAgent are not directly saved in db
+        em.detach(updatedAgent);
         updatedAgent
             .cin(UPDATED_CIN)
             .nom(UPDATED_NOM)
@@ -246,7 +248,7 @@ public class AgentResourceIntTest {
 
         // Validate the Agent in Elasticsearch
         Agent agentEs = agentSearchRepository.findOne(testAgent.getId());
-        assertThat(agentEs).isEqualToComparingFieldByField(testAgent);
+        assertThat(agentEs).isEqualToIgnoringGivenFields(testAgent);
     }
 
     @Test

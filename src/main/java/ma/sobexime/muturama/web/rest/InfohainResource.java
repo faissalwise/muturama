@@ -8,7 +8,6 @@ import ma.sobexime.muturama.repository.search.InfohainSearchRepository;
 import ma.sobexime.muturama.web.rest.errors.BadRequestAlertException;
 import ma.sobexime.muturama.web.rest.util.HeaderUtil;
 import ma.sobexime.muturama.web.rest.util.PaginationUtil;
-import io.swagger.annotations.ApiParam;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -102,7 +101,7 @@ public class InfohainResource {
      */
     @GetMapping("/infohains")
     @Timed
-    public ResponseEntity<List<Infohain>> getAllInfohains(@ApiParam Pageable pageable) {
+    public ResponseEntity<List<Infohain>> getAllInfohains(Pageable pageable) {
         log.debug("REST request to get a page of Infohains");
         Page<Infohain> page = infohainRepository.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/infohains");
@@ -148,7 +147,7 @@ public class InfohainResource {
      */
     @GetMapping("/_search/infohains")
     @Timed
-    public ResponseEntity<List<Infohain>> searchInfohains(@RequestParam String query, @ApiParam Pageable pageable) {
+    public ResponseEntity<List<Infohain>> searchInfohains(@RequestParam String query, Pageable pageable) {
         log.debug("REST request to search for a page of Infohains for query {}", query);
         Page<Infohain> page = infohainSearchRepository.search(queryStringQuery(query), pageable);
         HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(query, page, "/api/_search/infohains");
