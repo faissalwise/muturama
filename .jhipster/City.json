@@ -1,0 +1,21 @@
+{
+    "fluentMethods": true,
+    "relationships": [],
+    "fields": [
+        {
+            "fieldName": "name",
+            "fieldType": "String",
+            "fieldValidateRules": []
+        },
+        {
+            "fieldName": "status",
+            "fieldType": "Boolean"
+        }
+    ],
+    "changelogDate": "20171212192210",
+    "dto": "no",
+    "service": "serviceImpl",
+    "entityTableName": "city",
+    "jpaMetamodelFiltering": true,
+    "pagination": "pagination"
+}

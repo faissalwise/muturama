@@ -1,0 +1,18 @@
+{
+    "pages": [
+        {
+            "pageName": "contact",
+            "pageType": "clientOnly",
+            "pageGlyphIcon": "contact",
+            "fields": []
+        },
+        {
+            "pageName": "about us",
+            "pageType": "clientOnly",
+            "pageGlyphIcon": "certificate",
+            "fields": []
+        }
+    ],
+    "pageSetGlyphIcon": "contact",
+    "changelogDate": "20180115231451"
+}

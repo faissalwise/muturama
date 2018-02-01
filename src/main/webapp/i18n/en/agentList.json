@@ -1,0 +1,29 @@
+{
+    "muturamaApp": {
+        "agentList" : {
+            "home": {
+                "title": "Agent Lists",
+                "createLabel": "Create a new Agent List",
+                "createOrEditLabel": "Create or edit a Agent List",
+                "search": "Search for Agent List"
+            },
+            "created": "A new Agent List is created with identifier {{ param }}",
+            "updated": "A Agent List is updated with identifier {{ param }}",
+            "deleted": "A Agent List is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete Agent List {{ id }}?"
+            },
+            "detail": {
+                "title": "Agent List"
+            },
+            "cin": "Cin",
+            "nom": "Nom",
+            "prenom": "Prenom",
+            "address": "Address",
+            "lat": "Lat",
+            "lon": "Lon",
+            "status": "Status",
+            "city": "City"
+        }
+    }
+}

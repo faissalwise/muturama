@@ -1,0 +1,20 @@
+{
+    "fluentMethods": true,
+    "relationships": [],
+    "fields": [
+        {
+            "fieldName": "title",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "description",
+            "fieldType": "String"
+        }
+    ],
+    "changelogDate": "20180115200911",
+    "dto": "no",
+    "service": "no",
+    "entityTableName": "mutura_services",
+    "jpaMetamodelFiltering": false,
+    "pagination": "no"
+}
