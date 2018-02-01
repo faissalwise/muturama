@@ -4,7 +4,10 @@ import ma.sobexime.muturama.MuturamaApp;
 
 import ma.sobexime.muturama.domain.City;
 import ma.sobexime.muturama.repository.CityRepository;
+import ma.sobexime.muturama.service.CityService;
 import ma.sobexime.muturama.web.rest.errors.ExceptionTranslator;
+import ma.sobexime.muturama.service.dto.CityCriteria;
+import ma.sobexime.muturama.service.CityQueryService;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -48,6 +51,12 @@ public class CityResourceIntTest {
     private CityRepository cityRepository;
 
     @Autowired
+    private CityService cityService;
+
+    @Autowired
+    private CityQueryService cityQueryService;
+
+    @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
     @Autowired
@@ -66,7 +75,7 @@ public class CityResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final CityResource cityResource = new CityResource(cityRepository);
+        final CityResource cityResource = new CityResource(cityService, cityQueryService);
         this.restCityMockMvc = MockMvcBuilders.standaloneSetup(cityResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -162,6 +171,107 @@ public class CityResourceIntTest {
 
     @Test
     @Transactional
+    public void getAllCitiesByNameIsEqualToSomething() throws Exception {
+        // Initialize the database
+        cityRepository.saveAndFlush(city);
+
+        // Get all the cityList where name equals to DEFAULT_NAME
+        defaultCityShouldBeFound("name.equals=" + DEFAULT_NAME);
+
+        // Get all the cityList where name equals to UPDATED_NAME
+        defaultCityShouldNotBeFound("name.equals=" + UPDATED_NAME);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCitiesByNameIsInShouldWork() throws Exception {
+        // Initialize the database
+        cityRepository.saveAndFlush(city);
+
+        // Get all the cityList where name in DEFAULT_NAME or UPDATED_NAME
+        defaultCityShouldBeFound("name.in=" + DEFAULT_NAME + "," + UPDATED_NAME);
+
+        // Get all the cityList where name equals to UPDATED_NAME
+        defaultCityShouldNotBeFound("name.in=" + UPDATED_NAME);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCitiesByNameIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        cityRepository.saveAndFlush(city);
+
+        // Get all the cityList where name is not null
+        defaultCityShouldBeFound("name.specified=true");
+
+        // Get all the cityList where name is null
+        defaultCityShouldNotBeFound("name.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllCitiesByStatusIsEqualToSomething() throws Exception {
+        // Initialize the database
+        cityRepository.saveAndFlush(city);
+
+        // Get all the cityList where status equals to DEFAULT_STATUS
+        defaultCityShouldBeFound("status.equals=" + DEFAULT_STATUS);
+
+        // Get all the cityList where status equals to UPDATED_STATUS
+        defaultCityShouldNotBeFound("status.equals=" + UPDATED_STATUS);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCitiesByStatusIsInShouldWork() throws Exception {
+        // Initialize the database
+        cityRepository.saveAndFlush(city);
+
+        // Get all the cityList where status in DEFAULT_STATUS or UPDATED_STATUS
+        defaultCityShouldBeFound("status.in=" + DEFAULT_STATUS + "," + UPDATED_STATUS);
+
+        // Get all the cityList where status equals to UPDATED_STATUS
+        defaultCityShouldNotBeFound("status.in=" + UPDATED_STATUS);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCitiesByStatusIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        cityRepository.saveAndFlush(city);
+
+        // Get all the cityList where status is not null
+        defaultCityShouldBeFound("status.specified=true");
+
+        // Get all the cityList where status is null
+        defaultCityShouldNotBeFound("status.specified=false");
+    }
+    /**
+     * Executes the search, and checks that the default entity is returned
+     */
+    private void defaultCityShouldBeFound(String filter) throws Exception {
+        restCityMockMvc.perform(get("/api/cities?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(city.getId().intValue())))
+            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())))
+            .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.booleanValue())));
+    }
+
+    /**
+     * Executes the search, and checks that the default entity is not returned
+     */
+    private void defaultCityShouldNotBeFound(String filter) throws Exception {
+        restCityMockMvc.perform(get("/api/cities?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$").isArray())
+            .andExpect(jsonPath("$").isEmpty());
+    }
+
+
+    @Test
+    @Transactional
     public void getNonExistingCity() throws Exception {
         // Get the city
         restCityMockMvc.perform(get("/api/cities/{id}", Long.MAX_VALUE))
@@ -172,7 +282,8 @@ public class CityResourceIntTest {
     @Transactional
     public void updateCity() throws Exception {
         // Initialize the database
-        cityRepository.saveAndFlush(city);
+        cityService.save(city);
+
         int databaseSizeBeforeUpdate = cityRepository.findAll().size();
 
         // Update the city
@@ -216,7 +327,8 @@ public class CityResourceIntTest {
     @Transactional
     public void deleteCity() throws Exception {
         // Initialize the database
-        cityRepository.saveAndFlush(city);
+        cityService.save(city);
+
         int databaseSizeBeforeDelete = cityRepository.findAll().size();
 
         // Get the city

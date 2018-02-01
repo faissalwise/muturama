@@ -2,8 +2,8 @@
     'use strict';
 
     angular
-        .module('assessoriaTorrellesApp')
-        .controller('SidebarController', SidebarController);
+    .module('muturamaApp')
+    .controller('SidebarController', SidebarController);
 
     SidebarController.$inject = [];
 

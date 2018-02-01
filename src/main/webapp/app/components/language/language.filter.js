@@ -7,8 +7,7 @@
         .filter('findLanguageRtlFromKey', findLanguageRtlFromKey);
 
     var languages = {
-        'en': { name: 'English' },
-        'fr': { name: 'French' }
+        'en': { name: 'English' }
         // jhipster-needle-i18n-language-key-pipe - JHipster will add/remove languages in this object
     };
 

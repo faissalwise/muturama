@@ -1,0 +1,22 @@
+{
+    "fluentMethods": true,
+    "relationships": [],
+    "fields": [
+        {
+            "fieldName": "titre",
+            "fieldType": "String",
+            "fieldValidateRules": []
+        },
+        {
+            "fieldName": "description",
+            "fieldType": "String",
+            "fieldValidateRules": []
+        }
+    ],
+    "changelogDate": "20180121005501",
+    "dto": "no",
+    "service": "serviceImpl",
+    "entityTableName": "job",
+    "jpaMetamodelFiltering": true,
+    "pagination": "infinite-scroll"
+}

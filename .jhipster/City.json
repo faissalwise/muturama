@@ -14,8 +14,8 @@
     ],
     "changelogDate": "20171212192210",
     "dto": "no",
-    "service": "no",
+    "service": "serviceImpl",
     "entityTableName": "city",
-    "jpaMetamodelFiltering": false,
+    "jpaMetamodelFiltering": true,
     "pagination": "pagination"
 }

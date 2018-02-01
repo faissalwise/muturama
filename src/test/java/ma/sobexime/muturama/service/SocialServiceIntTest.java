@@ -6,6 +6,7 @@ import ma.sobexime.muturama.domain.User;
 import ma.sobexime.muturama.repository.AuthorityRepository;
 import ma.sobexime.muturama.repository.UserRepository;
 import ma.sobexime.muturama.security.AuthoritiesConstants;
+import ma.sobexime.muturama.repository.search.UserSearchRepository;
 import ma.sobexime.muturama.service.MailService;
 
 import org.junit.Before;
@@ -40,6 +41,9 @@ public class SocialServiceIntTest {
 
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private UserSearchRepository userSearchRepository;
+
 
     @Mock
     private MailService mockMailService;
@@ -60,7 +64,7 @@ public class SocialServiceIntTest {
         when(mockUsersConnectionRepository.createConnectionRepository(anyString())).thenReturn(mockConnectionRepository);
 
         socialService = new SocialService(mockUsersConnectionRepository, authorityRepository,
-                passwordEncoder, userRepository, mockMailService);
+                passwordEncoder, userRepository, mockMailService, userSearchRepository);
     }
 
     @Test

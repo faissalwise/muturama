@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('assessoriaTorrellesApp')
+        .module('muturamaApp')
         .config(stateConfig);
 
     stateConfig.$inject = ['$stateProvider'];
@@ -22,7 +22,7 @@
                     }
                 },
                 resolve: {
-                    mainTranslatePartialLoader: ['$translate', '$translatePartialLoader', function ($translate,$translatePartialLoader) {
+                    translatePartialLoader: ['$translate', '$translatePartialLoader', function ($translate, $translatePartialLoader) {
                         $translatePartialLoader.addPart('error');
                         return $translate.refresh();
                     }]
@@ -40,7 +40,7 @@
                     }
                 },
                 resolve: {
-                    mainTranslatePartialLoader: ['$translate', '$translatePartialLoader', function ($translate,$translatePartialLoader) {
+                    translatePartialLoader: ['$translate', '$translatePartialLoader', function ($translate, $translatePartialLoader) {
                         $translatePartialLoader.addPart('error');
                         return $translate.refresh();
                     }]

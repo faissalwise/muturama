@@ -28,9 +28,7 @@
                 <tr ng-repeat="city in vm.cities track by city.id">
                     <td><a ui-sref="city-detail({id:city.id})">{{city.id}}</a></td>
                     <td>{{city.name}}</td>
-<!--
                     <td>{{city.status}}</td>
--->
                     <td class="text-right">
                         <div class="btn-group flex-btn-group-container">
                             <button type="submit"

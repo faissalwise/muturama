@@ -2,11 +2,12 @@ package ma.sobexime.muturama.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import ma.sobexime.muturama.domain.City;
-
-import ma.sobexime.muturama.repository.CityRepository;
+import ma.sobexime.muturama.service.CityService;
 import ma.sobexime.muturama.web.rest.errors.BadRequestAlertException;
 import ma.sobexime.muturama.web.rest.util.HeaderUtil;
 import ma.sobexime.muturama.web.rest.util.PaginationUtil;
+import ma.sobexime.muturama.service.dto.CityCriteria;
+import ma.sobexime.muturama.service.CityQueryService;
 import io.swagger.annotations.ApiParam;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
@@ -35,10 +36,13 @@ public class CityResource {
 
     private static final String ENTITY_NAME = "city";
 
-    private final CityRepository cityRepository;
+    private final CityService cityService;
 
-    public CityResource(CityRepository cityRepository) {
-        this.cityRepository = cityRepository;
+    private final CityQueryService cityQueryService;
+
+    public CityResource(CityService cityService, CityQueryService cityQueryService) {
+        this.cityService = cityService;
+        this.cityQueryService = cityQueryService;
     }
 
     /**
@@ -55,7 +59,7 @@ public class CityResource {
         if (city.getId() != null) {
             throw new BadRequestAlertException("A new city cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        City result = cityRepository.save(city);
+        City result = cityService.save(city);
         return ResponseEntity.created(new URI("/api/cities/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -77,7 +81,7 @@ public class CityResource {
         if (city.getId() == null) {
             return createCity(city);
         }
-        City result = cityRepository.save(city);
+        City result = cityService.save(city);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, city.getId().toString()))
             .body(result);
@@ -87,13 +91,14 @@ public class CityResource {
      * GET  /cities : get all the cities.
      *
      * @param pageable the pagination information
+     * @param criteria the criterias which the requested entities should match
      * @return the ResponseEntity with status 200 (OK) and the list of cities in body
      */
     @GetMapping("/cities")
     @Timed
-    public ResponseEntity<List<City>> getAllCities(@ApiParam Pageable pageable) {
-        log.debug("REST request to get a page of Cities");
-        Page<City> page = cityRepository.findAll(pageable);
+    public ResponseEntity<List<City>> getAllCities(CityCriteria criteria,@ApiParam Pageable pageable) {
+        log.debug("REST request to get Cities by criteria: {}", criteria);
+        Page<City> page = cityQueryService.findByCriteria(criteria, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/cities");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
@@ -108,7 +113,7 @@ public class CityResource {
     @Timed
     public ResponseEntity<City> getCity(@PathVariable Long id) {
         log.debug("REST request to get City : {}", id);
-        City city = cityRepository.findOne(id);
+        City city = cityService.findOne(id);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(city));
     }
 
@@ -122,7 +127,7 @@ public class CityResource {
     @Timed
     public ResponseEntity<Void> deleteCity(@PathVariable Long id) {
         log.debug("REST request to delete City : {}", id);
-        cityRepository.delete(id);
+        cityService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 }

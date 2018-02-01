@@ -1,52 +1,58 @@
-<div class="container">
-	<div class="row">
-	  <div class="row">
-        <div class="col-md-12">
-           
-           <div ng-switch="vm.isAuthenticated()">
-                <div class="alert alert-primary"  ng-switch-when="true" data-translate="home.logged.message"
-                     translate-values="{username: '{{vm.account.login}}'}">
-                    You are logged in as user "{{vm.account.login}}".
-                </div>
+<div>
+    <h2 data-translate="muturamaApp.muturaServices.home.title">Mutura Services</h2>
+    <jhi-alert></jhi-alert>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-4 no-padding-left">
+                <button class="btn btn-primary" ui-sref="mutura-services.new" >
+                    <span class="glyphicon glyphicon-plus"></span>
+                    <span  data-translate="muturamaApp.muturaServices.home.createLabel">
+                        Create new Mutura Services
+                    </span>
+                </button>
             </div>
         </div>
     </div>
-		<h2 class="text-center">Liste des Services</h2>
-            <div class="row">
-                <div class="col-md-4 text-center">
-                    <div class="box">
-                        <div class="box-content">
-                            <h1 class="tag-title">Service #1</h1>
-                            <hr />
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi pharetra quam sollicitudin nibh aliquam finibus. Etiam efficitur felis vel imperdiet varius. Maecenas bibendum elementum molestie. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris cursus finibus semper. Fusce molestie tincidunt leo vel varius. Nam scelerisque nulla feugiat leo consequat, id dignissim sem tincidunt. Proin elit mauris, hendrerit in varius sed, facilisis sit amet neque.</p>
-                            <br />
-                            <a href="#" class="btn btn-block btn-primary">Plus</a>
+    <br/>
+    <div class="table-responsive">
+        <table class="jh-table table table-striped">
+            <thead>
+                <tr>
+                    <th><span data-translate="global.field.id">ID</span></th>
+                    <th><span data-translate="muturamaApp.muturaServices.title">Title</span></th>
+                    <th><span data-translate="muturamaApp.muturaServices.description">Description</span></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="muturaServices in vm.muturaServices track by muturaServices.id">
+                    <td><a ui-sref="mutura-services-detail({id:muturaServices.id})">{{muturaServices.id}}</a></td>
+                    <td>{{muturaServices.title}}</td>
+                    <td>{{muturaServices.description}}</td>
+                    <td class="text-right">
+                        <div class="btn-group flex-btn-group-container">
+                            <button type="submit"
+                                    ui-sref="mutura-services-detail({id:muturaServices.id})"
+                                    class="btn btn-info btn-sm">
+                                <span class="glyphicon glyphicon-eye-open"></span>
+                                <span class="hidden-sm-down" data-translate="entity.action.view"></span>
+                            </button>
+                            <button type="submit"
+                                    ui-sref="mutura-services.edit({id:muturaServices.id})"
+                                    class="btn btn-primary btn-sm">
+                                <span class="glyphicon glyphicon-pencil"></span>
+                                <span class="hidden-sm-down" data-translate="entity.action.edit"></span>
+                            </button>
+                            <button type="submit"
+                                    ui-sref="mutura-services.delete({id:muturaServices.id})"
+                                    class="btn btn-danger btn-sm">
+                                <span class="glyphicon glyphicon-remove-circle"></span>
+                                <span class="hidden-sm-down" data-translate="entity.action.delete"></span>
+                            </button>
                         </div>
-                    </div>
-                </div>
-                <div class="col-md-4 text-center">
-                    <div class="box">
-                        <div class="box-content">
-                            <h1 class="tag-title">Service #2</h1>
-                            <hr />
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi pharetra quam sollicitudin nibh aliquam finibus. Etiam efficitur felis vel imperdiet varius. Maecenas bibendum elementum molestie. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris cursus finibus semper. Fusce molestie tincidunt leo vel varius. Nam scelerisque nulla feugiat leo consequat, id dignissim sem tincidunt. Proin elit mauris, hendrerit in varius sed, facilisis sit amet neque.</p>
-                            <br />
-                            <a href="#" class="btn btn-block btn-primary">Plus</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 text-center">
-                    <div class="box">
-                        <div class="box-content">
-                            <h1 class="tag-title">Service #3</h1>
-                            <hr />
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi pharetra quam sollicitudin nibh aliquam finibus. Etiam efficitur felis vel imperdiet varius. Maecenas bibendum elementum molestie. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris cursus finibus semper. Fusce molestie tincidunt leo vel varius. Nam scelerisque nulla feugiat leo consequat, id dignissim sem tincidunt. Proin elit mauris, hendrerit in varius sed, facilisis sit amet neque.</p>
-                            <br />
-                            <a href="#" class="btn btn-block btn-primary">Plus</a>
-                        </div>
-                    </div>
-                </div>
-            </div>           
-        </div>
-	</div>
-	
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

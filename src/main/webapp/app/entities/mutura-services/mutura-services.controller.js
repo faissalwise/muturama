@@ -5,39 +5,21 @@
         .module('muturamaApp')
         .controller('MuturaServicesController', MuturaServicesController);
 
-    MuturaServicesController.$inject = ['$scope', 'Principal', 'LoginService', '$state'];
+    MuturaServicesController.$inject = ['MuturaServices'];
 
-    function MuturaServicesController($scope, Principal, LoginService, $state) {
+    function MuturaServicesController(MuturaServices) {
 
-    	  var vm = this;
-          vm.cities = City.query();
-          vm.account = null;
-          vm.isAuthenticated = null;
-          vm.login = LoginService.open;
-          vm.register = register;
+        var vm = this;
 
-          $scope.$on('authenticationSuccess', function () {
-              getAccount();
-          });
+        vm.muturaServices = [];
 
-          getAccount();
+        loadAll();
 
-          function getAccount() {
-              Principal.identity().then(function (account) {
-                  vm.account = account;
-                  vm.isAuthenticated = Principal.isAuthenticated;
-              });
-          }
-
-          function register() {
-              $state.go('register');
-          }
-        
-        
-        
-        
-        
+        function loadAll() {
+            MuturaServices.query(function(result) {
+                vm.muturaServices = result;
+                vm.searchQuery = null;
+            });
+        }
     }
-    
-   
 })();

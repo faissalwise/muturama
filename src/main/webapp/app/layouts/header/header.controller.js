@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('assessoriaTorrellesApp')
+    .module('muturamaApp')
         .controller('HeaderController', HeaderController);
 
 
